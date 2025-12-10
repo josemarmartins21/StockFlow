@@ -12,8 +12,15 @@ class CategoriaController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
+    {   
+        // Busca todas as categorias.
+        $categoria = Categoria::select('id','name', 'image')->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $categoria
+        ]);
+        
     }
 
     /**
