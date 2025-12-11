@@ -27,11 +27,11 @@ class ProdutoController extends Controller
             ]);
             
         } catch(ModelNotFoundException $e) {
-            // Busca uma mensagem explicativa de erro caso a o model soclicitado não exista.
+            // Retorna uma mensagem explicativa de erro caso a o model soclicitado não exista.
             dd($e->getMessage());
 
         } catch (BadMethodCallException $e) {
-            // Busca uma mensagem explicativa de erro caso a o metódo soclicitado não exista.
+            // Retorna uma mensagem explicativa de erro caso a o metódo soclicitado não exista.
             dd($e->getMessage());
             return back()->with('erro', $e->getMessage());
         } catch (Exception $e) {

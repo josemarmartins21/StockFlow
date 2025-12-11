@@ -20,4 +20,4 @@ Route::resource('categorias', CategoriaController::class);
 Route::resource('vendas', VendaController::class);
 
 // Estoque
-Route::resource('estoques', EstoqueController::class);
+Route::resource('estoques', EstoqueController::class)->except(['show', 'create']);

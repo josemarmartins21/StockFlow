@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Estoque;
 use App\Http\Requests\StoreEstoqueRequest;
 use App\Http\Requests\UpdateEstoqueRequest;
+use App\Models\Produto;
 
 class EstoqueController extends Controller
 {
@@ -13,15 +14,11 @@ class EstoqueController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        // Busca todos os produtos com seus respectivos estoques ou não.
+        return response()->json([
+            'status' => true,
+            'data' => Estoque::with('produto')->get(),
+        ]);
     }
 
     /**
@@ -29,15 +26,20 @@ class EstoqueController extends Controller
      */
     public function store(StoreEstoqueRequest $request)
     {
-        //
-    }
+        // Registra um produto na BD.
+        $estoque = Estoque::create([
+            "current_quantity" => $request->current_quantity, 
+            "minimum_quantity" => $request->minimum_quantity, 
+            "maximum_quantity" => $request->maximum_quantity,
+            "unit_cost_price" => $request->unit_cost_price,
+            "total_stock_value" => $request->total_stock_value,
+            "stock_date" => $request->stock_date
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Estoque $estoque)
-    {
-        //
+        return response()->json([
+            'status' => true,
+            'data' => $estoque,
+        ], 201);
     }
 
     /**
@@ -53,7 +55,20 @@ class EstoqueController extends Controller
      */
     public function update(UpdateEstoqueRequest $request, Estoque $estoque)
     {
-        //
+        // Atualiza um produto na BD.
+        $estoque = Estoque::create([
+            "current_quantity" => $request->current_quantity, 
+            "minimum_quantity" => $request->minimum_quantity, 
+            "maximum_quantity" => $request->maximum_quantity,
+            "unit_cost_price" => $request->unit_cost_price,
+            "total_stock_value" => $request->total_stock_value,
+            "stock_date" => $request->stock_date
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'data' => $estoque,
+        ], 201);
     }
 
     /**
