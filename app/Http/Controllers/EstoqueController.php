@@ -76,6 +76,12 @@ class EstoqueController extends Controller
      */
     public function destroy(Estoque $estoque)
     {
-        //
+        // Eliminar determinado registro de estoque
+        $estoque->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Registro eliminado com sucesso!',
+        ]);
     }
 }
