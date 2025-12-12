@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.109);
+    main {
+        background-color: #ffff;
+        padding-bottom: 20px;
+        height: 380px;
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: space-between;
+        #info {
+            flex: 1;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: flex-end;
+            padding: 30px;
+            gap: 10px;
+            h1 {
+                color: #105d8c;
+
+            }
+            p {
+                color: #00000092;
+            }
+        }
+        form {
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 10px;
+            align-items: center;
+            /* border: 2px solid saddlebrown; */
+            div.form-group {
+                display: flex;
+                flex-flow: column nowrap;
+                width: 80%;
+                gap: 10px;
+                /* border: 2px solid black; */
+                label {
+                    color: #00000063;
+                    font-size: 14px;
+                }
+                input {
+                    width: 100%;
+                    padding: 10px;
+                }
+            }
+            
+        }
+        input[type=submit] {
+            width: 80%;
+            padding: 10px;
+            background-color: #105d8c;
+            border: none;
+            color: white;
+            font-size: 17px;
+            transition: background-color .5s;
+            transition-timing-function: ease;
+
+        }
+        input[type=submit]:hover {
+            cursor: pointer;
+            background-color: #fff;
+            outline: 1px solid #105d8c;
+            color: black;
+        }
+
+    }   
+}

@@ -81,7 +81,7 @@ class ProdutoController extends Controller
         try {
             return response()->json([
                 'status' => true,
-                'data' => collect($produto),
+                'data' => $produto->with('categoria')->first(),
             ]);
         } catch (ModelNotFoundException $e) {
             return response()->json([

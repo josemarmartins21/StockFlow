@@ -5,6 +5,7 @@ use App\Http\Controllers\EstoqueController;
 use App\Http\Controllers\HomeContrller;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\VendaController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 // Home invokable 
@@ -21,3 +22,6 @@ Route::resource('vendas', VendaController::class);
 
 // Estoque
 Route::resource('estoques', EstoqueController::class)->except(['show', 'create']);
+
+// Login 
+Route::get('/login', [LoginController::class, 'index'])->name('index');
