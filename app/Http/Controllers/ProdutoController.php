@@ -17,29 +17,7 @@ class ProdutoController extends Controller
     public function index()
     {
         
-        try {
-            // Busca o todos os produtos e as categorias de cada produto registrados BD.
-            $produtos = Produto::select('produtos.id','produtos.name','categorias.name', 'categorias.id as categoria_id')->join('categorias', 'produtos.categoria_id', '=', 'categoria_id')->get();
-            
-            return response()->json([
-                'status' => true,
-                'data' => $produtos
-            ]);
-            
-        } catch(ModelNotFoundException $e) {
-            // Retorna uma mensagem explicativa de erro caso a o model soclicitado não exista.
-            dd($e->getMessage());
-
-        } catch (BadMethodCallException $e) {
-            // Retorna uma mensagem explicativa de erro caso a o metódo soclicitado não exista.
-            dd($e->getMessage());
-            return back()->with('erro', $e->getMessage());
-        } catch (Exception $e) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Produto atualido com sucesso!',
-            ]);
-        }
+        
     }
 
     /**
@@ -47,7 +25,7 @@ class ProdutoController extends Controller
      */
     public function create()
     {
-        //
+        return view('produtos.create');
     }
 
     /**

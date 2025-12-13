@@ -9,7 +9,7 @@ use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 // Home invokable 
-Route::get('/', HomeContrller::class);
+Route::get('/', HomeContrller::class)->name('home');
 
 // Produtos resources
 Route::resource('produtos', ProdutoController::class);
@@ -24,4 +24,4 @@ Route::resource('vendas', VendaController::class);
 Route::resource('estoques', EstoqueController::class)->except(['show', 'create']);
 
 // Login 
-Route::get('/login', [LoginController::class, 'index'])->name('index');
+Route::view('/login', 'login');
