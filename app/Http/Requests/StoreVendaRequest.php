@@ -23,7 +23,8 @@ class StoreVendaRequest extends FormRequest
     {
         return [
             "quantity_sold" => "bail|required|integer|min:0|max:200",
-            "note" => "bail|nullable|string"
+            "note" => "bail|nullable|string",
+            'stock_date' => 'after_or_equal:date'
         ];
     }
 }

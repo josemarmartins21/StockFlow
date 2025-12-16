@@ -7,6 +7,7 @@ use BadMethodCallException;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomeContrller extends Controller
 {
@@ -16,7 +17,11 @@ class HomeContrller extends Controller
     public function __invoke(Request $request)
     {   try {
             // Busca o todos os produtos e as categorias de cada produto registrados BD.
-            $produtos = Produto::select('produtos.id','produtos.name','categorias.name', 'categorias.id as categoria_id')->join('categorias', 'produtos.categoria_id', '=', 'categoria_id')->get();
+            $produtos = DB::table('estoques')
+            ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
+            ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
+            ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'categorias.name', 'produtos.price')
+            ->paginate(5);
             
             return view('home', ['produtos' => $produtos]);
             
@@ -30,10 +35,10 @@ class HomeContrller extends Controller
             return back()->with('erro', $e->getMessage());
         } catch (Exception $e) {
             return response()->json([
-                'status' => true,
-                'message' => 'Produto atualido com sucesso!',
+                'status' => false,
+                'message' => $e->getMessage(),
             ]);
         }
-        return view('home');
+    
     }
 }

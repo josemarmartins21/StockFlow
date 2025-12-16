@@ -2,6 +2,8 @@
 @section('title', config('app.name', 'StockFlow'))
 
 @section('content')
+{{-- Componet de mensagens de erro e sucesso --}}
+<x-alert />
      <div id="relatorios-container">
                 <div class="relatorio">
                     <div class="image-container">
@@ -37,6 +39,37 @@
             </div>
 
             <div class="tabela">
+                <div id="table-extras">
+                    <h2>Todos os produtos</h2>
 
+                    <form action="" method="get">
+                        <input type="search" name="busca" id="busca" placeholder="Busque por um produto">
+                    </form>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th>Quantidade Actual</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($produtos as $produto)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $produto->nome_produto }} </td>
+                                <td> {{$produto->price }} </td>
+                                <td> {{ $produto->current_quantity }} </td>
+                                <td> {{ $produto->name }} </td> 
+                                <td> <a href="#">Editar</a> <a href="#">Eliminar</a> </td>  
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                {{ $produtos->links() }}
             </div>
 @endsection

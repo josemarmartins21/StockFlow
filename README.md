@@ -13,6 +13,12 @@ Excute o projecto com este comando:
 php artisan serve
 ```
 
+## Comando para importar o Sweet Alert na App
+```
+import Swal from 'sweetalert2'
+window.Swal = Swal
+```
+
 
 
 

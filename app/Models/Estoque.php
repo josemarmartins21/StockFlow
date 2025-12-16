@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Estoque extends Model
 {
     protected $fillable = [
+        "produto_id",
         "current_quantity", 
         "minimum_quantity", 
         "maximum_quantity",

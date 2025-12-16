@@ -13,13 +13,14 @@ use Illuminate\Support\Facades\Route;
 
 
 // Produtos resources
-Route::resource('produtos', ProdutoController::class);
+/* Route::resource('produtos', ProdutoController::class); */
 
 // Categorias resources
-Route::resource('categorias', CategoriaController::class);
-
+/* Route::resource('categorias', CategoriaController::class);
+ */
 // Estoque
-Route::resource('estoques', EstoqueController::class)->except(['show', 'create', 'edit']);
-
+/* Route::resource('estoques', EstoqueController::class)->except(['show', 'create', 'edit']);
+ */
 // Vendas resources
-Route::resource('vendas', VendaController::class);
+/* Route::resource('vendas', VendaController::class);
+ */
