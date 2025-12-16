@@ -15,15 +15,25 @@
         </div>
 
         <div class="form-container">
-            <form action="" method="post">
+            <form action="{{ route('auth.login') }}" method="post">
+                @csrf
+
                 <div class="form-group">
                     <label for="">Email</label>
-                    <input type="email" name="email" id="email">
+                    <input type="email" name="email" id="email" value="{{ old('email', 'josemar21@outlook.pt') }}">
                 </div>
+
                 <div class="form-group">
                     <label for="passwrod">Senha</label>
-                    <input type="password" name="password" id="password">
+                    <input type="password" name="password" id="password" value="{{ old('password', 'josemar@2005') }}">
                 </div>
+
+                <div class="keep-container">
+                    <label for="keep">Permanecer logado?</label>
+                    <input type="checkbox" name="keep" id="keep">
+                </div>
+                <p> {{ session('erro') }} </p>
+                <p style="display: none">Passowrd: josemar@2005 || Email: josemar21@outlook.pt</p>
                 <input type="submit" value="Entrar">
             </form>
         </div>

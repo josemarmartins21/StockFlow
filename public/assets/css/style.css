@@ -320,7 +320,7 @@ header {
         thead {
             tr {
                 th {
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.421);
+                    border-bottom: 1px solid #00000036;
                     padding: 6px;
                 }
             }
@@ -328,7 +328,7 @@ header {
         tbody {
             tr {
                 td {
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.421);
+                    border-bottom: 1px solid #00000036;
                     padding: 6px;
                 }
             }

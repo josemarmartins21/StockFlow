@@ -30,7 +30,7 @@
                         <li><a href="#">Definições <i class="fa-solid fa-gear"></i> </a></li>
                     </ul>
                     <div class="logout">
-                        <a href="#"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+                        <a href="{{ route('auth.logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
                     </div>
                 </nav>
             </section><!-- Fim sidebar -->

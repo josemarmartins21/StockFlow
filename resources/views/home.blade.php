@@ -63,6 +63,9 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $produto->nome_produto }} </td>
                                 <td> {{$produto->price }} </td>
+                                @if ($produto->current_quantity <= 5)
+                                    <td style="color: red;"> {{ $produto->current_quantity }} </td>
+                                @endif
                                 <td> {{ $produto->current_quantity }} </td>
                                 <td> {{ $produto->name }} </td> 
                                 <td> <a href="#">Editar</a> <a href="#">Eliminar</a> </td>  
