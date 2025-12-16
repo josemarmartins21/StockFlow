@@ -26,7 +26,7 @@
                         <li><a href="{{ route('produtos.create') }}"> Adicionar produtos <i class="fa-solid fa-wine-bottle"></i></i></a></li>
                         <li><a href="#"> Ver categorias <i class="fa-solid fa-table-cells"></i> </a></li>
                         <li><a href="#">Ver produtos em falta <i class="fa-brands fa-product-hunt"></i></a></li>
-                        <li><a href="#">Atualizar o estoque actual <i class="fa-solid fa-arrow-trend-up"></i></i></a></li>
+                        <li><a href="{{ route('vendas.create') }}">Gerenciar vendas <i class="fa-solid fa-arrow-trend-up"></i></i></a></li>
                         <li><a href="#">Definições <i class="fa-solid fa-gear"></i> </a></li>
                     </ul>
                     <div class="logout">
@@ -36,14 +36,9 @@
             </section><!-- Fim sidebar -->
             <section id="principal">
                         <header>    
-                            <h1>Olá, <span>Josimar</span></h1>
+                            @yield('boas-vindas')
 
-                            <div id="form-search">
-                                <form action="" method="get">
-                                    <input type="search" name="" id="" placeholder="Pesquise qualquer coisa..">
-                                    <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
-                                </form>
-                            </div>
+                            @yield('pesquisa')
                         </header>
                         <section id="conteudo-container">
                             @yield('content')

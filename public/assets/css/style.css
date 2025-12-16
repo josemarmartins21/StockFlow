@@ -205,12 +205,15 @@ header {
     background-color: #ffff;
     width: 100%;
     margin: 0 auto;
-    height: 95%;
     box-shadow: 1px 1px 15px #0000001f;
     padding: 20px;
     border-radius: 20px;
     h2 {
         padding: 20px 0;
+    }
+    h1 {
+    padding: 10px 0;
+    color: var(--cor-destaque);
     }
 }
 
@@ -269,7 +272,7 @@ header {
     }
 }
 
-.form-submit {
+.form-submit, .form-submit-vendas {
     display: flex;
     justify-content: flex-end;
     button {
@@ -344,6 +347,29 @@ header {
         }
     }
 }
+
+/** VENDAS */
+#vendas-container {
+    background-color: #ffff;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 1px 1px 15px #0000001f;
+    padding: 20px;
+    border-radius: 20px;
+    textarea {
+        padding: 5px;
+        border-radius: 10px;
+        outline: none;
+        border: 1px solid rgba(0, 0, 0, 0.33);
+    }
+    h1 {
+        padding: 10px 0;
+        color: var(--cor-destaque);
+    }
+    .form-submit-vendas {
+        padding-top: 10px;
+    }
+} 
 footer {
     position: absolute;
     bottom: 0;

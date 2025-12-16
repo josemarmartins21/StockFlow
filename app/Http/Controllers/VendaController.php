@@ -5,6 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Venda;
 use App\Http\Requests\StoreVendaRequest;
 use App\Http\Requests\UpdateVendaRequest;
+use App\Models\Produto;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class VendaController extends Controller
 {
@@ -32,26 +38,44 @@ class VendaController extends Controller
      */
     public function create()
     {
-        //
+        try {
+            return view('vendas.create', ['produtos' => Produto::select('id','name')->get()]);
+        } catch (ModelNotFoundException $e) {
+           return redirect()->back()->withInput()->with('erro', $e->getMessage());
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->with('erro', $e->getMessage());
+        }
+        // Formulário de vendas
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVendaRequest $request)
+    public function store(HttpRequest $request)
     {
-        // Salvar registro de uma venda na BD.
-        $this->vendas->create([
-            "quantity_sold"  =>  $request->quantity_sold,
-            "produto_id" => $request->produto_id,
-            "note" => $request->note
-        ]);
+        try {
+            // $request->validated();
+            $produto = Produto::findOrFail($request->produto_id)->estoque; // Buscar produto o vendido
+            
+            // Salva o registro da venda na BD.
+            $venda = $this->vendas->create([
+                "quantity_sold"  =>  $request->quantity_sold,
+                "note" => $request->note,
+                'produto_id' => $request->produto_id,
+                'user_id' => Auth::user()->id,
+            ]);
+            
+            // Decrementa a quantidade de produto vendio no estoque
+            $produto->decrement('current_quantity', $request->quantity_sold);
+            dd($produto);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Registro efectuado com sucesso!',
-            'data' => $this->vendas->all() 
-        ], 201);
+            return redirect()->route('vendas.create')->with('sucesso', 'Venda Atualizada com sucesso!');
+            
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->withInput()->with('erro', $e->getMessage());
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->with('erro', $e->getMessage());
+        }
     }
 
     /**

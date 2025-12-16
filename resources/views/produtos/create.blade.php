@@ -4,6 +4,7 @@
     
 @section('content')
 <section id="create-container">
+    <h1>Registre as vendas de hoje</h1>
     @if ($errors->any())
     @foreach ($errors->all() as $error)
        <p> {{ $error }} </p>     
@@ -40,11 +41,6 @@
                         @endforelse
                     </select>
                 </div>
-
-                {{--     <div class="form-group">
-                    <label for="cost">Custo de aquisição</label>
-                    <input type="number" name="shippng" id="shippng">
-                </div> --}}
             </div>{{--  Dados do produto --}}
 
             <h2>Estoque</h2>

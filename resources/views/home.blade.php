@@ -1,6 +1,16 @@
 @extends('layouts.app')
 @section('title', config('app.name', 'StockFlow'))
-
+@section('boas-vindas')
+    <h1>Olá, <span>{{ $user[0]->name }}</span></h1>
+@endsection
+@section('pesquisa')
+    <div id="form-search">
+        <form action="" method="get">
+            <input type="search" name="" id="" placeholder="Pesquise qualquer coisa..">
+            <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
+        </form>
+    </div>
+@endsection
 @section('content')
 {{-- Componet de mensagens de erro e sucesso --}}
 <x-alert />

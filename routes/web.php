@@ -27,9 +27,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('estoques', EstoqueController::class)->except(['show', 'create']);
 
     // Deslogar
-    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');       
 
-});
+});     
 
 // Rotas desautenticadas
 Route::group(['middleware' => 'guest'], function() {
