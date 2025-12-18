@@ -1,15 +1,17 @@
-@if ($errors->any())
-    @foreach ($errors->all() as $error)
-       <p> {{ $error }} </p>     
-    @endforeach
-@endif
+<div>
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+           <p class="erro"> {{ $error }} </p>
+        @endforeach
+    @endif
+</div>
 
 @if (session('erro'))
-    <p> {{ session('erro') }} </p>
+    <p class="erro"> {{ session('erro') }} </p>
 @endif
 
 @if (session('sucesso'))
-   {{--  <script>
+    <script>
     document.addEventListener('DOMContentLoaded', () => { 
             Swal.fire({
             title: "Pronto",
@@ -17,7 +19,5 @@
             icon: "success"
        });
     });
-    </script> --}}
-    <p> {{ session('sucesso') }} </p>
-
+    </script>
 @endif

@@ -36,9 +36,11 @@
             </section><!-- Fim sidebar -->
             <section id="principal">
                         <header>    
-                            @yield('boas-vindas')
+                            @yield('boasvindas')
 
                             @yield('pesquisa')
+
+                            @yield('message')
                         </header>
                         <section id="conteudo-container">
                             @yield('content')

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('title', config('app.name', 'StockFlow'))
-@section('boas-vindas')
-    <h1>Olá, <span>{{ $user[0]->name }}</span></h1>
+@section('boasvindas')
+<h1>Olá, <span> {{ $user[0]->name }} </span></h1>
 @endsection
 @section('pesquisa')
-    <div id="form-search">
+<div id="form-search">
         <form action="" method="get">
             <input type="search" name="" id="" placeholder="Pesquise qualquer coisa..">
             <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
@@ -46,11 +46,15 @@
                         <h3>Cerveja</h3>
                     </div>
                 </div>
-            </div>
+            </div> {{-- Fim dos relatórios --}}
 
             <div class="tabela">
                 <div id="table-extras">
                     <h2>Todos os produtos</h2>
+
+                    <div id="acoes-container">
+                        <a href="{{ route('produto.pdf.downlod') }}">Baixar Pdf</a>
+                    </div>
 
                     <form action="" method="get">
                         <input type="search" name="busca" id="busca" placeholder="Busque por um produto">
@@ -73,9 +77,6 @@
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $produto->nome_produto }} </td>
                                 <td> {{$produto->price }} </td>
-                                @if ($produto->current_quantity <= 5)
-                                    <td style="color: red;"> {{ $produto->current_quantity }} </td>
-                                @endif
                                 <td> {{ $produto->current_quantity }} </td>
                                 <td> {{ $produto->name }} </td> 
                                 <td> <a href="#">Editar</a> <a href="#">Eliminar</a> </td>  
@@ -83,6 +84,8 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $produtos->links() }}
+              
+                   {{ $produtos->links() }}
+
             </div>
 @endsection

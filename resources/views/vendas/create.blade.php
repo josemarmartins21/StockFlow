@@ -1,8 +1,47 @@
 @extends('layouts.app')
 @section('title', config('app.name', 'StockFlow'))
-
-@section('content')
+@section('message')
     <x-alert/>
+@endsection
+@section('content')
+     <div class="tabela">
+                <div id="table-extras">
+                    <h2>Todas as vendas</h2>
+
+                    
+
+                    <form action="" method="get">
+                        <input type="search" name="busca" id="busca" placeholder="Busque por um venda">
+                    </form>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>venda</th>
+                            <th>Quantidade Vendida</th>
+                            <th>Funcionário</th>
+                            <th>Data venda</th>
+                            <th>Valor do estoque actual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($vendas as $venda)
+                            <tr>
+                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $venda->nome }} </td>
+                                <td> {{$venda->quantidade_vendida }} </td>
+                                <td> Funcionário </td>  
+                                <td> {{ $venda->dia_venda }} </td>
+                                <td> {{ number_format($venda->valor_total_do_estoque - ($venda->preco * $venda->quantidade_vendida),2, ',', '.') }} </td> 
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+              
+                   {{ $vendas->links() }}
+
+            </div> {{-- Fim da tabela de vendas --}}
       <section id="vendas-container">
         <h1>Registre as vendas de hoje</h1>
           <div id="form-conatiner">
@@ -10,14 +49,14 @@
                 @csrf
 
                 <div id="produtos-data">
-                    <div class="form-group" id="produto-container">
-                        <label for="produto_id">Produto</label>
-                        <select name="produto_id" id="produto_id">
-                            <option value="" select>Selecione um produto</option>
+                    <div class="form-group" id="venda-container">
+                        <label for="venda_id">venda</label>
+                        <select name="produto_id" id="venda_id">
+                            <option value="" select>Selecione um venda</option>
                             @forelse ($produtos as $produto)
                                 <option value="{{ $produto->id }}"> {{ $produto->name }} </option>
                                 @empty
-                                <option value="" selected>Nenhum produto registrado!</option>
+                                <option value="" selected>Nenhum venda registrado!</option>
                             @endforelse
                         </select>
                     </div>
@@ -36,5 +75,5 @@
                 </div>
             </form>
           </div>
-      </section>
+      </section> {{-- Fim do formulário de vendas --}}
 @endsection

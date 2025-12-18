@@ -4,12 +4,10 @@
     
 @section('content')
 <section id="create-container">
+    <x-alert />
+    
     <h1>Registre as vendas de hoje</h1>
-    @if ($errors->any())
-    @foreach ($errors->all() as $error)
-       <p> {{ $error }} </p>     
-    @endforeach
-    @endif
+
     <div id="form-conatiner">
         <form action="{{ route('produtos.store') }}" method="post">
             @csrf

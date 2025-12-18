@@ -26,10 +26,26 @@ main {
     grid-template-columns: 1fr 80%;
 
 }
+/*Mensagens de erro e sucesso */
+p.erro {
+    background-color: red;
+}
+
+p.sucesso {
+    background-color: green;
+}
+
+p.sucesso, p.erro {
+    text-align: center;
+    font-weight: bold;
+    color: #ffff;
+    padding: 10px;
+}
 #conteudo-container {
     height: 80%;
     margin: 50px;
 }
+
 #sidebar {
     display: flex;
     flex-flow: column nowrap;
@@ -46,7 +62,9 @@ main {
         display: flex;
         flex-flow: column nowrap;
         justify-content: space-between;
-        height: 90%;
+        height: fit-content;
+        position: sticky;
+        top: 65px;
         ul {
             list-style-type: none;
             padding-top: 50px;
@@ -92,8 +110,8 @@ main {
     background-color: #049dbf11;
     padding-top: 20px;
     position: relative;
-    min-height: 100vh;
     position: relative;
+    padding-bottom: 20px;
     h1 {
         span {
             font-weight: bolder;
@@ -351,11 +369,12 @@ header {
 /** VENDAS */
 #vendas-container {
     background-color: #ffff;
-    width: 100%;
-    margin: 0 auto;
+    max-width: 1000px;
+    margin: auto;
     box-shadow: 1px 1px 15px #0000001f;
     padding: 20px;
     border-radius: 20px;
+    margin-top: 50px;
     textarea {
         padding: 5px;
         border-radius: 10px;

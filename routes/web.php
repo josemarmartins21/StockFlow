@@ -7,6 +7,7 @@ use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\VendaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProdutoPdfController;
 use Illuminate\Support\Facades\Route;
 
 // Rotas autenticadas
@@ -28,6 +29,9 @@ Route::group(['middleware' => 'auth'], function() {
 
     // Deslogar
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');       
+
+    // Baixar PDF
+    Route::get('/baixar-pdf-produto', [ProdutoPdfController::class, 'baixarPdf'])->name('produto.pdf.downlod');
 
 });     
 

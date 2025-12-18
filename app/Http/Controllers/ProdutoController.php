@@ -61,7 +61,7 @@ class ProdutoController extends Controller
             "name" => $request->name,
             "price" => $request->price,
             "shpping" => $request->shipping,
-            "categoria_id" => $request->categoria_id
+            "categoria_id" => $request->categoria_id  
         ]);
 
         // Registra o estoque do produto e faz o calculo para determinar quanto vale actualmente.
@@ -73,7 +73,8 @@ class ProdutoController extends Controller
             'total_stock_value' => $request->current_quantity * $produto->price, /** Valor do total */
             'stock_date' => Carbon::now()->format('Y-m-d'), /** data actual */
         ]);
-        return view('home')->with('sucesso', 'Produto cadastrado com sucesso!');
+
+        return redirect()->route('home');     
     }
 
     /**

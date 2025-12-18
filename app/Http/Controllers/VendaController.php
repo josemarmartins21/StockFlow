@@ -10,7 +10,7 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 class VendaController extends Controller
 {
@@ -39,24 +39,36 @@ class VendaController extends Controller
     public function create()
     {
         try {
-            return view('vendas.create', ['produtos' => Produto::select('id','name')->get()]);
+
+            // Buscar todas as vendas já realizadas
+            $vendas = DB::table('produtos')
+            ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
+            ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
+            ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'estoques.total_stock_value as valor_total_do_estoque', 'produtos.price as preco')
+            ->paginate(5);
+            
+            // Formulário de vendas 
+            return view('vendas.create', ['produtos' => Produto::select('id','name')->get(), 'vendas' => $vendas]);
         } catch (ModelNotFoundException $e) {
            return redirect()->back()->withInput()->with('erro', $e->getMessage());
         } catch (Exception $e) {
             return redirect()->back()->withInput()->with('erro', $e->getMessage());
         }
-        // Formulário de vendas
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(HttpRequest $request)
+    public function store(StoreVendaRequest $request)
     {
         try {
-            // $request->validated();
-            $produto = Produto::findOrFail($request->produto_id)->estoque; // Buscar produto o vendido
+            $request->validated();
             
+            $produto = Produto::findOrFail($request->produto_id)->estoque; // Buscar produto o vendido e seu estoque actual
+            
+            // Verificar se a quantidade de produto vendida é maior que a quantidade do estoque.
+            if ($this->validarQuantidadeVendida($request, $produto->current_quantity) === false) return redirect()->back()->withInput()->with('erro', 'A quantidade de produto vendida não pode ser maior que quantidade que tem no estoque actual.');
+           
             // Salva o registro da venda na BD.
             $venda = $this->vendas->create([
                 "quantity_sold"  =>  $request->quantity_sold,
@@ -67,9 +79,8 @@ class VendaController extends Controller
             
             // Decrementa a quantidade de produto vendio no estoque
             $produto->decrement('current_quantity', $request->quantity_sold);
-            dd($produto);
 
-            return redirect()->route('vendas.create')->with('sucesso', 'Venda Atualizada com sucesso!');
+            return redirect()->route('vendas.create')->with('sucesso', 'Venda registrada com sucesso!');
             
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->withInput()->with('erro', $e->getMessage());
@@ -126,5 +137,12 @@ class VendaController extends Controller
             'message' => $apagado,
         ], 201);
 
+    }
+
+    private function validarQuantidadeVendida(StoreVendaRequest $request, int $estoque_actual): bool {
+        if ($request->quantity_sold <= $estoque_actual) {
+            return true;
+        }
+        return false;
     }
 }

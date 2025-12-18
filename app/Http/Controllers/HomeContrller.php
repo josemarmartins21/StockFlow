@@ -24,6 +24,7 @@ class HomeContrller extends Controller
             ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
             ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'categorias.name', 'produtos.price')
             ->paginate(5);
+            
             $user = User::where('id', Auth::user()->id)->select('name')->get();
             
             return view('home', ['produtos' => $produtos, 'user' => $user]);

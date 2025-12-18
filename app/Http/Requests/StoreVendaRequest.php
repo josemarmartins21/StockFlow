@@ -24,7 +24,16 @@ class StoreVendaRequest extends FormRequest
         return [
             "quantity_sold" => "bail|required|integer|min:0|max:200",
             "note" => "bail|nullable|string",
-            'stock_date' => 'after_or_equal:date'
+            'stock_date' => 'after_or_equal:date',
+            'produto_id' =>'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'produto_id.required' => 'O campo produto é obrigatório',
+
         ];
     }
 }
