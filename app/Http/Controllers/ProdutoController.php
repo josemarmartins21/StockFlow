@@ -11,6 +11,7 @@ use BadMethodCallException;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\DB;
 
 class ProdutoController extends Controller
 {
@@ -69,7 +70,7 @@ class ProdutoController extends Controller
             'produto_id' => $produto->id, /** Relaciona o estoque com o produto  */
             'current_quantity' => $request->current_quantity,
             'minimum_quantity' => $request->minimum_quantity,
-            'max_quantity' => $request->max_quantity,
+            'maximum_quantity' => $request->max_quantity,
             'total_stock_value' => $request->current_quantity * $produto->price, /** Valor do total */
             'stock_date' => Carbon::now()->format('Y-m-d'), /** data actual */
         ]);
@@ -100,7 +101,41 @@ class ProdutoController extends Controller
      */
     public function edit(Produto $produto)
     {
-        //
+        try {
+            // Retorna uma view com um form já preenchido com os dados de certo produto
+            $produto = DB::table('produtos')
+            ->join('estoques', 'produtos.id', '=', 'estoques.produto_id')
+            ->join('categorias', 'produtos.categoria_id', '=', 'categorias.id')
+            ->where('produtos.id', $produto->id)
+            ->first([
+                'produtos.name', 
+                'produtos.id', 
+                'produtos.price', 
+                'produtos.shpping', 
+                'produtos.categoria_id', 
+                'estoques.produto_id',
+                'estoques.current_quantity',
+                'estoques.minimum_quantity',
+                'estoques.maximum_quantity',
+                'estoques.total_stock_value',
+            ]);
+            
+            // Busca as categorias
+            $categorias = Categoria::select('name', 'id')->where('id', '<>', $produto->categoria_id)->get();
+            // Busca a categoria do produto a ser actualizado
+            $categoria_do_produto = Categoria::where('id', $produto->categoria_id)->first(['name', 'id']);
+            
+            return view('produtos.edit', 
+            [
+                'produto' => $produto, 
+                'categorias' => $categorias, 
+                'categoria_do_produto' => $categoria_do_produto,
+            ]);
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->with('erro', $e->getMessage());
+        } catch (Exception $e) {
+            return redirect()->back()->with('erro', $e->getMessage());
+        }
     }
 
     /**
@@ -108,33 +143,26 @@ class ProdutoController extends Controller
      */
     public function update(UpdateProdutoRequest $request, Produto $produto)
     {
-        $data = [
-            "name" => $request->name,
-            "price" => $request->price,
-            "shpping" => $request->shipping,
-        ];
-
-        
         try {
+            // Selecção dos campos para serem atualizados na tabela produtos
+            $produto_datas = $request->only('name', 'price', 'shpping', 'categoria_id');
+    
+            // Selecção dos campos para serem atualizados na tabela estoques
+            $estoque_datas = $request->only('current_quantity', 'minimum_quantity', 'maximum_quantity');
+    
             // Atualiza os dados de um restigro por model biding.
-            $produto->update($data);
+            $updatedProduto = $produto->update($produto_datas);
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Produto atualido com sucesso!',
-            ]);
-            
+            // Atualiza o estoque do um produto
+            $updatedEstoque =  $produto->estoque->update($estoque_datas);
+
+            return redirect()->route('home')->with('suecesso', 'Produto actualizado com sucesso!');
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ], 404);
-
+            return redirect()->back()->withInput()->with('erro', $e->getMessage());
         } catch (BadMethodCallException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ], 404);
+            return redirect()->back()->withInput()->with('erro', $e->getMessage());
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->with('erro', $e->getMessage());
         }
     }
 
@@ -144,25 +172,12 @@ class ProdutoController extends Controller
     public function destroy(Produto $produto)
     {
         try {
-            
             $produto->delete();
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Registro eliminado com sucesso!',
-            ]);
-
+            return redirect()->route('home')->with('sucesso', 'Produto eliminado com sucesso!');
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ]);
-
+            return redirect()->back()->with('erro', $e->getMessage());
         } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ]);
+            return redirect()->back()->with('erro', $e->getMessage());
         }
     }
 }

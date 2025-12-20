@@ -79,7 +79,7 @@
                                 <td> {{$produto->price }} </td>
                                 <td> {{ $produto->current_quantity }} </td>
                                 <td> {{ $produto->name }} </td> 
-                                <td> <a href="#">Editar</a> <a href="#">Eliminar</a> </td>  
+                                <td> <a href="{{ route('produtos.edit', ['produto' => $produto->id]) }}">Editar</a> <a href="#">Eliminar</a> </td>  
                             </tr>
                         @endforeach
                     </tbody>

@@ -1,3 +1,68 @@
-<div>
-    <!-- Smile, breathe, and go slowly. - Thich Nhat Hanh -->
-</div>
+@extends('layouts.app')
+
+@section('title', 'Stock Flow - Adicionar Mais Produtos')
+    
+@section('content')
+<section id="create-container">
+    <x-alert />
+    <h1>Registre as vendas de hoje</h1>
+
+    <div id="form-conatiner">
+        <form action="{{ route('produtos.update', ['produto' => $produto->id]) }}" method="post">
+            @csrf
+            @method("PUT")
+
+            <div id="produtos-data">
+                <div class="form-group" id="nome-container">
+                    <label for="name">Nome do produto</label>
+                    <input type="text" name="name" id="name" placeholder="Digite o nome do produto *" value="{{ old('name', $produto->name) }}">
+                </div>
+
+                <div class="form-group" id="preco-container">
+                    <label for="price">Preço</label>
+                    <input type="number" name="price" id="price" placeholder="Quanto custa?" min="50" value="{{ old('price', $produto->price) }}">
+                </div>
+
+                <div class="form-group" id="frete-container">
+                    <label for="shipping">Frete</label>
+                    <input type="number" name="shpping" id="shippng" placeholder="Valor do frete" min="50" value="{{ old('shipping', $produto->shpping) }}">
+                </div>
+
+                <div class="form-group" id="categoria-container">
+                    <label for="category">Categoria</label>
+                    <select name="categoria_id" id="category" value="{{ old('categoria_id', $produto->categoria_id) }}">
+                        <option value="{{ $categoria_do_produto->id }}" selected >{{ $categoria_do_produto->name }}</option>
+                        @forelse ($categorias as $categoria)
+                            <option value="{{ $categoria->id }}"> {{ $categoria->name }} </option>
+                        @empty
+                            <option value="" selected>Nenhuma categoria disponivel</option>
+                        @endforelse
+                    </select>
+                </div>
+            </div>{{--  Dados do produto --}}
+
+            <h2>Estoque</h2>
+
+            <div id="estoque-data">
+                <div class="form-group">
+                    <label for="current_quantity" id="quantidade-container">Estoque actual</label>
+                    <input type="number" name="current_quantity" id="current_quantity" placeholder="Estoque actual em unidades" min="0" value="{{ old('current_quantity', $produto->current_quantity) }}">
+                </div>
+
+                <div class="form-group" id="min-conatiner">
+                    <label for="minimum_quantity">Estoque mínimo</label>
+                    <input type="number" name="minimum_quantity" id="minimum_quantity" placeholder="Estoque mínimo em unidades" min="5" value="{{ old('minimum_quantity', $produto->minimum_quantity) }}">
+                </div>
+
+                <div class="form-group" id="max-container">
+                    <label for="max_quantity">Estoque máximo</label>
+                    <input type="number" name="maximum_quantity" id="max_quantity" placeholder="Estoque máximo em unidades" max="400" value="{{ old('maximum_quantity', $produto->maximum_quantity) }}">
+                </div>
+            </div> {{-- Estoque actua do pruduto --}}
+            <div class="form-submit">
+                <button type="submit">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</section>
+@endsection

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Produto extends Model
 {
     protected $fillable = ['name', "price","categoria_id", "shpping"];
-
+    protected $guarded = [];
     public function estoque(): HasOne
     {
         return $this->hasOne(Estoque::class);

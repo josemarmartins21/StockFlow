@@ -7,7 +7,15 @@
 </div>
 
 @if (session('erro'))
-    <p class="erro"> {{ session('erro') }} </p>
+       <script>
+    document.addEventListener('DOMContentLoaded', () => { 
+            Swal.fire({
+            title: "Erro",
+            text: "{{ session('erro') }}",
+            icon: "warning"
+       });
+    });
+    </script>
 @endif
 
 @if (session('sucesso'))

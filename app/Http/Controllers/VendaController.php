@@ -67,9 +67,9 @@ class VendaController extends Controller
             $produto = Produto::findOrFail($request->produto_id)->estoque; // Buscar produto o vendido e seu estoque actual
             
             // Verificar se a quantidade de produto vendida é maior que a quantidade do estoque.
-            if ($this->validarQuantidadeVendida($request, $produto->current_quantity) === false) return redirect()->back()->withInput()->with('erro', 'A quantidade de produto vendida não pode ser maior que quantidade que tem no estoque actual.');
+            $this->validarQuantidadeVendida($request, $produto->current_quantity);
            
-            // Salva o registro da venda na BD.
+           // Salva o registro da venda na BD.
             $venda = $this->vendas->create([
                 "quantity_sold"  =>  $request->quantity_sold,
                 "note" => $request->note,
@@ -84,6 +84,7 @@ class VendaController extends Controller
             
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->withInput()->with('erro', $e->getMessage());
+
         } catch (Exception $e) {
             return redirect()->back()->withInput()->with('erro', $e->getMessage());
         }
@@ -139,10 +140,19 @@ class VendaController extends Controller
 
     }
 
-    private function validarQuantidadeVendida(StoreVendaRequest $request, int $estoque_actual): bool {
-        if ($request->quantity_sold <= $estoque_actual) {
-            return true;
+    /**
+     * Valida a se quantidade vendida é maior que 
+     * a quantidade que se tem no estoque.
+     * 
+     * @param StoreVendaRequest $request
+     * @param int $estoque_actual
+     * 
+     * @return void
+     */
+    private function validarQuantidadeVendida(StoreVendaRequest $request, int $estoque_actual): void {
+        if ($request->quantity_sold > $estoque_actual) {
+            throw new Exception("A quantidade de produto vendida não pode ser maior que quantidade que tem no estoque.");
         }
-        return false;
+       
     }
 }

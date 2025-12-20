@@ -17,6 +17,8 @@ class Estoque extends Model
         "stock_date",
     ];
 
+    protected $guarded = [];
+
     public function produto(): BelongsTo
     {
         return $this->belongsTo(Produto::class, 'produto_id');

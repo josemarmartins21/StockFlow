@@ -22,7 +22,7 @@ class HomeContrller extends Controller
             $produtos = DB::table('estoques')
             ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
             ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
-            ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'categorias.name', 'produtos.price')
+            ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'categorias.name', 'produtos.price', 'produtos.id')
             ->paginate(5);
             
             $user = User::where('id', Auth::user()->id)->select('name')->get();
