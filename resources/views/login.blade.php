@@ -25,7 +25,7 @@
 
                 <div class="form-group">
                     <label for="passwrod">Senha</label>
-                    <input type="password" name="password" id="password" value="{{ old('password', 'josemar@2005') }}">
+                    <input type="password" name="password" id="password" value="{{ old('password', 'josemar1234') }}">
                 </div>
 
                 <div class="keep-container">

@@ -53,7 +53,7 @@
                     <h2>Todos os produtos</h2>
 
                     <div id="acoes-container">
-                        <a href="{{ route('produto.pdf.downlod') }}">Baixar Pdf</a>
+                        <a href="{{ route('produto.pdf.downlod') }}" class="baixar-pdf">Baixar Pdf <i class="fa-solid fa-download"></i></a>
                     </div>
 
                     <form action="" method="get">
@@ -79,7 +79,17 @@
                                 <td> {{$produto->price }} </td>
                                 <td> {{ $produto->current_quantity }} </td>
                                 <td> {{ $produto->name }} </td> 
-                                <td> <a href="{{ route('produtos.edit', ['produto' => $produto->id]) }}">Editar</a> <a href="#">Eliminar</a> </td>  
+                                <td> 
+                                    <a href="{{ route('produtos.edit', ['produto' => $produto->id]) }}" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a> 
+                                    <form action="{{ route('produtos.destroy', ['produto' => $produto->id]) }}" method="POST" id="form-delete">
+                                        @csrf
+                                        @method("Delete")
+
+                                        <button type="submit" class="btn-delete" onclick="return confirm('Tem a certeza que pretende eliminar?')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>  
                             </tr>
                         @endforeach
                     </tbody>

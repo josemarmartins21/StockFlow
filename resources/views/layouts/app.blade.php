@@ -24,13 +24,13 @@
                         <li><a href="{{ route('home') }}"> Home <i class="fa-solid fa-house"></i></a></li>
                         <li><a href="#">Dashboard <i class="fa-solid fa-grip"></i></a></li>
                         <li><a href="{{ route('produtos.create') }}"> Adicionar produtos <i class="fa-solid fa-wine-bottle"></i></i></a></li>
-                        <li><a href="#"> Ver categorias <i class="fa-solid fa-table-cells"></i> </a></li>
+                        <li><a href="{{ route('categorias.index') }}">categorias <i class="fa-solid fa-table-cells"></i> </a></li>
                         <li><a href="#">Ver produtos em falta <i class="fa-brands fa-product-hunt"></i></a></li>
                         <li><a href="{{ route('vendas.create') }}">Gerenciar vendas <i class="fa-solid fa-arrow-trend-up"></i></i></a></li>
                         <li><a href="#">Definições <i class="fa-solid fa-gear"></i> </a></li>
                     </ul>
                     <div class="logout">
-                        <a href="{{ route('auth.logout') }}"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
+                        <a href="{{ route('auth.logout') }}" onclick="return confirm('Tem cereteza que pretende terminar a sessão?')"><i class="fa-solid fa-right-from-bracket"></i> Sair</a>
                     </div>
                 </nav>
             </section><!-- Fim sidebar -->
@@ -50,6 +50,5 @@
                         </footer>
             </section> <!-- Fim da secção principal -->
         </main>
-        <footer></footer>
     </body>
 </html>

@@ -21,10 +21,32 @@ body {
 }
 
 main {
-    height: 100%;
     display: grid;
     grid-template-columns: 1fr 80%;
 
+}
+
+/* Botões */
+a.ver-pdf, a.baixar-pdf, a.edit, a.delete {
+    background-color: red;
+    color: #fff;
+    text-align: center;
+    width: 125px;
+    display: inline-block;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 10px;
+    padding: 5px 0;
+    border-radius: 10px;
+}
+
+a.edit, a.delete {
+    width: auto;
+    border-radius: 5px;
+    padding: 5px;
+}
+a.baixar-pdf, a.edit {
+    background-color: green;
 }
 /*Mensagens de erro e sucesso */
 p.erro {
@@ -46,11 +68,15 @@ p.sucesso, p.erro {
     margin: 50px;
 }
 
-#sidebar {
+section#sidebar {
     display: flex;
     flex-flow: column nowrap;
     padding: 20px;
     gap: 10px;
+    position: sticky;
+    top: 0;
+    height: fit-content;
+    
 }
 
 #sidebar h1 {
@@ -62,9 +88,8 @@ p.sucesso, p.erro {
         display: flex;
         flex-flow: column nowrap;
         justify-content: space-between;
-        height: fit-content;
-        position: sticky;
-        top: 65px;
+        height: 85vh;
+        
         ul {
             list-style-type: none;
             padding-top: 50px;
@@ -108,10 +133,10 @@ p.sucesso, p.erro {
 
 #principal {
     background-color: #049dbf11;
-    padding-top: 20px;
+    padding: 20px 0;
     position: relative;
-    position: relative;
-    padding-bottom: 20px;
+    margin-bottom: 20px;
+
     h1 {
         span {
             font-weight: bolder;
@@ -121,11 +146,9 @@ p.sucesso, p.erro {
     }
     
     footer {
-        position: absolute;
-        bottom: 0;
         background-color: #049dbf80;
         width: 100%;
-        padding: 15px 0;
+        padding: 20px 0;
         p {
             text-align: center;
             color: #fff;
@@ -152,17 +175,17 @@ header {
     display: flex;
     justify-content: space-between;
     max-width: 1000px;
-    input {
-        padding: 10px;
-        border-radius: 10px;
-        outline: none;
-        border: none;
-        width: 220px;
-    }
-    input:focus-within {
-        outline: 1px solid rgba(0, 0, 0, 0.568);
-    }
+
 }
+/*** Categoria e Home */
+.pesquisa, header input {
+    padding: 10px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    width: 220px;
+}
+.pesquisa:focus-within, header input:focus-within {outline: 1px solid rgba(0, 0, 0, 0.568);}
 
 #relatorios-container, header {
     margin: auto;
@@ -218,13 +241,28 @@ header {
     }
 }
 
+#form-delete {
+    display: inline;
+    .btn-delete {
+        background-color: red;
+        border: none;
+        padding: 5px;
+        border-radius: 5px;
+
+        i {     
+            color: #ffff;
+        }
+    }
+    .btn-delete:hover {cursor: pointer;}
+}
+
 /**** ESTILOS PARA OS PRODUTOS RESOURCES */
 #create-container {
     background-color: #ffff;
     width: 100%;
     margin: 0 auto;
     box-shadow: 1px 1px 15px #0000001f;
-    padding: 20px;
+    padding: 15px;
     border-radius: 20px;
     h2 {
         padding: 20px 0;
@@ -389,7 +427,115 @@ header {
         padding-top: 10px;
     }
 } 
+/** Criar categorias */
+#categorias-container {
+    width: 95%;
+    margin: auto;
+    h2 {
+        margin-bottom: 20px;
+        font-size: 2em;
+    }
+    #categorias-menu {
+        padding: 30px 12px 30px 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        a {
+            text-decoration: none;
+            color: #fff;
+            background-color: var(--cor-botoes);
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    }
+    #categorias-index {
+        display: flex;
+        gap: 25px;
+        flex-flow: row wrap;
+        .categoria {
+            background-color: #fff;
+            flex: 0 1 31.3333%;
+            padding: 5px 10px;
+            border-radius: 10px;
+            box-shadow: 1px 1px 14px #00000047;
+            text-decoration: none;
+            color: black;
+            height: 155px;
+            .categoria-info {
+                padding: 20px 0;
+                .categoria-icon {
+                    background-color: var(--cor-botoes);
+                    color: #fff;
+                    border-radius: 5px;
+                    padding: 3px;
+                }
+                p {
+                    padding-top: 8px;
+                    color: #00000089;
+                }
+            }
+            .barra {
+                height: 2px;
+                background-color: #0d0d0d35;
+            }
+            .categoria-details {
+                padding: 5px 0;
+            }
+        }
+    }
+}
+
+/** Create categoria*/
+#categorias-create {
+    background-color: #ffff;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 1px 1px 15px #0000001f;
+    padding: 15px;
+    border-radius: 20px;
+    form {
+        padding: 20px 0;
+        display: flex;
+        flex-flow: row wrap;
+        gap: 10px;
+        .form-categoria {
+            flex: 1;
+        }
+        .form-categoria-desc {
+            flex: 0 1 100%;
+
+        }
+        .form-categoria-desc, .form-categoria {
+            display: flex;
+            flex-flow: column nowrap;
+            gap: 5px;
+            .input-file {border: 1px solid black;}
+            label {font-weight: bold;}
+            input, textarea, input[type=file] {
+                padding: 10px;
+                width: 100%;
+                border-radius: 10px;
+                border-color: rgba(0, 0, 0, 0.457);
+                border-radius: 10px;
+                border-color: rgba(0, 0, 0, 0.457);
+                padding: 10px;
+            }
+            
+            input::placeholder {font-size: 16px;}
+        }
+        button[type=submit] {
+            width: 100%;
+            background-color: var(--cor-botoes);
+            color: #ffff;
+            font-weight: 400;
+            border: none;
+            padding: 8px;
+            border-radius: 10px;
+        }
+        button[type=submit]:hover {cursor: pointer;}
+    }
+}
 footer {
-    position: absolute;
-    bottom: 0;
+    
 }

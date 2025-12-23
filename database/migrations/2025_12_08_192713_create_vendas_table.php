@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('quantity_sold');
             $table->text('note')->nullable();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('produto_id')->constrained('produtos')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->constrained('users')->restrictOnDelete();
+            $table->foreignId('produto_id')->constrained('produtos')->restrictOnDelete();
             $table->timestamps();
         });
     }

@@ -22,4 +22,9 @@ class ProdutoPdfController extends Controller
         
         return $pdf->download("produtos_" . Carbon::now()->format('d_m_Y') . ".pdf");
     }
+
+    public function gerarPdf()
+    {
+        
+    }
 }

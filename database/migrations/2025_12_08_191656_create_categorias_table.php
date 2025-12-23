@@ -16,16 +16,16 @@ return new class extends Migration
             $table->string('name');
            
             // Desempenho actual da categoria. Alta ou baixa 1 - 0
-            $table->boolean('status');
+            $table->boolean('status')->nullable()->default(0);
            
             // Files imagem da categoria 
-            $table->string('image')->default('categoria-imagem');
+            $table->string('image')->nullable()->default('categoria-imagem');
            
             // Detalhes da categoria
-            $table->text('desc')->nullable();
+            $table->text('desc');
 
             // Relacionamentos
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
 
             $table->timestamps();
         });

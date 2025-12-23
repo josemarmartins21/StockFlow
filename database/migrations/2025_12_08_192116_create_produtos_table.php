@@ -14,12 +14,18 @@ return new class extends Migration
     {
         Schema::create('produtos', function (Blueprint $table) {
             $table->id();
+
+            // Nome
             $table->string('name', 50);
+            
             // Valor de aquisição do produto
             $table->decimal('price', 10, 2);
             $table->decimal('shpping', 10, 2)->nullable();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('categoria_id')->constrained('categorias')->cascadeOnUpdate()->cascadeOnDelete();
+            
+            // Chaves entrangeiras
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('categoria_id')->nullable()->constrained('categorias')->restrictOnDelete()->cascadeOnUpdate();
+          
             $table->timestamps();
         });
     }

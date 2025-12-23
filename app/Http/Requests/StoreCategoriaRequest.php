@@ -23,9 +23,8 @@ class StoreCategoriaRequest extends FormRequest
     {
         return [
             'name' => 'bail|required|string|max:50',
-            'status' => 'bail|integer|min:0|max:1|required',
             'image' => 'bail|image|nullable|max:2048',
-            'desc' => 'bail|nullable|min:15|string'
+            'desc' => 'bail|required|min:15|string',
         ];
     }
 }

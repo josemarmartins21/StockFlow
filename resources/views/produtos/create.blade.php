@@ -6,7 +6,7 @@
 <section id="create-container">
     <x-alert />
     
-    <h1>Registre as vendas de hoje</h1>
+    <h1>Cadastrar produto</h1>
 
     <div id="form-conatiner">
         <form action="{{ route('produtos.store') }}" method="post">

@@ -28,7 +28,7 @@ class VendaController extends Controller
     public function index()
     {
         // Busca todas a vendas da BD com seus respectivos produtos.
-        $vendas = $this->vendas->select('produtos.name', 'vendas.quantity_sold', 'produtos.price', 'vendas.created_at')->join('produtos', 'produtos.id', '=', 'vendas.produto_id')->get();
+        $vendas = $this->vendas->select('produtos.name', 'vendas.quantity_sold', 'produtos.price', 'vendas.created_at')->join('users', 'produtos.id', '=', 'vendas.produto_id')->join('users', 'users.id', '=', 'vendas.user_id')->get();
 
         dd($vendas);
     }
@@ -44,7 +44,8 @@ class VendaController extends Controller
             $vendas = DB::table('produtos')
             ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
             ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
-            ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'estoques.total_stock_value as valor_total_do_estoque', 'produtos.price as preco')
+            ->join('users', 'users.id', '=', 'vendas.user_id')
+            ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'estoques.total_stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario')
             ->paginate(5);
             
             // Formulário de vendas 

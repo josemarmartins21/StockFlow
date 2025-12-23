@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('estoques', function (Blueprint $table) {
             $table->id();
+            
             // Relacionamentos
             $table->foreignId('produto_id')->constrained('produtos')->onDelete('cascade');
             
             // Quantidade
             $table->integer('current_quantity')->default(0);
-            $table->integer('minimum_quantity')->default(4);
+            $table->unsignedTinyInteger('minimum_quantity')->default(4);
             $table->integer('maximum_quantity')->default(1000);
 
             // Custo e Valor

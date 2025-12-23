@@ -18,12 +18,9 @@ class CategoriaController extends Controller
     public function index()
     {   
         // Busca todas as categorias.
-        $categorias = Categoria::select('id','name', 'image')->get();
-
-        return response()->json([
-            'status' => true,
-            'data' => $categorias
-        ]);
+        $categorias = Categoria::select('id','name', 'image', 'desc')->get();
+  
+        return view('categorias.index', ['categorias' => $categorias,/* 'total_categoria' => $categorias->produtos->count() */]);
         
     }
 
@@ -32,7 +29,7 @@ class CategoriaController extends Controller
      */
     public function create()
     {
-        
+        return view('categorias.create');
     }
 
     /**
@@ -48,11 +45,12 @@ class CategoriaController extends Controller
             // Salvar um categoria na BD.
             Categoria::create([
                 "name" => $request->name,
-                "status" => $request->status ? $request->status : 0,
                 "image" => $request->image ? $request->image : 'categoria-imagem', 
-                "desc" => $request->desc ? $request->desc : '',
-                //'user_id' => Auth::user()->id ? Auth::user()->id : $request->user_id
+                "desc" => $request->desc,
+                'user_id' => Auth::user()->id,
             ]);
+
+            return redirect()->route('categorias.index')->with('sucesso', 'Categoria criada com sucesso!');
            
         } catch (BadMethodCallException $e) {
             // Retorna uma mensagem explicativa de erro caso a o metódo soclicitado não exista.

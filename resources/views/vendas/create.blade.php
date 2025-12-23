@@ -8,7 +8,10 @@
                 <div id="table-extras">
                     <h2>Todas as vendas</h2>
 
-                    
+                    <div id="pdf-acoes">
+                        <a href="{{ route('venda.pdf.download') }}" class="baixar-pdf">Baixar Pdf <i class="fa-solid fa-download"></i></a>
+                        <a href="{{ route('venda.pdf.stream') }}" class="ver-pdf">Ver Pdf <i class="fa-solid fa-file-pdf"></i></a>
+                    </div>
 
                     <form action="" method="get">
                         <input type="search" name="busca" id="busca" placeholder="Busque por um venda">
@@ -17,10 +20,10 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Vendedor</th>
                             <th>venda</th>
                             <th>Quantidade Vendida</th>
-                            <th>Funcionário</th>
+                            <th>Valor da venda</th>
                             <th>Data venda</th>
                             <th>Valor do estoque actual</th>
                         </tr>
@@ -28,10 +31,10 @@
                     <tbody>
                         @foreach ($vendas as $venda)
                             <tr>
-                                <td> {{ $loop->index + 1 }} </td>
+                                <td> {{ $venda->nome_funcionario }} </td>
                                 <td> {{ $venda->nome }} </td>
                                 <td> {{$venda->quantidade_vendida }} </td>
-                                <td> Funcionário </td>  
+                                <td> {{ $venda->quantidade_vendida * $venda->preco }} </td>  
                                 <td> {{ $venda->dia_venda }} </td>
                                 <td> {{ number_format($venda->valor_total_do_estoque - ($venda->preco * $venda->quantidade_vendida),2, ',', '.') }} </td> 
                             </tr>
