@@ -21,9 +21,9 @@
                     <thead>
                         <tr>
                             <th>Vendedor</th>
-                            <th>venda</th>
+                            <th>Venda</th>
                             <th>Quantidade Vendida</th>
-                            <th>Valor da venda</th>
+                            <th>Total Venda</th>
                             <th>Data venda</th>
                             <th>Valor do estoque actual</th>
                         </tr>
@@ -34,9 +34,9 @@
                                 <td> {{ $venda->nome_funcionario }} </td>
                                 <td> {{ $venda->nome }} </td>
                                 <td> {{$venda->quantidade_vendida }} </td>
-                                <td> {{ $venda->quantidade_vendida * $venda->preco }} </td>  
+                                <td> {{ number_format($venda->quantidade_vendida * $venda->preco, 2, ',', '.') }} </td>  
                                 <td> {{ $venda->dia_venda }} </td>
-                                <td> {{ number_format($venda->valor_total_do_estoque - ($venda->preco * $venda->quantidade_vendida),2, ',', '.') }} </td> 
+                                <td> {{ number_format($venda->valor_total_do_estoque,2, ',', '.') }} </td> 
                             </tr>
                         @endforeach
                     </tbody>
@@ -53,9 +53,9 @@
 
                 <div id="produtos-data">
                     <div class="form-group" id="venda-container">
-                        <label for="venda_id">venda</label>
+                        <label for="venda_id">Venda</label>
                         <select name="produto_id" id="venda_id">
-                            <option value="" select>Selecione um venda</option>
+                            <option value="" select>Selecione um prouduto</option>
                             @forelse ($produtos as $produto)
                                 <option value="{{ $produto->id }}"> {{ $produto->name }} </option>
                                 @empty
@@ -65,8 +65,8 @@
                     </div>
           
                     <div class="form-group" id="qtd_vendida-container">
-                        <label for="quantity_sold">Quantidade Vendida</label>
-                        <input type="number" name="quantity_sold" id="quantity_sold" placeholder="Unidades vendidas" min="0" max="200">
+                        <label for="quantity_sold">Quntas sobraram?</label>
+                        <input type="number" name="quanto_sobrou" id="quantity_sold" placeholder="Unidades vendidas" min="0" max="200">
                     </div>
                     <div class="form-group" id="preco-container">
                         <label for="note">Observações (opcional)</label>

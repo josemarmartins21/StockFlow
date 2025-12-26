@@ -6,6 +6,7 @@ use App\Models\Venda;
 use App\Http\Requests\StoreVendaRequest;
 use App\Http\Requests\UpdateVendaRequest;
 use App\Models\Produto;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request as HttpRequest;
@@ -28,7 +29,10 @@ class VendaController extends Controller
     public function index()
     {
         // Busca todas a vendas da BD com seus respectivos produtos.
-        $vendas = $this->vendas->select('produtos.name', 'vendas.quantity_sold', 'produtos.price', 'vendas.created_at')->join('users', 'produtos.id', '=', 'vendas.produto_id')->join('users', 'users.id', '=', 'vendas.user_id')->get();
+        $vendas = $this->vendas->select('produtos.name', 'vendas.quantity_sold', 'produtos.price', 'vendas.created_at')
+        ->join('users', 'produtos.id', '=', 'vendas.produto_id')
+        ->join('users', 'users.id', '=', 'vendas.user_id')
+        ->get();
 
         dd($vendas);
     }
@@ -45,8 +49,8 @@ class VendaController extends Controller
             ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
             ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
             ->join('users', 'users.id', '=', 'vendas.user_id')
-            ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'estoques.total_stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario')
-            ->paginate(5);
+            ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario')
+            ->whereDay('vendas.created_at', Carbon::today()->format('d'))->paginate(5);
             
             // Formulário de vendas 
             return view('vendas.create', ['produtos' => Produto::select('id','name')->get(), 'vendas' => $vendas]);
@@ -65,23 +69,29 @@ class VendaController extends Controller
         try {
             $request->validated();
             
-            $produto = Produto::findOrFail($request->produto_id)->estoque; // Buscar produto o vendido e seu estoque actual
-            
+            $produto = Produto::findOrFail($request->produto_id)->with('estoque')->get(); // Buscar produto o vendido e seu estoque actual
+
+            // Encapsulamento do estoque e do produto.
+            $produtoResult = $produto->toArray()[0];
+            $estoque = $produtoResult["estoque"]; 
+
             // Verificar se a quantidade de produto vendida é maior que a quantidade do estoque.
-            $this->validarQuantidadeVendida($request, $produto->current_quantity);
+            $this->validarQuantidadeVendida($request, $estoque["current_quantity"]);
            
            // Salva o registro da venda na BD.
             $venda = $this->vendas->create([
-                "quantity_sold"  =>  $request->quantity_sold,
+                "quantity_sold"  =>  $estoque["current_quantity"] - $request->quanto_sobrou,
                 "note" => $request->note,
                 'produto_id' => $request->produto_id,
+                'stock_value' => ($estoque["current_quantity"] * $produtoResult["price"]) - (($estoque["current_quantity"] - $request->quanto_sobrou) * $produtoResult["price"]),
                 'user_id' => Auth::user()->id,
             ]);
             
-            // Decrementa a quantidade de produto vendio no estoque
-            $produto->decrement('current_quantity', $request->quantity_sold);
+            // Decrementa a quantidade de produto vendida no estoque
+            Produto::findOrFail($request->produto_id)->estoque->decrement('current_quantity', $venda->quantity_sold);
+            Produto::findOrFail($request->produto_id)->estoque->decrement('total_stock_value', ($venda->quantity_sold * $produtoResult["price"]));
 
-            return redirect()->route('vendas.create')->with('sucesso', 'Venda registrada com sucesso!');
+            return redirect()->route('vendas.create')->with('sucesso', 'Venda registrada com sucesso! O PDF é válido até amanhã');
             
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->withInput()->with('erro', $e->getMessage());
@@ -151,8 +161,8 @@ class VendaController extends Controller
      * @return void
      */
     private function validarQuantidadeVendida(StoreVendaRequest $request, int $estoque_actual): void {
-        if ($request->quantity_sold > $estoque_actual) {
-            throw new Exception("A quantidade de produto vendida não pode ser maior que quantidade que tem no estoque.");
+        if ($request->quanto_sobrou > $estoque_actual) {
+            throw new Exception("A quantidade de produto que sobrou tem que ser menor ou igual a quantidade que há no estoque actual");
         }
        
     }

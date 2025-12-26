@@ -60,7 +60,7 @@
                 </div>
             </div> {{-- Estoque actua do pruduto --}}
             <div class="form-submit">
-                <button type="submit">Cadastrar</button>
+                <button type="submit">Atualizar</button>
             </div>
         </form>
     </div>

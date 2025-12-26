@@ -6,6 +6,7 @@
     --footer: #0D0D0D;
     --cor-destaque: #038C7F;
     --font: 'Mulish', sans-serif; 
+
 }
 
 * { 
@@ -24,6 +25,10 @@ main {
     display: grid;
     grid-template-columns: 1fr 80%;
 
+}
+
+label, h1, h2, td, nav a {
+    text-transform: capitalize;
 }
 
 /* Botões */
@@ -132,7 +137,7 @@ section#sidebar {
 }
 
 #principal {
-    background-color: #049dbf11;
+    background-color: #0000001c;
     padding: 20px 0;
     position: relative;
     margin-bottom: 20px;

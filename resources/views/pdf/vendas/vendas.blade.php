@@ -7,8 +7,15 @@
     <title>Pdf Vendas</title>
 </head>
 <style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    body {
+        height: 100vh;
+    }
 .tabela {
-    max-width: 1000px;
+    width: 95%;
     margin: auto;
     margin-top: 50px;
     background-color: #ffff;
@@ -58,28 +65,28 @@ form input {
 <body>
     <div class="tabela">
                 <div id="table-extras">
-                    <h2>Todas a vendas de {{ date('m/Y')}} </h2>
+                    <h2>Todas a vendas de {{ date('m/d/Y')}} </h2>
                 </div>
                 <table>
                     <thead>
                         <tr>
-                            <th>Vendedor</th>
                             <th>Produto</th>
                             <th>Quantidade Vendida</th>
-                            <th>Funcionário</th>
+                            <th>Valor total</th>
                             <th>Data da venda</th>
                             <th>Valor do estoque actual</th>
+                            <th>Vendedor</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($vendas as $venda)
                             <tr>
-                                <td> {{ $venda->nome_user  }} </td>
                                 <td> {{ $venda->nome  }} </td>
                                 <td> {{$venda->quantidade_vendida }} </td>
                                 <td> {{ number_format($venda->quantidade_vendida * $venda->preco, 2, ',', '.') }} </td>
                                 <td> {{ substr($venda->dia_venda, 0, 10) }} </td>
-                                <td> {{ $venda->valor_total_do_estoque }} </td>  
+                                <td> {{ number_format($venda->valor_total_do_estoque,2, ',', '.') }} </td>  
+                                <td> {{ $venda->nome_user  }} </td>
                             </tr>
                         @endforeach
                     </tbody>

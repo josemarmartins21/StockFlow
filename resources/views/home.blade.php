@@ -67,7 +67,7 @@
                             <th>Nome</th>
                             <th>Preço</th>
                             <th>Quantidade Actual</th>
-                            <th>Categoria</th>
+                            <th>Valor do estoque</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -76,9 +76,9 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $produto->nome_produto }} </td>
-                                <td> {{$produto->price }} </td>
+                                <td> {{ $produto->price }} </td>
                                 <td> {{ $produto->current_quantity }} </td>
-                                <td> {{ $produto->name }} </td> 
+                                <td> {{ number_format($produto->total_stock_value, 2, ',', '.') }} </td> 
                                 <td> 
                                     <a href="{{ route('produtos.edit', ['produto' => $produto->id]) }}" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a> 
                                     <form action="{{ route('produtos.destroy', ['produto' => $produto->id]) }}" method="POST" id="form-delete">

@@ -61,8 +61,8 @@ class VendaPdfController extends Controller
        ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
        ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
        ->join('users', 'users.id', '=', 'vendas.user_id')
-       ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'estoques.total_stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_user')
-       ->whereMonth('vendas.created_at', Carbon::now()->format('m'))->get();
+       ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_user')
+       ->whereDay('vendas.created_at', Carbon::today()->format('d'))->get();
 
        if (count($dados) === 0) {
         throw new Exception("Nenhuma venda registrada");

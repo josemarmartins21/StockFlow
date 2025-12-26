@@ -24,7 +24,11 @@ return new class extends Migration
             
             // Chaves entrangeiras
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('categoria_id')->nullable()->constrained('categorias')->restrictOnDelete()->cascadeOnUpdate();
+            $table->foreignId('categoria_id')
+            ->nullable()
+            ->constrained('categorias')
+            ->restrictOnDelete()
+            ->cascadeOnUpdate();
           
             $table->timestamps();
         });

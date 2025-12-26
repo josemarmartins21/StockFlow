@@ -71,7 +71,7 @@ class ProdutoController extends Controller
             'current_quantity' => $request->current_quantity,
             'minimum_quantity' => $request->minimum_quantity,
             'maximum_quantity' => $request->max_quantity,
-            'total_stock_value' => $request->current_quantity * $produto->price, /** Valor do total */
+            'total_stock_value' => $request->current_quantity * $produto->price, /** Valor total */
             'stock_date' => Carbon::now()->format('Y-m-d'), /** data actual */
         ]);
 
@@ -177,7 +177,7 @@ class ProdutoController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->with('erro', $e->getMessage());
         } catch (Exception $e) {
-            return redirect()->back()->with('erro', $e->getMessage());
+            return redirect()->back()->with('erro', "Produto associado a uma venda");
         }
     }
 }

@@ -22,7 +22,7 @@ class StoreVendaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "quantity_sold" => "bail|required|integer|min:0|max:200",
+            "quanto_sobrou" => "bail|required|integer|min:0|max:200",
             "note" => "bail|nullable|string",
             'stock_date' => 'after_or_equal:date',
             'produto_id' =>'required'
