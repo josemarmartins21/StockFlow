@@ -1,5 +1,5 @@
 # StockFlow
-Sistema de gestão de estoque
+Sistema de gestão de estoque bares
 ## Requisitos
 
 - PHP 8.2 ou superior - Conferir a versão: php -v
