@@ -24,7 +24,7 @@ npm run dev
 ```
 ***
 
-# Qualquer dúvida Consulte o desenvolvedor
+# Em caso de duvidas podes entrar em contacto comigo:
 - **Whatsapp:** +244 940 121 011
 - **Email:** josemar21@outlook.pt
 
