@@ -13,6 +13,15 @@ composer install
 ```
 
 Renomeia o arquivo **.env.example** para **.env**
+Mude as credenciais do banco dentro do arquivo *.env.example
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nome_do_banco_de_dados
+DB_USERNAME=usuario_do_banco_de_dados
+DB_PASSWORD=senha_do_usuario_do_banco_de_dados
+```
 ### Roda as migrations com:
 ```
 php artisan migrate
