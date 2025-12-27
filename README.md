@@ -22,9 +22,6 @@ php artisan serve
 ```
 npm run dev
 ```
-
-***
-
 ***
 
 # Qualquer dúvida Consulte o desenvolvedor
