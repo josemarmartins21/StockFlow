@@ -7,7 +7,7 @@ Sistema de gestão de estoque para bares
 - Node.js 22 ou superior - Conferir a versão: node -v
 ## Como intalar o sistema?
 ### Roda o comando a seguir:
-
+#### Instalar as dependências do PHP
 ```
 composer install
 ```
