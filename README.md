@@ -9,7 +9,10 @@ composer install
 ```
 
 Renomeia o arquivo **.env.example** para **.env**
-
+### Roda as migrations com:
+```
+php artisan migrate
+```
 ### Excute o projecto com estes comandos abaixo:
 
 ```
@@ -19,10 +22,7 @@ php artisan serve
 ```
 npm run dev
 ```
-### Roda as migrations com:
-```
-php artisan migrate
-```
+
 ***
 
 ***
