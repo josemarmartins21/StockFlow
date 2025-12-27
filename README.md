@@ -11,7 +11,7 @@ Sistema de gestão de estoque para bares
 ```
 composer install
 ```
-
+#### Instalar as dependências do node.js
 Renomeia o arquivo **.env.example** para **.env**
 mas antes mude as credenciais do banco dentro do arquivo **.env.example**
 ```
