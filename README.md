@@ -5,7 +5,6 @@ Sistema de gestão de estoque
 - PHP 8.2 ou superior - Conferir a versão: php -v
 - Composer - Conferir a instalação: composer --version
 - Node.js 22 ou superior - Conferir a versão: node -v
-- GIT - Conferir a instalação: git -v
 ## Como intalar o sistema?
 ### Roda o comando a seguir:
 
