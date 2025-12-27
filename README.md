@@ -13,7 +13,7 @@ composer install
 ```
 
 Renomeia o arquivo **.env.example** para **.env**
-Mude as credenciais do banco dentro do arquivo *.env.example
+Mude as credenciais do banco dentro do arquivo *.env.example*
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
