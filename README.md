@@ -30,11 +30,11 @@ DB_PASSWORD=senha_do_usuario_do_banco_de_dados
 php artisan migrate
 ```
 ### Excute o projecto com estes comandos abaixo:
-
+Rodar o servidor para executar o **Laravel**
 ```
 php artisan serve
 ```
-
+Rodar o servidor para rodar o node.js
 ```
 npm run dev
 ```
