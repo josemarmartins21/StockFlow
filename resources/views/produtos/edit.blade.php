@@ -5,7 +5,7 @@
 @section('content')
 <section id="create-container">
     <x-alert />
-    <h1>Registre as vendas de hoje</h1>
+    <h1>{{ ucwords($produto->name) }}</h1>
 
     <div id="form-conatiner">
         <form action="{{ route('produtos.update', ['produto' => $produto->id]) }}" method="post">
@@ -60,7 +60,7 @@
                 </div>
             </div> {{-- Estoque actua do pruduto --}}
             <div class="form-submit">
-                <button type="submit">Cadastrar</button>
+                <button type="submit">Atualizar</button>
             </div>
         </form>
     </div>

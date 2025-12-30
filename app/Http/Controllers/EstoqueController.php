@@ -26,7 +26,7 @@ class EstoqueController extends Controller
      */
     public function store(StoreEstoqueRequest $request)
     {
-        // Registra um produto na BD.
+        
         $estoque = Estoque::create([
             "current_quantity" => $request->current_quantity, 
             "minimum_quantity" => $request->minimum_quantity, 

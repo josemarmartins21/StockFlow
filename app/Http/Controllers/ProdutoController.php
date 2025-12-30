@@ -144,12 +144,14 @@ class ProdutoController extends Controller
     public function update(UpdateProdutoRequest $request, Produto $produto)
     {
         try {
-            // Selecção dos campos para serem atualizados na tabela produtos
+            // Selecção dos campos para serem atualizados na tabela produtos e estoques
             $produto_datas = $request->only('name', 'price', 'shpping', 'categoria_id');
-    
-            // Selecção dos campos para serem atualizados na tabela estoques
             $estoque_datas = $request->only('current_quantity', 'minimum_quantity', 'maximum_quantity');
     
+            // Calcula o valor do estoque actual para ser actualizado
+            $estoque_datas['total_stock_value'] = $estoque_datas['current_quantity'] * $produto_datas['price'];
+    
+            
             // Atualiza os dados de um restigro por model biding.
             $updatedProduto = $produto->update($produto_datas);
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Produto;
+use App\Models\Estoque;
 use App\Models\User;
 use BadMethodCallException;
 use Exception;
@@ -22,16 +23,21 @@ class HomeContrller extends Controller
             $produtos = DB::table('estoques')
             ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
             ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
-            ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'estoques.total_stock_value', 'produtos.price', 'produtos.id')->orderBy('id', 'desc')
+            ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'estoques.total_stock_value', 'produtos.price', 'produtos.id')->orderBy('estoques.updated_at', 'asc')
             ->paginate(5);
-            
+
             $user = User::where('id', Auth::user()->id)->select('name')->get();
             
-            return view('home', ['produtos' => $produtos, 'user' => $user]);
+            return view('home', [
+                'produtos' => $produtos,
+                'user' => $user,
+                'menor_estoque' => Produto::estoqueMinimo(Estoque::min('minimum_quantity'))[0],
+                'produto_mais_vendido' => Produto::ultimoProdutoMaisVendido()[0],
+            ]);
             
         } catch(ModelNotFoundException $e) {
             // Retorna uma mensagem explicativa de erro caso a o model soclicitado não exista.
-            dd($e->getMessage());
+            return back()->with('erro', $e->getMessage());
 
         } catch (BadMethodCallException $e) {
             // Retorna uma mensagem explicativa de erro caso a o metódo soclicitado não exista.

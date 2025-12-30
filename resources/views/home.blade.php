@@ -21,8 +21,8 @@
                     </div>
 
                     <div class="info-container">
-                        <span>Total de Produtos</span>
-                        <h3>25</h3>
+                        <span>Produto abaixo do estoque</span>
+                        <h3>{{ ucfirst($menor_estoque->name) }} <span style="color: red"> {{ $menor_estoque->quantidade }}  </span></h3>
                     </div>
                 </div>
                 <div class="relatorio">
@@ -31,8 +31,8 @@
                     </div>
 
                     <div class="info-container">
-                        <span>Produto mais vendido</span>
-                        <h3>Cuca</h3>
+                        <span>Último produto mais vendido</span>
+                        <h3>{{ ucfirst($produto_mais_vendido->nome) }}</h3>
                     </div>
                 </div>
 
@@ -98,4 +98,11 @@
                    {{ $produtos->links() }}
 
             </div>
+           
+@endsection
+
+@section('footer')
+    <footer>
+      <p>&copy;Todos os direitos reservados 2025</p>
+    </footer>
 @endsection

@@ -45,9 +45,7 @@
                         <section id="conteudo-container">
                             @yield('content')
                         </section>
-                        <footer>
-                            <p>&copy;Todos os direitos reservados 2025</p>
-                        </footer>
+              @yield('footer')
             </section> <!-- Fim da secção principal -->
         </main>
     </body>

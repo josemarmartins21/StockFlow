@@ -49,7 +49,7 @@ class VendaController extends Controller
             ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
             ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
             ->join('users', 'users.id', '=', 'vendas.user_id')
-            ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario')
+            ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario', 'produtos.id as id')
             ->whereDay('vendas.created_at', Carbon::today()->format('d'))->paginate(5);
             
             // Formulário de vendas 
@@ -69,11 +69,14 @@ class VendaController extends Controller
         try {
             $request->validated();
             
-            $produto = Produto::findOrFail($request->produto_id)->with('estoque')->get(); // Buscar produto o vendido e seu estoque actual
+            $produto = Produto::findOrFail($request->produto_id); // Buscar produto o vendido 
+            $estoque = $produto->estoque->toArray();
 
             // Encapsulamento do estoque e do produto.
-            $produtoResult = $produto->toArray()[0];
-            $estoque = $produtoResult["estoque"]; 
+            // $produtoResult = $produto->toArray()[0];
+           // $estoque = $produtoResult["estoque"]; 
+
+            /* dd($request->quanto_sobrou * $produto->price); */
 
             // Verificar se a quantidade de produto vendida é maior que a quantidade do estoque.
             $this->validarQuantidadeVendida($request, $estoque["current_quantity"]);
@@ -83,13 +86,13 @@ class VendaController extends Controller
                 "quantity_sold"  =>  $estoque["current_quantity"] - $request->quanto_sobrou,
                 "note" => $request->note,
                 'produto_id' => $request->produto_id,
-                'stock_value' => ($estoque["current_quantity"] * $produtoResult["price"]) - (($estoque["current_quantity"] - $request->quanto_sobrou) * $produtoResult["price"]),
+                'stock_value' => $request->quanto_sobrou * $produto->price,
                 'user_id' => Auth::user()->id,
             ]);
             
             // Decrementa a quantidade de produto vendida no estoque
             Produto::findOrFail($request->produto_id)->estoque->decrement('current_quantity', $venda->quantity_sold);
-            Produto::findOrFail($request->produto_id)->estoque->decrement('total_stock_value', ($venda->quantity_sold * $produtoResult["price"]));
+            Produto::findOrFail($request->produto_id)->estoque->decrement('total_stock_value', ($venda->quantity_sold * $produto->price));
 
             return redirect()->route('vendas.create')->with('sucesso', 'Venda registrada com sucesso! O PDF é válido até amanhã');
             
