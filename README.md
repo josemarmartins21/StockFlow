@@ -1,33 +1,46 @@
 # StockFlow
-Sistema de gestão de estoque
+Sistema de gestão de estoque para bares
+## Requisitos
 
+- PHP 8.2 ou superior - Conferir a versão: php -v
+- Composer - Conferir a instalação: composer --version
+- Node.js 22 ou superior - Conferir a versão: node -v
 ## Como intalar o sistema?
 ### Roda o comando a seguir:
-
+Instalar as dependências do **PHP**
 ```
 composer install
 ```
-
+Instalar as dependências do **node.js**
+```
+npm install
+```
 Renomeia o arquivo **.env.example** para **.env**
-
-### Excute o projecto com estes comandos abaixo:
-
+mas antes mude as credenciais do banco dentro do arquivo **.env.example**
 ```
-php artisan serve
-```
-
-```
-npm run dev
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nome_do_banco_de_dados
+DB_USERNAME=usuario_do_banco_de_dados
+DB_PASSWORD=senha_do_usuario_do_banco_de_dados
 ```
 ### Roda as migrations com:
 ```
 php artisan migrate
 ```
+### Excute o projecto com estes comandos abaixo:
+Rodar o servidor para executar o **Laravel**
+```
+php artisan serve
+```
+Rodar o servidor para rodar o node.js
+```
+npm run dev
+```
 ***
 
-***
-
-# Qualquer dúvida Consulte o desenvolvedor
+# Em caso de duvidas podes entrar em contacto comigo:
 - **Whatsapp:** +244 940 121 011
 - **Email:** josemar21@outlook.pt
 
