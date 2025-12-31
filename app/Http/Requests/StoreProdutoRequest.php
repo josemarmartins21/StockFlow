@@ -22,9 +22,17 @@ class StoreProdutoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|required',
-            'price' => 'numeric|min:50|required',
-            'shipping' => 'numeric|min:50|required',
+            'name' => 'bail|string|required',
+            'price' => 'bail|numeric|min:50|required',
+            'shipping' => 'bail|numeric|min:50|required',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.string' => 'O campo nome deve conter letras',
+            
         ];
     }
 }

@@ -32,8 +32,8 @@ class StoreVendaRequest extends FormRequest
     public function messages()
     {
         return [
-            'produto_id.required' => 'O campo produto é obrigatório',
-
+            'produto_id.required' => 'O campo venda é obrigatório',
+            'quanto_sobrou.required' => 'É obrigatório informar a quantidade que sobrou do produto'
         ];
     }
 }

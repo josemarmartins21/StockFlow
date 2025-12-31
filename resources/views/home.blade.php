@@ -16,9 +16,9 @@
 <x-alert />
      <div id="relatorios-container">
                 <div class="relatorio">
-                    <div class="image-container">
+                    {{-- <div class="image-container">
                         <img src="{{ asset('assets/imagens/icones/icons8-produtos-100.png') }}" alt="">
-                    </div>
+                    </div> --}}
 
                     <div class="info-container">
                         <span>Produto abaixo do estoque</span>
@@ -26,9 +26,9 @@
                     </div>
                 </div>
                 <div class="relatorio">
-                    <div class="image-container">
+                    {{-- <div class="image-container">
                         <img src="{{ asset('assets/imagens/icones/icons8-tópico-popular-96 (1).png') }}" alt="">
-                    </div>
+                    </div> --}}
 
                     <div class="info-container">
                         <span>Último produto mais vendido</span>
@@ -37,9 +37,9 @@
                 </div>
 
                 <div class="relatorio">
-                    <div class="image-container">
+                    {{-- <div class="image-container">
                         <img src="{{ asset('assets/imagens/icones/icons8-categoria-100.png') }}" alt="">
-                    </div>
+                    </div> --}}
 
                     <div class="info-container">
                         <span>Categoria em Destaque</span>
@@ -103,6 +103,6 @@
 
 @section('footer')
     <footer>
-      <p>&copy;Todos os direitos reservados 2025</p>
+      <p>&copy;Todos os direitos reservados {{ date('Y') }}</p>
     </footer>
 @endsection

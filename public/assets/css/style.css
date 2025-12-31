@@ -1,11 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Special+Gothic:wght@400..700&display=swap');
+
 :root {
-    --cor-principal: #0D3973;
-    --cor-botoes: #049DBF;
-    --footer: #0D0D0D;
-    --cor-destaque: #038C7F;
+
+    --logo-icones-principais-botoes-importantes: #0A66C2;
+
+    --fundoLimpos-espacoNegatura-leituraDeTexto: #FFFFFF;
+
+    --texto-iconesAlternativos-graficosMonocromáticos: #000000;
+
+    --PlanosDeFundo-estadosDeHover-variacoesCromaticas: #CFEDFB;
+    --card-sombras: 0 1px 3px rgba(0,0,0,0.06);
+    --fundo: #00000010;
     --font: 'Mulish', sans-serif; 
+    --font-logo: 'Poppins', sans-serif; 
 
 }
 
@@ -84,9 +93,6 @@ section#sidebar {
     
 }
 
-#sidebar h1 {
-    text-align: center;
-}
 /* Menu Lateral */
 #sidebar {
     nav {
@@ -101,7 +107,7 @@ section#sidebar {
             li {
                 margin-bottom: 10px;
                 a {
-                    background-color: var(--cor-botoes);
+                    background-color: var(--logo-icones-principais-botoes-importantes);
                     padding: 10px;
                     border-radius: 10px;
                     text-align: center;
@@ -113,6 +119,9 @@ section#sidebar {
                     display: flex;
                     justify-content: space-between;
                 }
+                a:active {
+                    transform: scale(.98);
+                }
             }
         }
 
@@ -120,7 +129,7 @@ section#sidebar {
             text-align: center;
             a {
                 font-weight: bold;
-                color: var(--cor-botoes);
+                color: var(--logo-icones-principais-botoes-importantes);
                 text-decoration: none;
                 font-size: 30px;
             }
@@ -130,26 +139,27 @@ section#sidebar {
 #sidebar {
     h1 {
         text-align: center;
-        color: #038C7F;
+        color: var(--logo-icones-principais-botoes-importantes);
         font-weight: bolder;
-        font-variant: small-caps;
+        font-family: var(--font-logo);
+        font-size: 2.7em;
     }
 }
 
 #principal {
-    background-color: #0000001c;
+    background-color: var(--fundo);
     padding: 20px 0 0 0;
     min-height: 100vh;
     h1 {
         span {
             font-weight: bolder;
             font-variant: small-caps;
-            color: #038C7F;
+            color: var(--logo-icones-principais-botoes-importantes);
         }
     }
     
     footer {
-        background-color: #049dbf80;
+        background-color: var(--logo-icones-principais-botoes-importantes);
         width: 100%;
         padding: 20px 0;
         p {
@@ -164,7 +174,7 @@ section#sidebar {
 
 #form-search {
     a {
-        color: #000000;
+        color: var(--logo-icones-principais-botoes-importantes);
         padding-top: 10px;
         display: inline-block;
         i {
@@ -188,7 +198,7 @@ header {
     border: none;
     width: 220px;
 }
-.pesquisa:focus-within, header input:focus-within {outline: 1px solid rgba(0, 0, 0, 0.568);}
+.pesquisa:focus-within, header input:focus-within {outline: 1px solid var(--logo-icones-principais-botoes-importantes);}
 
 #relatorios-container, header {
     margin: auto;
@@ -197,35 +207,22 @@ header {
 #relatorios-container {
     max-width: 1000px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     background-color: #fff;
     padding: 20px 0;
     border-radius: 10px;
     margin-top: 20px;
-    box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.196);
+    box-shadow: var(--card-sombras);
     .relatorio {
         padding: 10px;
         flex-basis: 31%;
         text-align: center;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         gap: 10px;
-        border: 2px solid var(--cor-destaque);
-        .image-container {
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            width: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            
-            border-radius: 50%;
-            img {
-                max-width: 40px;
-            }
+        border-right: 2px solid var(--logo-icones-principais-botoes-importantes);
 
-        }
         .info-container {
             h3 {
                 color: var(--cor-destaque);
@@ -236,12 +233,9 @@ header {
                 font-weight: bold;
             }
         }
-
-        .relatorio:hover {
-            background-color: var(--cor-destaque);
-            color: #ffff;
-        }
+        
     }
+    .relatorio:last-child {border-right: none;}
 }
 
 #form-delete {
@@ -265,7 +259,7 @@ header {
     width: 100%;
     margin: auto;
     margin-top: 70px;
-    box-shadow: 1px 1px 15px #0000001f;
+    box-shadow: var(--card-sombras);
     padding: 15px;
     border-radius: 20px;
     h2 {
@@ -277,7 +271,7 @@ header {
     }
 }
 
-/** CREATE */
+/** CREATE PRODUTOS */
 
 #produtos-data {
     display: flex;
@@ -301,9 +295,11 @@ header {
             padding: 10px;
             width: 100%;
             border-radius: 10px;
-            border-color: rgba(0, 0, 0, 0.457);
+            outline: 1px solid rgba(0, 0, 0, 0.457);
+            border: none;
         }
         input::placeholder {font-size: 16px;}
+        input:focus-within {outline: 1.5px solid var(--logo-icones-principais-botoes-importantes);}
     }
 }
 
@@ -325,10 +321,12 @@ header {
             padding: 10px;
             width: 100%;
             border-radius: 10px;
-            border-color: rgba(0, 0, 0, 0.457);
+            outline: 1px solid rgba(0, 0, 0, 0.457);
+            border: none;
 
         }
         input::placeholder {font-size: 16px;}
+        input:focus-within {outline: 1.5px solid var(--logo-icones-principais-botoes-importantes);}
     }
 }
 
@@ -336,13 +334,17 @@ header {
     display: flex;
     justify-content: flex-end;
     button {
-        background-color: var(--cor-botoes);
+        background-color: var(--logo-icones-principais-botoes-importantes);
         color: #ffff;
         font-weight: 400;
         width: 140px;
         border: none;
         padding: 8px;
         border-radius: 10px;
+    }
+
+    button:active {
+        transform: scale(.98);
     }
 
     button:hover {
@@ -358,7 +360,7 @@ header {
     background-color: #ffff;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 1px 1px 14px rgba(0, 0, 0, 0.123);
+    box-shadow: var(--card-sombras);
     #table-extras {
         display: flex;
         justify-content: space-between;
@@ -412,7 +414,7 @@ header {
 #vendas-container {
     background-color: #ffff;
     max-width: 1000px;
-    box-shadow: 1px 1px 15px #0000001f;
+    box-shadow: var(--card-sombras);
     padding: 20px;
     border-radius: 20px;
     margin: auto;
@@ -447,7 +449,7 @@ header {
         a {
             text-decoration: none;
             color: #fff;
-            background-color: var(--cor-botoes);
+            background-color: var(--logo-icones-principais-botoes-importantes);
             padding: 5px;
             border-radius: 5px;
             font-weight: bold;
@@ -462,14 +464,14 @@ header {
             flex: 0 1 31.3333%;
             padding: 5px 10px;
             border-radius: 10px;
-            box-shadow: 1px 1px 14px #00000047;
+            box-shadow: var(--card-sombras);
             text-decoration: none;
             color: black;
             height: 155px;
             .categoria-info {
                 padding: 20px 0;
                 .categoria-icon {
-                    background-color: var(--cor-botoes);
+                    background-color: var(--logo-icones-principais-botoes-importantes);
                     color: #fff;
                     border-radius: 5px;
                     padding: 3px;
@@ -479,6 +481,7 @@ header {
                     color: #00000089;
                 }
             }
+
             .barra {
                 height: 2px;
                 background-color: #0d0d0d35;
@@ -487,6 +490,7 @@ header {
                 padding: 5px 0;
             }
         }
+        .categoria:active {transform: scale(.98);}
     }
 }
 
@@ -495,7 +499,7 @@ header {
     background-color: #ffff;
     width: 100%;
     margin: 0 auto;
-    box-shadow: 1px 1px 15px #0000001f;
+    box-shadow: var(--card-sombras);
     padding: 15px;
     border-radius: 20px;
     form {
@@ -508,7 +512,18 @@ header {
         }
         .form-categoria-desc {
             flex: 0 1 100%;
+/** 
 
+            outline: 1px solid rgba(0, 0, 0, 0.457);
+            border: none;
+
+        }
+        input::placeholder {font-size: 16px;}
+        input:focus-within {outline: 1.5px solid var(--logo-icones-principais-botoes-importantes);}
+    }
+
+
+*/
         }
         .form-categoria-desc, .form-categoria {
             display: flex;
@@ -519,18 +534,19 @@ header {
             input, textarea, input[type=file] {
                 padding: 10px;
                 width: 100%;
+                outline: 1px solid rgba(0, 0, 0, 0.457);
+                border: none;
                 border-radius: 10px;
-                border-color: rgba(0, 0, 0, 0.457);
-                border-radius: 10px;
-                border-color: rgba(0, 0, 0, 0.457);
-                padding: 10px;
+    
             }
-            
+            input[type=file]{padding: 8px;}
             input::placeholder {font-size: 16px;}
+            input:focus-within, textarea:focus-within, input[type=file]:focus-within {outline: 1.5px solid var(--logo-icones-principais-botoes-importantes);}
+        
         }
         button[type=submit] {
             width: 100%;
-            background-color: var(--cor-botoes);
+            background-color: var(--logo-icones-principais-botoes-importantes);
             color: #ffff;
             font-weight: 400;
             border: none;
@@ -538,10 +554,7 @@ header {
             border-radius: 10px;
         }
         button[type=submit]:hover {cursor: pointer;}
+        button[type=submit]:active {transform: scale(.99);}
     }
 }
 
-
-footer {
-    
-}
