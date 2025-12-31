@@ -16,7 +16,7 @@ Instalar as dependências do **node.js**
 npm install
 ```
 Renomeia o arquivo **.env.example** para **.env**
-mas antes mude as credenciais do banco dentro do arquivo **.env.example**
+mas antes mude as credenciais do banco no arquivo **.env.example**
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
