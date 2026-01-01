@@ -17,7 +17,7 @@
     <body>
         <main> <!-- Secção main que engloba todo os HTML do site -->
             <section id="sidebar">
-                <h1>StcokFlow</h1>
+                <h1>StockFlow</h1>
     
                 <nav>
                     <ul>

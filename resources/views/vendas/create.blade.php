@@ -26,6 +26,7 @@
                             <th>Total Venda</th>
                             <th>Data venda</th>
                             <th>Valor do estoque actual</th>
+                            <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,6 +38,19 @@
                                 <td> {{ number_format($venda->quantidade_vendida * $venda->preco, 2, ',', '.') }} </td>  
                                 <td> {{ $venda->dia_venda }} </td>
                                 <td> {{ number_format($venda->valor_total_do_estoque,2, ',', '.') }} </td> 
+                                  <td> 
+                                    <a href="#" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a> 
+                                    <form action="{{ route('vendas.destroy', ['venda' => $venda->venda_id]) }}" method="POST" id="form-delete">
+                                        @csrf
+                                        @method("Delete")
+
+                                        <input type="hidden" name="venda_id" value="{{ $venda->venda_id }}">
+
+                                        <button type="submit" class="btn-delete" onclick="return confirm('Tem a certeza que pretende eliminar?')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>  
                             </tr>
                         @endforeach
                     </tbody>
@@ -66,7 +80,7 @@
           
                     <div class="form-group" id="qtd_vendida-container">
                         <label for="quantity_sold">Quntas sobraram?</label>
-                        <input type="number" name="quanto_sobrou" id="quantity_sold" placeholder="Unidades vendidas" min="0" max="200">
+                        <input type="number" name="quanto_sobrou" id="quantity_sold" placeholder="Unidades vendidas *" min="0" max="200">
                     </div>
                     <div class="form-group" id="preco-container">
                         <label for="note">Observações (opcional)</label>

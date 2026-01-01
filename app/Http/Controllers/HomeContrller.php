@@ -6,6 +6,7 @@ use App\Models\Produto;
 use App\Models\Estoque;
 use App\Models\User;
 use BadMethodCallException;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class HomeContrller extends Controller
             ->paginate(5);
 
             $user = User::where('id', Auth::user()->id)->select('name')->get();
-            
+
             return view('home', [
                 'produtos' => $produtos,
                 'user' => $user,

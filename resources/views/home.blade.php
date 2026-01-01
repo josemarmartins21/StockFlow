@@ -31,7 +31,7 @@
                     </div> --}}
 
                     <div class="info-container">
-                        <span>Último produto mais vendido</span>
+                        <span>Último produto mais vendido ontem</span>
                         <h3>{{ ucfirst($produto_mais_vendido->nome) }}</h3>
                     </div>
                 </div>

@@ -32,7 +32,7 @@ class StoreProdutoRequest extends FormRequest
     {
         return [
             'name.string' => 'O campo nome deve conter letras',
-            
+            'price.required' => 'O campo preço deve ser um número.'
         ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Venda extends Model
 {
@@ -12,4 +13,12 @@ class Venda extends Model
         'quantity_sold', 
         'user_id',
         'stock_value',];
+
+    public function produto(): BelongsTo
+    {
+        return $this->belongsTo(Produto::class);
+    }
+
+
+    
 }

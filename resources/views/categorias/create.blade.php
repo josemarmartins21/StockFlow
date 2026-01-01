@@ -21,7 +21,7 @@
         </div>
 
         <div class="form-categoria-desc">
-            <label for="desc">Descricao</label>
+            <label for="desc">Descrição</label>
             <textarea name="desc" id="desc" cols="30" rows="10">
                 {{ old('desc') }}
             </textarea>

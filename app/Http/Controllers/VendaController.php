@@ -6,35 +6,29 @@ use App\Models\Venda;
 use App\Http\Requests\StoreVendaRequest;
 use App\Http\Requests\UpdateVendaRequest;
 use App\Models\Produto;
+use App\Models\Estoque;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request as FacadesRequest;
+use Symfony\Component\HttpFoundation\Request;
 
 class VendaController extends Controller
 {
-
+   
     private readonly Venda $vendas;
+    private readonly Produto $produto;
+    private readonly Estoque $estoque;
 
     public function __construct()
     {
         $this->vendas = new Venda();
-    }
+        $this->produto = new Produto();
+        $this->estoque = new Estoque();
 
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        // Busca todas a vendas da BD com seus respectivos produtos.
-        $vendas = $this->vendas->select('produtos.name', 'vendas.quantity_sold', 'produtos.price', 'vendas.created_at')
-        ->join('users', 'produtos.id', '=', 'vendas.produto_id')
-        ->join('users', 'users.id', '=', 'vendas.user_id')
-        ->get();
-
-        dd($vendas);
     }
 
     /**
@@ -49,7 +43,7 @@ class VendaController extends Controller
             ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
             ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
             ->join('users', 'users.id', '=', 'vendas.user_id')
-            ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario', 'produtos.id as id')
+            ->select('vendas.id as venda_id', 'produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario', 'produtos.id as id')
             ->whereDay('vendas.created_at', Carbon::today()->format('d'))->paginate(5);
             
             // Formulário de vendas 
@@ -71,12 +65,6 @@ class VendaController extends Controller
             
             $produto = Produto::findOrFail($request->produto_id); // Buscar produto o vendido 
             $estoque = $produto->estoque->toArray();
-
-            // Encapsulamento do estoque e do produto.
-            // $produtoResult = $produto->toArray()[0];
-           // $estoque = $produtoResult["estoque"]; 
-
-            /* dd($request->quanto_sobrou * $produto->price); */
 
             // Verificar se a quantidade de produto vendida é maior que a quantidade do estoque.
             $this->validarQuantidadeVendida($request, $estoque["current_quantity"]);
@@ -104,54 +92,17 @@ class VendaController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Venda $venda)
+    public function destroy(Venda $venda, Request $request)
     {
-        //
-    }
+        // Pegar produto
+        // Pegar estoque
+        // pegar qtd vendida
+        // incrementar no estoque
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Venda $venda)
-    {
-        
-    }
+        $produto = Produto::where('id', $venda->produto_id)->first();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateVendaRequest $request, Venda $venda)
-    {
-        // Editar o registro de uma venda.
-        $data = [
-            'quantity_sold' => $request->quantity_sold,
-            'note' => $request->note
-        ];
-
-        $updated = $venda->update($data);
-
-        return response()->json([
-            'status' => true,
-            'message' => $updated,
-        ], 201);
-
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Venda $venda)
-    {
-        // Eliminar o registro de uma venda na BD.
-        $apagado = $venda->delete();
-        return response()->json([
-            'status' => true,
-            'message' => $apagado,
-        ], 201);
-
+        //$venda->with('produto')->where('id', $request->venda_id)->get();
+        dd($this->estoque->where('produto_id', $produto->id)->get());
     }
 
     /**

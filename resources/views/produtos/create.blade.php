@@ -5,7 +5,6 @@
 @section('content')
 <section id="create-container">
     <x-alert />
-    
     <h1>Cadastrar produto</h1>
 
     <div id="form-conatiner">
@@ -20,12 +19,12 @@
 
                 <div class="form-group" id="preco-container">
                     <label for="price">Preço</label>
-                    <input type="number" name="price" id="price" placeholder="Quanto custa?" min="50" value="{{ old('price') }}">
+                    <input type="number" name="price" id="price" placeholder="Quanto custa? *" min="50" value="{{ old('price') }}">
                 </div>
 
                 <div class="form-group" id="frete-container">
                     <label for="shipping">Frete</label>
-                    <input type="number" name="shipping" id="shippng" placeholder="Valor do frete" min="50" value="{{ old('shipping') }}">
+                    <input type="number" name="shipping" id="shippng" placeholder="Valor do frete *" min="50" value="{{ old('shipping') }}">
                 </div>
 
                 <div class="form-group" id="categoria-container">
@@ -39,26 +38,26 @@
                         @endforelse
                     </select>
                 </div>
-            </div>{{--  Dados do produto --}}
+            </div> {{--  Dados do produto --}}
 
             <h2>Estoque</h2>
 
             <div id="estoque-data">
                 <div class="form-group">
                     <label for="current_quantity" id="quantidade-container">Estoque actual</label>
-                    <input type="number" name="current_quantity" id="current_quantity" placeholder="Estoque actual em unidades" min="0" value="{{ old('current_quantity') }}">
+                    <input type="number" name="current_quantity" id="current_quantity" placeholder="Estoque actual em unidades *" min="0" value="{{ old('current_quantity') }}">
                 </div>
 
                 <div class="form-group" id="min-conatiner">
                     <label for="minimum_quantity">Estoque mínimo</label>
-                    <input type="number" name="minimum_quantity" id="minimum_quantity" placeholder="Estoque mínimo em unidades" min="5" value="{{ old('minimum_quantity') }}">
+                    <input type="number" name="minimum_quantity" id="minimum_quantity" placeholder="Estoque mínimo em unidades *" min="5" value="{{ old('minimum_quantity') }}">
                 </div>
 
                 <div class="form-group" id="max-container">
                     <label for="max_quantity">Estoque máximo</label>
-                    <input type="number" name="max_quantity" id="max_quantity" placeholder="Estoque máximo em unidades" max="400" value="{{ old('max_quantity') }}">
+                    <input type="number" name="max_quantity" id="max_quantity" placeholder="Estoque máximo em unidades *" max="400" value="{{ old('max_quantity') }}">
                 </div>
-            </div> {{-- Estoque actua do pruduto --}}
+            </div> {{-- Estoque actual do pruduto --}}
             <div class="form-submit">
                 <button type="submit">Atualizar</button>
             </div>

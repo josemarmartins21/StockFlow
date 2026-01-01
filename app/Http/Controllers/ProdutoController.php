@@ -6,7 +6,7 @@ use App\Models\Produto;
 use App\Http\Requests\StoreProdutoRequest;
 use App\Http\Requests\UpdateProdutoRequest;
 use App\Models\Categoria;
-use App\Models\Estoque;
+use App\Models\Estoque; 
 use BadMethodCallException;
 use Carbon\Carbon;
 use Exception;
@@ -57,7 +57,7 @@ class ProdutoController extends Controller
         // Válida os dados enviados pelo utilizador.
         $request->validated();
 
-        // Registrar um produto na BD.
+        // Registrar o produto na BD.
         $produto = Produto::create([
             "name" => $request->name,
             "price" => $request->price,
@@ -102,7 +102,7 @@ class ProdutoController extends Controller
     public function edit(Produto $produto)
     {
         try {
-            // Retorna uma view com um form já preenchido com os dados de certo produto
+    
             $produto = DB::table('produtos')
             ->join('estoques', 'produtos.id', '=', 'estoques.produto_id')
             ->join('categorias', 'produtos.categoria_id', '=', 'categorias.id')
@@ -120,8 +120,9 @@ class ProdutoController extends Controller
                 'estoques.total_stock_value',
             ]);
             
-            // Busca as categorias
+            // Busca as outras categorias disponíveis
             $categorias = Categoria::select('name', 'id')->where('id', '<>', $produto->categoria_id)->get();
+
             // Busca a categoria do produto a ser actualizado
             $categoria_do_produto = Categoria::where('id', $produto->categoria_id)->first(['name', 'id']);
             

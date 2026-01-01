@@ -1,9 +1,4 @@
 <div>
-  {{--   @if ($errors->any())
-        @foreach ($errors->all() as $error)
-           <p class="erro"> {{ $error }} </p>
-        @endforeach
-    @endif --}}
 @if ($errors->any())
     <script>
         document.addEventListener('DOMContentLoaded', () => { 
@@ -15,8 +10,6 @@
         });
     </script>
 @endif
-        
-
 </div>
 
 @if (session('erro'))

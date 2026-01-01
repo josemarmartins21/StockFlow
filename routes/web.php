@@ -23,10 +23,10 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('categorias', CategoriaController::class);
     
     // Vendas resources
-    Route::resource('vendas', VendaController::class);
+    Route::resource('vendas', VendaController::class)->except(['index', 'show', 'edit', 'update',]);
     
     // Estoque
-    Route::resource('estoques', EstoqueController::class)->except(['show', 'create']);
+    Route::resource('estoques', EstoqueController::class)->except(['show', 'create', 'index', 'update', 'delete']);
 
     // Deslogar
     Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');       

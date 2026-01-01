@@ -15,6 +15,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ];
+        
         $permanecerLogado = false;
 
         if (!empty($request->keep)) {

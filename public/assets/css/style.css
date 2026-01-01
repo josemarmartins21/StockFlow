@@ -12,7 +12,7 @@
 
     --PlanosDeFundo-estadosDeHover-variacoesCromaticas: #CFEDFB;
     --card-sombras: 0 1px 3px rgba(0,0,0,0.06);
-    --fundo: #00000010;
+    --fundo: /* #00000010 */ #ebebebcb;
     --font: 'Mulish', sans-serif; 
     --font-logo: 'Poppins', sans-serif; 
 
@@ -221,7 +221,7 @@ header {
         justify-content: center;
         align-items: center;
         gap: 10px;
-        border-right: 2px solid var(--logo-icones-principais-botoes-importantes);
+        border-right: 2px solid rgba(0, 0, 0, 0.089);
 
         .info-container {
             h3 {
