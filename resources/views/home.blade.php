@@ -16,20 +16,12 @@
 <x-alert />
      <div id="relatorios-container">
                 <div class="relatorio">
-                    {{-- <div class="image-container">
-                        <img src="{{ asset('assets/imagens/icones/icons8-produtos-100.png') }}" alt="">
-                    </div> --}}
-
                     <div class="info-container">
                         <span>Produto abaixo do estoque</span>
                         <h3>{{ ucfirst($menor_estoque->name) }} <span style="color: red"> {{ $menor_estoque->quantidade }}  </span></h3>
                     </div>
                 </div>
                 <div class="relatorio">
-                    {{-- <div class="image-container">
-                        <img src="{{ asset('assets/imagens/icones/icons8-tópico-popular-96 (1).png') }}" alt="">
-                    </div> --}}
-
                     <div class="info-container">
                         <span>Último produto mais vendido ontem</span>
                         <h3>{{ ucfirst($produto_mais_vendido->nome) }}</h3>
@@ -37,13 +29,9 @@
                 </div>
 
                 <div class="relatorio">
-                    {{-- <div class="image-container">
-                        <img src="{{ asset('assets/imagens/icones/icons8-categoria-100.png') }}" alt="">
-                    </div> --}}
-
                     <div class="info-container">
-                        <span>Categoria em Destaque</span>
-                        <h3>Cerveja</h3>
+                        <span>Maior valor de estoque <span>{{ ucwords($maior_valor_estoque->nome) }}</span></span>
+                        <h3 style="color: green;">{{ number_format($maior_valor_estoque->maximo_valor_estoque, 2, ',', '.')  }}</h3>
                     </div>
                 </div>
             </div> {{-- Fim dos relatórios --}}

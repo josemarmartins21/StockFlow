@@ -32,8 +32,9 @@ class HomeContrller extends Controller
             return view('home', [
                 'produtos' => $produtos,
                 'user' => $user,
-                'menor_estoque' => Produto::estoqueMinimo(Estoque::min('minimum_quantity'))[0],
-                'produto_mais_vendido' => Produto::ultimoProdutoMaisVendido()[0],
+                'menor_estoque' => Produto::estoqueMinimo(Estoque::min('minimum_quantity')),
+                'produto_mais_vendido' => Produto::ultimoProdutoMaisVendido(),
+                'maior_valor_estoque' => Produto::maiorValorEstoque(),
             ]);
             
         } catch(ModelNotFoundException $e) {
