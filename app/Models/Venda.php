@@ -12,7 +12,9 @@ class Venda extends Model
         'produto_id', 
         'quantity_sold', 
         'user_id',
-        'stock_value',];
+        'stock_value',
+        'image',
+    ];
 
     public function produto(): BelongsTo
     {

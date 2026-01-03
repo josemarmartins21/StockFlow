@@ -24,6 +24,7 @@ class StoreVendaRequest extends FormRequest
         return [
             "quanto_sobrou" => "bail|required|integer|min:0|max:200",
             "note" => "bail|nullable|string",
+            "image" => "bail|nullable|image|file",
             'stock_date' => 'after_or_equal:date',
             'produto_id' =>'required'
         ];

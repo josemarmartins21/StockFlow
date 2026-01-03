@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Symfony\Component\HttpFoundation\Request;
+use App\Helpers\ImagemVenda;
 
 class VendaController extends Controller
 {
@@ -28,7 +29,6 @@ class VendaController extends Controller
         $this->vendas = new Venda();
         $this->produto = new Produto();
         $this->estoque = new Estoque();
-
     }
 
     /**
@@ -43,7 +43,7 @@ class VendaController extends Controller
             ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
             ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
             ->join('users', 'users.id', '=', 'vendas.user_id')
-            ->select('vendas.id as venda_id', 'produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario', 'produtos.id as id')
+            ->select('vendas.id as venda_id', 'produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario', 'produtos.id as produto_id')
             ->whereDay('vendas.created_at', Carbon::today()->format('d'))->paginate(5);
             
             // Formulário de vendas 
@@ -62,6 +62,8 @@ class VendaController extends Controller
     {
         try {
             $request->validated();
+            define('IMAGE', 'image');
+            $imagem = new ImagemVenda($request, IMAGE);
             
             $produto = Produto::findOrFail($request->produto_id); // Buscar produto o vendido 
             $estoque = $produto->estoque->toArray();
@@ -76,8 +78,11 @@ class VendaController extends Controller
                 'produto_id' => $request->produto_id,
                 'stock_value' => $request->quanto_sobrou * $produto->price,
                 'user_id' => Auth::user()->id,
+                'image' => $imagem->getName(),
             ]);
-            
+
+            // Salvar a imagem
+            $request->file(IMAGE)->move(public_path('/assets/imagens/estoques'), $imagem->getName());
             // Decrementa a quantidade de produto vendida no estoque
             Produto::findOrFail($request->produto_id)->estoque->decrement('current_quantity', $venda->quantity_sold);
             Produto::findOrFail($request->produto_id)->estoque->decrement('total_stock_value', ($venda->quantity_sold * $produto->price));
@@ -92,17 +97,23 @@ class VendaController extends Controller
         }
     }
 
+    /* 
+        // Pegar produto
+        // Pegar estoque 
+    */
+    // pegar qtd que sobrou
+    // incrementar no estoque
     public function destroy(Venda $venda, Request $request)
     {
-        // Pegar produto
-        // Pegar estoque
-        // pegar qtd vendida
-        // incrementar no estoque
 
-        $produto = Produto::where('id', $venda->produto_id)->first();
+        $estoque = $this->estoque->where('produto_id', $request->produto_id)->first();
+        $quantidadeVendida = $venda->quantity_sold;
 
-        //$venda->with('produto')->where('id', $request->venda_id)->get();
-        dd($this->estoque->where('produto_id', $produto->id)->get());
+        $venda->delete();
+
+        $estoque->increment('current_quantity', $quantidadeVendida); /** Incrementar o que havia sido vendido*/
+        
+        return redirect()->route('vendas.create')->with('sucesso', 'Produto eliminado com sucesso!');
     }
 
     /**

@@ -44,7 +44,7 @@
                                         @csrf
                                         @method("Delete")
 
-                                        <input type="hidden" name="venda_id" value="{{ $venda->venda_id }}">
+                                        <input type="hidden" name="produto_id" value="{{ $venda->produto_id }}">
 
                                         <button type="submit" class="btn-delete" onclick="return confirm('Tem a certeza que pretende eliminar?')">
                                             <i class="fa-solid fa-trash"></i>
@@ -62,7 +62,7 @@
       <section id="vendas-container">
         <h1>Registre as vendas de hoje</h1>
           <div id="form-conatiner">
-            <form action="{{ route('vendas.store') }}" method="post">
+            <form action="{{ route('vendas.store') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <div id="produtos-data">
@@ -81,6 +81,10 @@
                     <div class="form-group" id="qtd_vendida-container">
                         <label for="quantity_sold">Quntas sobraram?</label>
                         <input type="number" name="quanto_sobrou" id="quantity_sold" placeholder="Unidades vendidas *" min="0" max="200">
+                    </div>
+                    <div class="form-group" id="preco-container">
+                        <label for="image">Imagem dos produtos restante</label>
+                        <input type="file" name="image" id="image">
                     </div>
                     <div class="form-group" id="preco-container">
                         <label for="note">Observações (opcional)</label>
