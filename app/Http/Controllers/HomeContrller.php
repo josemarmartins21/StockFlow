@@ -6,7 +6,6 @@ use App\Models\Produto;
 use App\Models\Estoque;
 use App\Models\User;
 use BadMethodCallException;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -20,6 +19,7 @@ class HomeContrller extends Controller
      */
     public function __invoke(Request $request)
     {   try {
+            
             // Busca o todos os produtos e as categorias de cada produto registrados BD.
             $produtos = DB::table('estoques')
             ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
@@ -28,13 +28,15 @@ class HomeContrller extends Controller
             ->paginate(5);
 
             $user = User::where('id', Auth::user()->id)->select('name')->get();
+            session()->put('usuario', $user[0]->name);
 
+          
             return view('home', [
                 'produtos' => $produtos,
-                'user' => $user,
-                'menor_estoque' => Produto::estoqueMinimo(Estoque::min('minimum_quantity')),
-                'produto_mais_vendido' => Produto::ultimoProdutoMaisVendido(),
-                'maior_valor_estoque' => Produto::maiorValorEstoque(),
+               /*  'user' => $user, */
+                'menor_estoque' => Produto::estoqueMinimo(Estoque::min('minimum_quantity'))[0],
+                //'produto_mais_vendido' => Produto::ultimoProdutoMaisVendido()[0],
+                'maior_valor_estoque' => Produto::maiorValorEstoque()[0],
             ]);
             
         } catch(ModelNotFoundException $e) {

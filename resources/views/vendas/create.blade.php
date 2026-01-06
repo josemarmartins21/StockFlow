@@ -6,7 +6,7 @@
 @section('content')
      <div class="tabela">
                 <div id="table-extras">
-                    <h2>Todas as vendas</h2>
+                    <h2>Vendas de {{ date('M') }}.</h2>
 
                     <div id="pdf-acoes">
                         <a href="{{ route('venda.pdf.download') }}" class="baixar-pdf">Baixar Pdf <i class="fa-solid fa-download"></i></a>
@@ -20,32 +20,33 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Vendedor</th>
-                            <th>Venda</th>
-                            <th>Quantidade Vendida</th>
-                            <th>Total Venda</th>
-                            <th>Data venda</th>
-                            <th>Valor do estoque actual</th>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Valor Total</th>
+                            <th>Data</th>
+                            <th>Valor do Estoque</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($vendas as $venda)
                             <tr>
-                                <td> {{ $venda->nome_funcionario }} </td>
                                 <td> {{ $venda->nome }} </td>
-                                <td> {{$venda->quantidade_vendida }} </td>
-                                <td> {{ number_format($venda->quantidade_vendida * $venda->preco, 2, ',', '.') }} </td>  
-                                <td> {{ $venda->dia_venda }} </td>
-                                <td> {{ number_format($venda->valor_total_do_estoque,2, ',', '.') }} </td> 
-                                  <td> 
-                                    <a href="#" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a> 
-                                    <form action="{{ route('vendas.destroy', ['venda' => $venda->venda_id]) }}" method="POST" id="form-delete">
+                                <td> {{number_format($venda->quantidade_vendida, 2, ',', '.') }} </td>
+                                <td> {{ number_format($venda->quantidade_vendida * $venda->preco, 2, ',', '.') }}Kz </td>  
+                                <td> {{ substr($venda->dia_venda, 0, 10) }} </td>
+                                <td> {{ number_format($venda->valor_total_do_estoque,2, ',', '.') }}Kz </td> 
+                                  <td class="acoes"> 
+                                    <a href="{{ route('vendas.show', ['venda' => $venda->venda_id]) }}" class="eye"><i class="fa-solid fa-eye"></i></a>
+
+                                    <a href="#" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a>
+                                    
+                                    <form action="{{ route('vendas.destroy', ['venda' => $venda->venda_id]) }}" method="POST" class="delete-venda">
                                         @csrf
                                         @method("Delete")
-
+                                        
                                         <input type="hidden" name="produto_id" value="{{ $venda->produto_id }}">
-
+                                        
                                         <button type="submit" class="btn-delete" onclick="return confirm('Tem a certeza que pretende eliminar?')">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>

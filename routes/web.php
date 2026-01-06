@@ -23,7 +23,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::resource('categorias', CategoriaController::class);
     
     // Vendas resources
-    Route::resource('vendas', VendaController::class)->except(['index', 'show', 'edit', 'update',]);
+    Route::resource('vendas', VendaController::class)->except(['index', 'edit', 'update',]);
     
     // Estoque
     Route::resource('estoques', EstoqueController::class)->except(['show', 'create', 'index', 'update', 'delete']);

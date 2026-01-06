@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', config('app.name', 'StockFlow'))
 @section('boasvindas')
-<h1>Olá, <span> {{ $user[0]->name }} </span></h1>
+    <h1 id="nome-hora">Olá, <span id="nome-user"></span></h1>   
 @endsection
 @section('pesquisa')
 <div id="form-search">
@@ -24,7 +24,7 @@
                 <div class="relatorio">
                     <div class="info-container">
                         <span>Último produto mais vendido ontem</span>
-                        <h3>{{ ucfirst($produto_mais_vendido->nome) }}</h3>
+                      {{--   <h3>{{ ucfirst($produto_mais_vendido-?>nome) }}</h3> --}}
                     </div>
                 </div>
 
@@ -86,7 +86,6 @@
                    {{ $produtos->links() }}
 
             </div>
-           
 @endsection
 
 @section('footer')

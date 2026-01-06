@@ -6,7 +6,7 @@ use App\Models\Venda;
 use App\Http\Requests\StoreVendaRequest;
 use App\Http\Requests\UpdateVendaRequest;
 use App\Models\Produto;
-use App\Models\Estoque;
+use App\Models\Estoque;     
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -44,7 +44,9 @@ class VendaController extends Controller
             ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
             ->join('users', 'users.id', '=', 'vendas.user_id')
             ->select('vendas.id as venda_id', 'produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario', 'produtos.id as produto_id')
-            ->whereDay('vendas.created_at', Carbon::today()->format('d'))->paginate(5);
+            ->whereMonth('vendas.created_at', Carbon::now()->format('m'))
+            ->orderBy('vendas.created_at', 'desc')
+            ->paginate(3);
             
             // Formulário de vendas 
             return view('vendas.create', ['produtos' => Produto::select('id','name')->get(), 'vendas' => $vendas]);
@@ -53,6 +55,12 @@ class VendaController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->withInput()->with('erro', $e->getMessage());
         }
+    }
+
+    public function show(Venda $venda)
+    {
+        $produto = $venda->produto;
+        return view('vendas.show', compact('venda', 'produto'));
     }
 
     /**
@@ -81,8 +89,11 @@ class VendaController extends Controller
                 'image' => $imagem->getName(),
             ]);
 
-            // Salvar a imagem
-            $request->file(IMAGE)->move(public_path('/assets/imagens/estoques'), $imagem->getName());
+            if (!empty($imagem->getName())) {
+                // Salvar a imagem
+                $request->file(IMAGE)->move(public_path('/assets/imagens/estoques'), $imagem->getName());
+            }
+            
             // Decrementa a quantidade de produto vendida no estoque
             Produto::findOrFail($request->produto_id)->estoque->decrement('current_quantity', $venda->quantity_sold);
             Produto::findOrFail($request->produto_id)->estoque->decrement('total_stock_value', ($venda->quantity_sold * $produto->price));

@@ -16,6 +16,7 @@ class Venda extends Model
         'image',
     ];
 
+
     public function produto(): BelongsTo
     {
         return $this->belongsTo(Produto::class);

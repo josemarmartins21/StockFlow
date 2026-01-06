@@ -37,6 +37,9 @@ class ImagemVenda {
 
     public function getName(): string
     {
+        if (empty($this->imagemName)) {
+            return '';
+        }
         return $this->imagemName;
     }
 }
