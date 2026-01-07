@@ -11,7 +11,13 @@ use Illuminate\Support\Facades\DB;
 
 class Produto extends Model
 {
-    protected $fillable = ['name', "price","categoria_id", "shpping"];
+    protected $fillable = [
+        'name', 
+        "price",
+        "categoria_id", 
+        "shpping", 
+        "image",
+    ];
     protected $guarded = [];
 
     public function estoque(): HasOne

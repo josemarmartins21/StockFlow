@@ -124,7 +124,10 @@ section#sidebar {
                     width: 100%;
                     display: inline-block;
                     display: flex;
-                    justify-content: space-between;
+                    flex-flow: row-reverse nowrap;
+                    justify-content: flex-end;
+                    gap: 10px;
+                    align-items: center;
                 }
                 a:active {
                     transform: scale(.98);
@@ -268,7 +271,7 @@ header {
     background-color: #ffff;
     width: 100%;
     margin: auto;
-    margin-top: 70px;
+    margin-top: 40px;
     box-shadow: var(--card-sombras);
     padding: 15px;
     border-radius: 20px;

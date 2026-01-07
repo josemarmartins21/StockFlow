@@ -8,7 +8,7 @@
     <h1>Cadastrar produto</h1>
 
     <div id="form-conatiner">
-        <form action="{{ route('produtos.store') }}" method="post">
+        <form action="{{ route('produtos.store') }}" method="post" enctype="multipart/form-data">
             @csrf
 
             <div id="produtos-data">
@@ -25,6 +25,10 @@
                 <div class="form-group" id="frete-container">
                     <label for="shipping">Frete</label>
                     <input type="number" name="shipping" id="shippng" placeholder="Valor do frete *" min="50" value="{{ old('shipping') }}">
+                </div>
+                <div class="form-group" id="image-container-prod">
+                    <label for="image">Fotografia</label>
+                    <input type="file" name="image" id="image" value="{{ old('image') }}" accept="image/*">
                 </div>
 
                 <div class="form-group" id="categoria-container">

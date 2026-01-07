@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ImagemProduto;
+use App\Helpers\ImagemVenda;
 use App\Models\Produto;
 use App\Http\Requests\StoreProdutoRequest;
 use App\Http\Requests\UpdateProdutoRequest;
@@ -54,14 +56,20 @@ class ProdutoController extends Controller
      */
     public function store(StoreProdutoRequest $request)
     {
+        define('PRODUTO_IMAGEM', 'image');
+
+        $imagemProduto = new ImagemProduto($request);
+
         // Válida os dados enviados pelo utilizador.
         $request->validated();
+
 
         // Registrar o produto na BD.
         $produto = Produto::create([
             "name" => $request->name,
             "price" => $request->price,
             "shpping" => $request->shipping,
+            "image" => $imagemProduto->getName(),
             "categoria_id" => $request->categoria_id  
         ]);
 
@@ -75,6 +83,8 @@ class ProdutoController extends Controller
             'stock_date' => Carbon::now()->format('Y-m-d'), /** data actual */
         ]);
 
+        $imagemProduto->save($request); /** Salva a imagem do produto */
+
         return redirect()->route('home');     
     }
 
@@ -84,15 +94,9 @@ class ProdutoController extends Controller
     public function show(Produto $produto)
     {
         try {
-            return response()->json([
-                'status' => true,
-                'data' => $produto->with('categoria')->first(),
-            ]);
+            return view('produtos.show', compact('produto'));
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-            'status' => false,
-            'message' => $e->getMessage(),
-        ]);
+            return redirect()->back()->with('erro', $e->getMessage());
         }
     }
 

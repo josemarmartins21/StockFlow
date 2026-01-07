@@ -9,6 +9,7 @@ use BadMethodCallException;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CategoriaController extends Controller
 {
@@ -77,12 +78,17 @@ class CategoriaController extends Controller
      */
     public function show(Categoria $categoria)
     {
+
+        $produtos = DB::table('categorias')
+        ->join('produtos', 'categorias.id', '=', 'produtos.categoria_id')
+        ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
+        ->select('produtos.name as nome', 'estoques.current_quantity as quantidade', 'produtos.price as preco', 'produtos.id as produto_id', 'produtos.image as imagem')->get();
         // Retorna uma categoria pelo model biding
         return view('categorias.show', [
             'categoria' => $categoria,
-            'produtos' => $categoria->with('produtos')
+            'produtos' => /* $categoria->with('produtos')
             ->where('id', $categoria->id)
-            ->first()['produtos'], 
+            ->first()['produtos']->join('estoques', 'produtos.id', '=', 'estqoues.produto_id') */ $produtos, 
         ]);
     }
 

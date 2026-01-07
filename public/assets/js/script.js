@@ -17,3 +17,9 @@ function comprimentar(nome) {
         nomeHora.innerText = `Boa noite, ${nome}`
     }
 }
+/* 
+function previewImagem(event) {
+    const img = document.getElementById('preview');
+    
+    img.src = URL.createObjectURL(event.target.files[0]);
+} */

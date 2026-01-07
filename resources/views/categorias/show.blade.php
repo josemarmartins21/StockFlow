@@ -9,17 +9,17 @@
         @forelse ($produtos as $produto)
             <div class="produto">
                 <div class="image-produto">
-                    <img src="{{ asset('assets/imagens/produtos/' . $produto->image . '.jpg') }}" alt="{{ $produto->name }}">
+                    <img src="{{ asset('assets/imagens/produtos/' . $produto->imagem . '.jpg') }}" alt="{{ $produto->nome }}">
                 </div>
 
                 <div class="info-produto">
-                    <h3>{{ $produto->name }} - <span>12 uni.</span></h3>
+                    <h3>{{ $produto->nome }} - <span>{{ $produto->quantidade }} uni.</span></h3>
 
                     <strong>
-                        <span>{{  $produto->price}}</span>
+                        <span>{{  $produto->preco }}Kz</span>
                     </strong>
                 </div>
-                <a href="{{ route('produtos.show', ['produto' => $produto->id]) }}">Ver</a>
+                <a href="{{ route('produtos.show', ['produto' => $produto->produto_id]) }}">Ver</a>
             </div>
             
         @empty

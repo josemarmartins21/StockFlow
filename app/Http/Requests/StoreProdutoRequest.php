@@ -25,6 +25,7 @@ class StoreProdutoRequest extends FormRequest
             'name' => 'bail|string|required',
             'price' => 'bail|numeric|min:50|required',
             'shipping' => 'bail|numeric|min:50|required',
+            'image' => 'bail|image|file|nullable|mimes:png,jpg,jpeg',
         ];
     }
 
