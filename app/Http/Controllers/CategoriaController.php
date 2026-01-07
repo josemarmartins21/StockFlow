@@ -78,9 +78,11 @@ class CategoriaController extends Controller
     public function show(Categoria $categoria)
     {
         // Retorna uma categoria pelo model biding
-        return response()->json([
-            'status' => true,
-            'data' => $categoria,
+        return view('categorias.show', [
+            'categoria' => $categoria,
+            'produtos' => $categoria->with('produtos')
+            ->where('id', $categoria->id)
+            ->first()['produtos'], 
         ]);
     }
 

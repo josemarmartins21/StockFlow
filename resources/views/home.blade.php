@@ -23,8 +23,8 @@
                 </div>
                 <div class="relatorio">
                     <div class="info-container">
-                        <span>Último produto mais vendido ontem</span>
-                      {{--   <h3>{{ ucfirst($produto_mais_vendido-?>nome) }}</h3> --}}
+                        <span>Estoque actual</span>
+                        <h3>{{ $total_em_estoque }}</h3>
                     </div>
                 </div>
 
@@ -64,9 +64,9 @@
                             <tr>
                                 <td> {{ $loop->index + 1 }} </td>
                                 <td> {{ $produto->nome_produto }} </td>
-                                <td> {{ $produto->price }} </td>
+                                <td> {{ $produto->price }}Kz </td>
                                 <td> {{ $produto->current_quantity }} </td>
-                                <td> {{ number_format($produto->total_stock_value, 2, ',', '.') }} </td> 
+                                <td> {{ number_format($produto->total_stock_value, 2, ',', '.') }}Kz </td> 
                                 <td> 
                                     <a href="{{ route('produtos.edit', ['produto' => $produto->id]) }}" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a> 
                                     <form action="{{ route('produtos.destroy', ['produto' => $produto->id]) }}" method="POST" id="form-delete">

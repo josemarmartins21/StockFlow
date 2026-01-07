@@ -15,6 +15,12 @@ use Illuminate\Support\Facades\Redirect;
 class VendaPdfController extends Controller
 {
     private $pdf;
+    private int $totalVendido;
+
+    public function __construct()
+    {
+        $this->totalVendido = Venda::getTotalVendido();
+    }
 
     /**
      * Descarregar pdf das vendas
@@ -26,7 +32,10 @@ class VendaPdfController extends Controller
             // Captura o mês e o ano actual
             $mesAnoActual = Carbon::now()->format('m_Y');
 
-            $this->pdf = Pdf::loadView('pdf.vendas.vendas', ['vendas' => $this->getDados()]); 
+            $this->pdf = Pdf::loadView('pdf.vendas.vendas', [
+                'vendas' => $this->getDados(), 
+                'total_vendido' => $this->totalVendido,
+            ]); 
 
             return $this->pdf->download('vendas_' . $mesAnoActual . '.pdf');
     
@@ -42,7 +51,10 @@ class VendaPdfController extends Controller
     public function visualizarPdf()
     {
         try {
-            $this->pdf = Pdf::loadView('pdf.vendas.vendas', ['vendas' => $this->getDados()]);
+            $this->pdf = Pdf::loadView('pdf.vendas.vendas', [
+                'vendas' => $this->getDados(), 
+                'total_vendido' => $this->totalVendido,
+            ]);
             return $this->pdf->stream();
             
         } catch (Exception $e) {
@@ -62,10 +74,12 @@ class VendaPdfController extends Controller
        ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
        ->join('users', 'users.id', '=', 'vendas.user_id')
        ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_user')
-       ->whereDay('vendas.created_at', Carbon::today()->format('d'))->get();
+       ->whereDay('vendas.created_at', Carbon::today()->format('d'))
+       ->orderBy('vendas.created_at', 'desc')
+       ->get();
 
        if (count($dados) === 0) {
-        throw new Exception("Nenhuma venda registrada");
+        throw new Exception("Nenhuma venda foi registrada hoje");
        }
 
        return $dados->toArray();

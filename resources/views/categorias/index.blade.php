@@ -22,7 +22,7 @@
 
     <div id="categorias-index">
         @forelse ($categorias as $categoria)
-        <a href="#" class="categoria" rel="next">
+        <a href="{{ route('categorias.show', ['categoria' => $categoria->id]) }}" class="categoria" rel="next">
             <div class="categoria-info">
                 <h3>
                     <span class="categoria-icon"><i class="fa-solid fa-bottle-droplet"></i></span>

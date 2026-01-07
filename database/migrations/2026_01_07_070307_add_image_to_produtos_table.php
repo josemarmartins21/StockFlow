@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('vendas', function (Blueprint $table) {
-            $table->string('image')->default('not-found.png')->nullable();
-        });
+        Schema::table('produtos', function (Blueprint $table) {
+            $table->string('image')->nullable()->default('produto');    
+         });
     }
 
     /**
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('vendas', function (Blueprint $table) {
+        Schema::table('produtos', function (Blueprint $table) {
             $table->dropColumn('image');
         });
     }

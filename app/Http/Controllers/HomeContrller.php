@@ -37,6 +37,7 @@ class HomeContrller extends Controller
                 'menor_estoque' => Produto::estoqueMinimo(Estoque::min('minimum_quantity'))[0],
                 //'produto_mais_vendido' => Produto::ultimoProdutoMaisVendido()[0],
                 'maior_valor_estoque' => Produto::maiorValorEstoque()[0],
+                'total_em_estoque' => Estoque::sum('current_quantity'),
             ]);
             
         } catch(ModelNotFoundException $e) {
