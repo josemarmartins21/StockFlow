@@ -34,7 +34,7 @@
                                 <td> {{ $venda->nome }} </td>
                                 <td> {{number_format($venda->quantidade_vendida, 2, ',', '.') }} </td>
                                 <td> {{ number_format($venda->quantidade_vendida * $venda->preco, 2, ',', '.') }}Kz </td>  
-                                <td> {{ substr($venda->dia_venda, 0, 10) }} </td>
+                                <td> {{ $venda->dia_venda }} </td>
                                 <td> {{ number_format($venda->valor_total_do_estoque,2, ',', '.') }}Kz </td> 
                                   <td class="acoes"> 
                                     <a href="{{ route('vendas.show', ['venda' => $venda->venda_id]) }}" class="eye"><i class="fa-solid fa-eye"></i></a>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="form-group" id="preco-container">
                         <label for="note">Observações (opcional)</label>
-                        <textarea name="" id="" cols="30" rows="10"></textarea>
+                        <textarea name="note" id="" cols="30" rows="10"></textarea>
                     </div>
                 </div>
                 <div class="form-submit-vendas">

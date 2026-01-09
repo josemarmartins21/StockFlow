@@ -82,14 +82,11 @@ class CategoriaController extends Controller
         $produtos = DB::table('categorias')
         ->join('produtos', 'categorias.id', '=', 'produtos.categoria_id')
         ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
-        ->select('produtos.name as nome', 'estoques.current_quantity as quantidade', 'produtos.price as preco', 'produtos.id as produto_id', 'produtos.image as imagem')->get();
+        ->select('produtos.name as nome', 'estoques.current_quantity as quantidade', 'produtos.price as preco', 'produtos.id as produto_id', 'produtos.image as imagem', 'estoques.minimum_quantity as estoque_minimo', 'estoques.maximum_quantity as estoque_maximo')
+        ->where('categorias.id', $categoria->id)
+        ->get();
         // Retorna uma categoria pelo model biding
-        return view('categorias.show', [
-            'categoria' => $categoria,
-            'produtos' => /* $categoria->with('produtos')
-            ->where('id', $categoria->id)
-            ->first()['produtos']->join('estoques', 'produtos.id', '=', 'estqoues.produto_id') */ $produtos, 
-        ]);
+        return view('categorias.show', compact('categoria', 'produtos'));
     }
 
     /**

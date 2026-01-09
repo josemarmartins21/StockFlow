@@ -9,7 +9,7 @@
         @forelse ($produtos as $produto)
             <div class="produto">
                 <div class="image-produto">
-                    <img src="{{ asset('assets/imagens/produtos/' . $produto->imagem . '.jpg') }}" alt="{{ $produto->nome }}">
+                    <img src="{{ asset('assets/imagens/produtos/' . $produto->imagem) }}" alt="{{ $produto->nome }}">
                 </div>
 
                 <div class="info-produto">

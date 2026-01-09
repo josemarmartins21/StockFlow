@@ -8,7 +8,7 @@
     <h1>{{ ucwords($produto->name) }}</h1>
 
     <div id="form-conatiner">
-        <form action="{{ route('produtos.update', ['produto' => $produto->id]) }}" method="post">
+        <form action="{{ route('produtos.update', ['produto' => $produto->id]) }}" method="post" enctype="multipart/form-data">
             @csrf
             @method("PUT")
 
@@ -26,6 +26,11 @@
                 <div class="form-group" id="frete-container">
                     <label for="shipping">Frete</label>
                     <input type="number" name="shpping" id="shippng" placeholder="Valor do frete" min="50" value="{{ old('shipping', $produto->shpping) }}">
+                </div>
+
+                <div class="form-group" id="image-container-prod">
+                    <label for="image">Fotografia</label>
+                    <input type="file" name="image" id="image" value="{{ old('image', $produto->image) }}" accept="image/*">
                 </div>
 
                 <div class="form-group" id="categoria-container">

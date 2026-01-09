@@ -22,9 +22,9 @@ class UpdateProdutoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'string|required|max:50',
-            'price' => 'numeric|min:10|required',
-            'shpping' => 'numeric|min:50|required',
+            'name' => 'bail|string|required|max:50',
+            'price' => 'bail|numeric|min:10|required',
+            'shpping' => 'bail|numeric|min:50|required',
         ];
     }
 }

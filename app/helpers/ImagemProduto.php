@@ -3,11 +3,12 @@
 namespace App\Helpers;
 
 use App\Http\Requests\StoreProdutoRequest;
+use App\Http\Requests\UpdateProdutoRequest;
 
 class ImagemProduto {
     private string $imagemName;
 
-    public function __construct(StoreProdutoRequest $request)
+    public function __construct(StoreProdutoRequest | UpdateProdutoRequest $request)
     {
         $this->validate($request);
         
@@ -15,12 +16,12 @@ class ImagemProduto {
 
     /**
      * Valida a imagem a ser enviada
-     * @param StoreProdutoRequest $request
+     * @param StoreProdutoRequest  UpdateProdutoRequest $request
      * 
      * 
      * @return void
      */
-    public function validate(StoreProdutoRequest $request): void {       
+    public function validate(StoreProdutoRequest | UpdateProdutoRequest $request): void {       
         if ($request->hasFile(PRODUTO_IMAGEM) AND $request->file(PRODUTO_IMAGEM)->isValid()) {
             $extension = $request->file(PRODUTO_IMAGEM)->extension();
            
@@ -50,7 +51,7 @@ class ImagemProduto {
      * 
      * @return void
      */
-    public function save(StoreProdutoRequest $request): void
+    public function save(StoreProdutoRequest | UpdateProdutoRequest $request): void
     {
         if (!empty($this->getName())) {
             // Salvar a imagem

@@ -13,8 +13,7 @@
         
         <!-- Sweet Alert via Vite -->
         @vite(['resources/js/app.js'])
-
-      {{--   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"> --}}
+  
     </head>
     <body onload="comprimentar('{{ session('usuario') }}')">
         <main> <!-- Secção main que engloba todo os HTML do site -->
@@ -50,8 +49,9 @@
               @yield('footer')
             </section> <!-- Fim da secção principal -->
         </main>
-
         {{-- Estilos do JavaScript --}}
-        <script src="{{ asset('assets/js/script.js') }}"></script>  
+        <script src="{{ asset('assets/js/script.js') }}"></script>
+
+
     </body>
 </html>

@@ -24,6 +24,7 @@ class ProdutoController extends Controller
     {
         $this->categoria = new Categoria();
         $this->estoque = new Estoque();
+       
     }
     /**
      * Display a listing of the resource.
@@ -94,7 +95,20 @@ class ProdutoController extends Controller
     public function show(Produto $produto)
     {
         try {
-            return view('produtos.show', compact('produto'));
+            $artigo = DB::table('produtos')
+            ->join('estoques', 'produtos.id', '=', 'estoques.produto_id')
+            ->join('categorias', 'produtos.categoria_id', '=', 'categorias.id')->select(
+                'produtos.name as nome', 
+                'produtos.price as preco', 
+                'produtos.shpping as envio', 
+                'produtos.image as imagem', 
+                'categorias.name as categoria',
+                'estoques.current_quantity as quantidade', 
+                'estoques.minimum_quantity as estoque_minimo', 
+                'estoques.maximum_quantity as estoque_maximo', 
+                'estoques.total_stock_value as valor_estoque'
+            )->where('produtos.id', $produto->id)->first();
+            return view('produtos.show', compact('artigo'));
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->with('erro', $e->getMessage());
         }
@@ -113,6 +127,7 @@ class ProdutoController extends Controller
             ->where('produtos.id', $produto->id)
             ->first([
                 'produtos.name', 
+                'produtos.image', 
                 'produtos.id', 
                 'produtos.price', 
                 'produtos.shpping', 
@@ -131,11 +146,7 @@ class ProdutoController extends Controller
             $categoria_do_produto = Categoria::where('id', $produto->categoria_id)->first(['name', 'id']);
             
             return view('produtos.edit', 
-            [
-                'produto' => $produto, 
-                'categorias' => $categorias, 
-                'categoria_do_produto' => $categoria_do_produto,
-            ]);
+            compact('produto', 'categorias', 'categoria_do_produto'));
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->with('erro', $e->getMessage());
         } catch (Exception $e) {
@@ -149,21 +160,29 @@ class ProdutoController extends Controller
     public function update(UpdateProdutoRequest $request, Produto $produto)
     {
         try {
+            $request->validated();
+
+            define('PRODUTO_IMAGEM', 'image');
+            $imagemProduto = new ImagemProduto($request);
+
             // Selecção dos campos para serem atualizados na tabela produtos e estoques
-            $produto_datas = $request->only('name', 'price', 'shpping', 'categoria_id');
+            $produto_datas = $request->only('name', 'price', 'shpping', 'categoria_id', 'image');
             $estoque_datas = $request->only('current_quantity', 'minimum_quantity', 'maximum_quantity');
     
             // Calcula o valor do estoque actual para ser actualizado
             $estoque_datas['total_stock_value'] = $estoque_datas['current_quantity'] * $produto_datas['price'];
     
-            
+            $produto_datas['image'] = $imagemProduto->getName();
+
             // Atualiza os dados de um restigro por model biding.
             $updatedProduto = $produto->update($produto_datas);
 
+            $imagemProduto->save($request); 
+            
             // Atualiza o estoque do um produto
             $updatedEstoque =  $produto->estoque->update($estoque_datas);
 
-            return redirect()->route('home')->with('suecesso', 'Produto actualizado com sucesso!');
+            return redirect()->route('produtos.show', ['produto' => $produto->id])->with('suecesso', 'Produto actualizado com sucesso!');
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->withInput()->with('erro', $e->getMessage());
         } catch (BadMethodCallException $e) {

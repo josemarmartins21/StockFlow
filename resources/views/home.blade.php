@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', config('app.name', 'StockFlow'))
 @section('boasvindas')
-    <h1 id="nome-hora">Olá, <span id="nome-user"></span></h1>   
+    <h1 id="nome-hora">Olá, <span id="nome-hora"></span></h1>   
 @endsection
 @section('pesquisa')
 <div id="form-search">
@@ -68,15 +68,18 @@
                                 <td> {{ $produto->current_quantity }} </td>
                                 <td> {{ number_format($produto->total_stock_value, 2, ',', '.') }}Kz </td> 
                                 <td> 
-                                    <a href="{{ route('produtos.edit', ['produto' => $produto->id]) }}" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a> 
+                                    <a href="{{ route('produtos.show', ['produto' => $produto->id]) }}" class="eye"><i class="fa-solid fa-eye"></i></a>
+
                                     <form action="{{ route('produtos.destroy', ['produto' => $produto->id]) }}" method="POST" id="form-delete">
                                         @csrf
                                         @method("Delete")
-
+                                        
                                         <button type="submit" class="btn-delete" onclick="return confirm('Tem a certeza que pretende eliminar?')">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>
+
+                                    <a href="{{ route('produtos.edit', ['produto' => $produto->id]) }}" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a> 
                                 </td>  
                             </tr>
                         @endforeach
