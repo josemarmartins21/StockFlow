@@ -1,8 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Stock Flow - Adicionar Mais Produtos')
+@section('title', ucwords($artigo->nome))
     
 @section('content')
+<x-alert />
     <section id="produto-container">
         <div id="produto-image-container">
             <img src="{{ asset('assets/imagens/produtos/' . $artigo->imagem) }}" alt="{{ $artigo->nome }}">
@@ -36,19 +37,32 @@
 
             <div class="bottom-info">
                 <div class="produtos-acoes">
-                    <form action="" method="post">
-                        <select name="" id="">
+                    <form action="{{ route('estoques.atualizar-estoque', ['produto' => $artigo->produto_id]) }}" method="POST">
+                        @csrf
+
+                        <select name="quantity" id="quantity">
                             <option value="" selected>Adicionar ao estoque</option>
                             @for ($i = 6; $i < 100; $i+=6)
                                 <option value="{{ $i }}">{{ $i }}</option>
                             @endfor
                         </select>
-                        <button type="submit"><i class="fas fa-minus"></i></button>
-                        
-                        <button type="submit"><i class="fas fa-plus"></i></button>
 
                         <button type="submit" id="adicionar">Adicionar</button>
-                    </form>
+                    </form> 
+
+                    <div id="increment-container">
+                        <form action="{{ route('estoques.incrementar-estoque', ['produto' => $artigo->produto_id]) }}" method="POST">
+                            @csrf
+
+                            <button type="submit" id="incrementar"><i class="fas fa-plus"></i></button>
+                        </form>
+                        
+                        <form action="{{ route('estoques.decrementar-estoque', ['produto' => $artigo->produto_id]) }}" method="POST">
+                            @csrf
+
+                            <button type="submit" id="decrementar"><i class="fas fa-minus"></i></button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

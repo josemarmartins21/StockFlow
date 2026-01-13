@@ -73,7 +73,7 @@
         <tbody>
             @foreach ($vendas as $venda)
             <tr>
-                    <td>{{ ucwords($venda->nome) }} <strong>{{ $venda->quantidade_vendida }}</strong></td>
+                    <td>{{ ucwords($venda->nome) }} -  <strong>{{ $venda->quantidade_vendida }}</strong></td>
                     <td>{{ $venda->preco }}</td>
                     <td>{{  number_format($venda->preco * $venda->quantidade_vendida, 2, ',', '.') }}Kz</td>
                 </tr>

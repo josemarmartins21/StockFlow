@@ -19,7 +19,9 @@ class CategoriaController extends Controller
     public function index()
     {   
         // Busca todas as categorias.
-        $categorias = Categoria::select('id','name', 'image', 'desc')->get();
+        $categorias = Categoria::select('id','name', 'image', 'desc')
+        ->orderBy('name')
+        ->get();
   
         return view('categorias.index', ['categorias' => $categorias,/* 'total_categoria' => $categorias->produtos->count() */]);
         
@@ -84,6 +86,7 @@ class CategoriaController extends Controller
         ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
         ->select('produtos.name as nome', 'estoques.current_quantity as quantidade', 'produtos.price as preco', 'produtos.id as produto_id', 'produtos.image as imagem', 'estoques.minimum_quantity as estoque_minimo', 'estoques.maximum_quantity as estoque_maximo')
         ->where('categorias.id', $categoria->id)
+        ->orderBy('produtos.name')
         ->get();
         // Retorna uma categoria pelo model biding
         return view('categorias.show', compact('categoria', 'produtos'));

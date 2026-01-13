@@ -44,7 +44,6 @@ class ProdutoController extends Controller
             $categorias = $this->categoria->all('id', 'name');
             
             return view('produtos.create', ['categorias' => $categorias]);
-            
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->withInput()->with('erro', $e->getMessage());
         } catch (Exception $e) {
@@ -97,8 +96,10 @@ class ProdutoController extends Controller
         try {
             $artigo = DB::table('produtos')
             ->join('estoques', 'produtos.id', '=', 'estoques.produto_id')
-            ->join('categorias', 'produtos.categoria_id', '=', 'categorias.id')->select(
+            ->join('categorias', 'produtos.categoria_id', '=', 'categorias.id')
+            ->select(
                 'produtos.name as nome', 
+                'produtos.id as produto_id', 
                 'produtos.price as preco', 
                 'produtos.shpping as envio', 
                 'produtos.image as imagem', 
@@ -107,8 +108,12 @@ class ProdutoController extends Controller
                 'estoques.minimum_quantity as estoque_minimo', 
                 'estoques.maximum_quantity as estoque_maximo', 
                 'estoques.total_stock_value as valor_estoque'
-            )->where('produtos.id', $produto->id)->first();
-            return view('produtos.show', compact('artigo'));
+            )->where('produtos.id', $produto->id)
+            ->first();
+
+
+            return view('produtos.show', /* compact('artigo') */ ['artigo' => $artigo]);
+
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->with('erro', $e->getMessage());
         }
@@ -206,4 +211,5 @@ class ProdutoController extends Controller
             return redirect()->back()->with('erro', "Produto associado a uma venda");
         }
     }
+
 }

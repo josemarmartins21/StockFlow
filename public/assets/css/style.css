@@ -810,3 +810,11 @@ section#produto-container {
 #produto-container {
     height: 200px;
 }
+.produtos-acoes {
+    display: flex;
+}
+#increment-container {
+    display: inherit;
+    #incrementar {background-color: green;}
+    #decrementar {background-color: orange;}
+}

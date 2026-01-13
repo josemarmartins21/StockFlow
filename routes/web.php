@@ -19,6 +19,12 @@ Route::group(['middleware' => 'auth'], function() {
     // Produtos resources
     Route::resource('produtos', ProdutoController::class);
 
+    Route::post('/produtos/atualizar-estoque/{produto}', [EstoqueController::class, 'atualizarEstoque'])->name('estoques.atualizar-estoque');
+
+    Route::post('/produtos/decrement-estoque/{produto}', [EstoqueController::class, 'decrementarEstoque'])->name('estoques.decrementar-estoque');
+
+    Route::post('/produtos/icrement-estoque/{produto}', [EstoqueController::class, 'incrementarEstoque'])->name('estoques.incrementar-estoque');
+
     // Categorias resources
     Route::resource('categorias', CategoriaController::class);
     
@@ -34,7 +40,7 @@ Route::group(['middleware' => 'auth'], function() {
     // Baixar PDF dos produtos
     Route::get('/baixar-pdf-produto', [ProdutoPdfController::class, 'baixarPdf'])->name('produto.pdf.downlod');
 
-    //  Baixar pdf das vendas
+    //  Baixar PDF das vendas
     Route::get('/baixar-pdf-venda', [VendaPdfController::class, 'baixarPdf'])->name('venda.pdf.download');
     Route::get('/stream-pdf-venda', [VendaPdfController::class, 'visualizarPdf'])->name('venda.pdf.stream');
 

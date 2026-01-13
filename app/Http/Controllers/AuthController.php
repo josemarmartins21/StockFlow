@@ -18,7 +18,7 @@ class AuthController extends Controller
         
         $permanecerLogado = false;
 
-        if (!empty($request->keep)) {
+        if (! empty($request->keep)) {
            $permanecerLogado = true;
         }
 

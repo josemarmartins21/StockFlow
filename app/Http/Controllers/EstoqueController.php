@@ -5,6 +5,7 @@ use App\Models\Estoque;
 use App\Http\Requests\StoreEstoqueRequest;
 use App\Http\Requests\UpdateEstoqueRequest;
 use App\Models\Produto;
+use Illuminate\Http\Request;
 
 class EstoqueController extends Controller
 {
@@ -86,4 +87,78 @@ class EstoqueController extends Controller
     } 
         
     */
+
+    /**
+     * Incrementa entre 6 a 96 unidades unidades ao estoque.
+     * @param Request $request
+     * @param Produto $produto
+     * 
+     * @return [type]
+     */
+    public function atualizarEstoque(Request $request, Produto $produto) {
+        try {
+            $request->validate([
+                'quantity' => 'required|numeric|max:96|min:6'
+            ],[
+                'quantity.required' => 'É obrigatório selecionar uma quantidade',
+            ]);
+
+            $this->verificarIncremento($produto->estoque->current_quantity + $request->quantity);
+
+            $produto->estoque->increment('current_quantity', $request->quantity);
+
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('erro', $e->getMessage());
+        }
+    }
+
+    /**
+     * Decrementa -1 unidade ao estoque.
+     * @param Produto $produto
+     * 
+     * @return [type]
+     */
+    public function decrementarEstoque(Produto $produto) {
+        try {
+            $this->verificarDecremento($produto->estoque->current_quantity - 1);
+
+            $produto->estoque->decrement('current_quantity');
+        
+            return redirect()->back();
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('erro', $e->getMessage());
+        }
+    }
+
+    /**
+     * Incrementa +1 unidade ao estoque.
+     * @param Produto $produto
+     * 
+     * @return [type]
+     */
+    public function incrementarEstoque(Produto $produto) {
+        try {
+            $this->verificarIncremento($produto->estoque->current_quantity + 1);
+
+            $produto->estoque->increment('current_quantity');
+            
+            return redirect()->back(); 
+        } catch (\Exception $e) {
+            return redirect()->back()->with('erro', $e->getMessage());
+        }
+    }
+
+    private function verificarDecremento(int $value): void {
+        if ($value < 0) {
+            throw new \Exception("Estoque insuficiente"); 
+        }
+    }
+
+    private function verificarIncremento(int $value): void {
+        if ($value > 200) {
+            throw new \Exception("Estoque Máximo atingido"); 
+        }
+    }
 }

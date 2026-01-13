@@ -25,6 +25,7 @@ class HomeContrller extends Controller
             ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
             ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
             ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'estoques.total_stock_value', 'produtos.price', 'produtos.id')->orderBy('estoques.updated_at', 'asc')
+            ->orderBy('produtos.name')
             ->paginate(5);
 
             $user = User::where('id', Auth::user()->id)->select('name')->get();
@@ -33,9 +34,7 @@ class HomeContrller extends Controller
           
             return view('home', [
                 'produtos' => $produtos,
-               /*  'user' => $user, */
-                'menor_estoque' => Produto::estoqueMinimo(Estoque::min('minimum_quantity'))[0],
-                //'produto_mais_vendido' => Produto::ultimoProdutoMaisVendido()[0],
+                'menor_estoque' => Produto::menorEstoque(),
                 'maior_valor_estoque' => Produto::maiorValorEstoque()[0],
                 'total_em_estoque' => Estoque::sum('current_quantity'),
             ]);

@@ -47,9 +47,11 @@ class VendaController extends Controller
             ->whereMonth('vendas.created_at', Carbon::now()->format('m'))
             ->orderBy('vendas.created_at', 'desc')
             ->paginate(3);
+
+            $produtos = Produto::select('id','name')->orderBy('name')->get();
             
             // Formulário de vendas 
-            return view('vendas.create', ['produtos' => Produto::select('id','name')->get(), 'vendas' => $vendas]);
+            return view('vendas.create', compact('vendas', 'produtos'));
         } catch (ModelNotFoundException $e) {
            return redirect()->back()->withInput()->with('erro', $e->getMessage());
         } catch (Exception $e) {

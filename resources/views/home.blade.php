@@ -17,8 +17,8 @@
      <div id="relatorios-container">
                 <div class="relatorio">
                     <div class="info-container">
-                        <span>Produto abaixo do estoque</span>
-                        <h3>{{ ucfirst($menor_estoque->name) }} <span style="color: red"> {{ $menor_estoque->quantidade }}  </span></h3>
+                        <span>Produto com menor estoque</span>
+                        <h3>{{ ucfirst($menor_estoque->nome_produto) }} <span style="color: red"> {{ $menor_estoque->quantidade }}  </span></h3>
                     </div>
                 </div>
                 <div class="relatorio">
@@ -66,7 +66,7 @@
                                 <td> {{ $produto->nome_produto }} </td>
                                 <td> {{ $produto->price }}Kz </td>
                                 <td> {{ $produto->current_quantity }} </td>
-                                <td> {{ number_format($produto->total_stock_value, 2, ',', '.') }}Kz </td> 
+                                <td> {{ number_format($produto->price * $produto->current_quantity, 2, ',', '.') }}Kz </td> 
                                 <td> 
                                     <a href="{{ route('produtos.show', ['produto' => $produto->id]) }}" class="eye"><i class="fa-solid fa-eye"></i></a>
 

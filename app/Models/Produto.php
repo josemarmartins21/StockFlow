@@ -18,35 +18,18 @@ class Produto extends Model
         "shpping", 
         "image",
     ];
+    
     protected $guarded = [];
-
-    public function estoque(): HasOne
+    
+    public static function menorEstoque()
     {
-        return $this->hasOne(Estoque::class);
-    }
-
-    public function categoria(): BelongsTo
-    {
-        return $this->belongsTo(Categoria::class);
-    }
-
-    public static function estoqueMinimo(int $menorEstoque)
-    {
-        return DB::select("SELECT p.name, e.current_quantity as quantidade FROM estoques AS e JOIN   produtos AS p
-        ON p.id = e.produto_id
-        WHERE e.current_quantity < ? LIMIT ?", [$menorEstoque, 1]              
-        );
-    }
-
-    public static function ultimoProdutoMaisVendido()
-    {
-        return DB::select("SELECT produtos.name as nome, vendas.quantity_sold  
-            FROM produtos
-            JOIN vendas
-            ON vendas.produto_id = produtos.id
-            WHERE DAY(vendas.created_at) = ?
-            ORDER BY vendas.quantity_sold
-            DESC", [Carbon::yesterday()->format('d')]);
+        return DB::select("SELECT  
+                    p.name as nome_produto, 
+                    MIN(e.current_quantity) as quantidade FROM estoques
+                    AS e JOIN produtos AS p
+                    ON p.id = e.produto_id
+                    GROUP BY p.`name`, e.current_quantity
+                    ORDER BY e.current_quantity LIMIT ?", [1])[0];
     }
 
     public static function maiorValorEstoque()
@@ -56,20 +39,18 @@ class Produto extends Model
                     ON p.id = e.produto_id
                     GROUP BY p.name, e.total_stock_value
                     ORDER BY MAX(e.total_stock_value) 
-                DESC LIMIT ?", [1]);
+                    DESC LIMIT ?", [1]);
     }
 
-    /** Próxima query
-        SELECT c.name AS nome, MAX(e.current_quantity) AS quantidade
-        FROM estoques
-        AS e JOIN produtos A
-        ON e.produto_id = p.id
-        JOIN categorias AS c
-        ON c.id = p.categoria_id
-        GROUP BY c.name, e.current_quantity
-        ORDER BY MAX(e.current_quantity) DESC LIMIT 
-   
-    */
+    public function estoque(): HasOne
+    {
+        return $this->hasOne(Estoque::class);
+    }
+    
+    public function categoria(): BelongsTo
+    {
+        return $this->belongsTo(Categoria::class);
+    }
 
     public function vendas(): HasMany {
         return $this->hasMany(Venda::class);
