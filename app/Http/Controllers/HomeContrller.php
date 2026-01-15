@@ -34,9 +34,10 @@ class HomeContrller extends Controller
           
             return view('home', [
                 'produtos' => $produtos,
-                'menor_estoque' => Produto::menorEstoque(),
-                'maior_valor_estoque' => Produto::maiorValorEstoque()[0],
+                'menor_estoque' => Estoque::menorEstoque(),
+                'maior_valor_estoque' => Estoque::maiorValorEstoque(),
                 'total_em_estoque' => Estoque::sum('current_quantity'),
+                'total_valor_estoque' => Estoque::totValEstoque(),
             ]);
             
         } catch(ModelNotFoundException $e) {

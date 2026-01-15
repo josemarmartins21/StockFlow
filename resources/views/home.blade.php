@@ -84,6 +84,16 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="5" style="text-align: left">
+                                Valor Total do Estoque
+                            </th>
+                            <td>
+                               {{ number_format($total_valor_estoque->valor, 2, ',', '.') }}Kz
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
               
                    {{ $produtos->links() }}

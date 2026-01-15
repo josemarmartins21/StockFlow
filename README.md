@@ -1,5 +1,23 @@
 # StockFlow
 Sistema de gestão de estoque para bares
+
+
+# Galeria do Sistema
+
+## Página Inicial 
+![pagina inicial](/public/assets/galeria/imagens_do_sistema/pagina-inicial.png)
+
+## Página de Vendas
+![pagina de vendas](/public/assets/galeria/imagens_do_sistema/pagina_de_vendas.png)
+
+## Página de Detalhes do Produto
+![página de detalhes do produto](/public/assets/galeria/imagens_do_sistema/show_gasosa.png)
+
+## Página de Categorias
+![página de categorias](/public/assets/galeria/imagens_do_sistema/página_de_categorias%20.png)
+
+## Fatura Gerada Pelo Sistema
+![fatura](/public/assets/galeria/imagens_do_sistema/fatura.png)
 ## Requisitos
 
 - PHP 8.2 ou superior - Conferir a versão: php -v

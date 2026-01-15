@@ -34,10 +34,6 @@
                     {{ substr($categoria->desc, 0, 75) }}
                 </p>
             </div>
-            <div class="barra"></div>
-            <div class="categoria-details">
-                <strong>Total de {{ $categoria->name }}: <span style="color: green">20</span></strong>
-            </div>
         </a>
             
         @empty
