@@ -29,9 +29,7 @@
 
                     {{ $categoria->name }}
                 </h3>
-
-                <p>
-                    {{ substr($categoria->desc, 0, 75) }}
+                <p>{{ substr($categoria->desc, 0, 75) }}</p>
                 </p>
             </div>
         </a>
@@ -41,5 +39,7 @@
         @endforelse
         
     </div>
+    {{-- Link de páginas de categorias --}}
+    {{ $categorias->links() }}
 </section>
 @endsection

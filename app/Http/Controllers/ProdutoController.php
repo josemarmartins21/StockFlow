@@ -43,7 +43,7 @@ class ProdutoController extends Controller
         try {
             $categorias = $this->categoria->all('id', 'name');
             
-            return view('produtos.create', ['categorias' => $categorias]);
+            return view('produtos.create', compact('categorias'));
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->withInput()->with('erro', $e->getMessage());
         } catch (Exception $e) {

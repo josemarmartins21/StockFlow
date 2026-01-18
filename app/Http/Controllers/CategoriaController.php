@@ -21,9 +21,9 @@ class CategoriaController extends Controller
         // Busca todas as categorias.
         $categorias = Categoria::select('id','name', 'image', 'desc')
         ->orderBy('name')
-        ->get();
+        ->paginate(9);
   
-        return view('categorias.index', ['categorias' => $categorias,/* 'total_categoria' => $categorias->produtos->count() */]);
+        return view('categorias.index', compact('categorias'));
         
     }
 
