@@ -44,8 +44,8 @@
                         <a href="{{ route('produto.pdf.downlod') }}" class="baixar-pdf">Baixar Pdf <i class="fa-solid fa-download"></i></a>
                     </div>
 
-                    <form action="" method="get">
-                        <input type="search" name="busca" id="busca" placeholder="Busque por um produto">
+                    <form action="{{ route('home') }}" method="get">
+                        <input type="search" name="busca" id="busca" placeholder="Busque por um produto" autofocus>
                     </form>
                 </div>
                 <table>

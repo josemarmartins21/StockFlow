@@ -34,10 +34,14 @@ class VendaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(HttpRequest $request)
     {
+    
         try {
 
+        $houvePesquisa = false;
+
+        if (! $request->busca) {
             // Buscar todas as vendas já realizadas
             $vendas = DB::table('produtos')
             ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
@@ -48,10 +52,26 @@ class VendaController extends Controller
             ->orderBy('vendas.created_at', 'desc')
             ->paginate(3);
 
-            $produtos = Produto::select('id','name')->orderBy('name')->get();
+        } else {
+            // Buscar todas as vendas já realizadas
+            $vendas = DB::table('produtos')
+            ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
+            ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
+            ->join('users', 'users.id', '=', 'vendas.user_id')
+            ->select('vendas.id as venda_id', 'produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario', 'produtos.id as produto_id')
+            ->where('produtos.name', 'like', '%' . $request->busca .'%')
+            ->orderBy('vendas.created_at', 'desc')
+            ->get();
+
+            $houvePesquisa = true;
+        }
+
+        $somatorioVendas = $this->somatorioVendas($vendas);
+
+        $produtos = Produto::select('id','name')->orderBy('name')->get();
             
             // Formulário de vendas 
-            return view('vendas.create', compact('vendas', 'produtos'));
+            return view('vendas.create', compact('vendas', 'produtos', 'houvePesquisa', 'somatorioVendas'));
         } catch (ModelNotFoundException $e) {
            return redirect()->back()->withInput()->with('erro', $e->getMessage());
         } catch (Exception $e) {
@@ -143,5 +163,14 @@ class VendaController extends Controller
             throw new Exception("A quantidade de produto que sobrou tem que ser menor ou igual a quantidade que há no estoque actual");
         }
        
+    }
+
+    private function somatorioVendas($vendas = []): int {
+        $somatorioVendas = 0;
+        foreach ($vendas as $venda) {
+            $somatorioVendas += $venda->quantidade_vendida * $venda->preco;
+        }
+
+        return $somatorioVendas;
     }
 }

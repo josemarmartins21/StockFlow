@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/login.css')}}">
 </head>
 <body>
+<x-alert />
     <main>
         <div id="info">
             <h1>Inicia sessão na sua conta</h1>
@@ -19,12 +20,12 @@
                 @csrf
 
                 <div class="form-group">
-                    <label for="">Email</label>
+                    <label for="email">Email</label>
                     <input type="email" name="email" id="email" value="{{ old('email', 'josemar21@outlook.pt') }}">
                 </div>
 
                 <div class="form-group">
-                    <label for="passwrod">Senha</label>
+                    <label for="password">Senha</label>
                     <input type="password" name="password" id="password" value="{{ old('password', 'josemar1234') }}">
                 </div>
 

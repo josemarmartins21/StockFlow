@@ -23,10 +23,9 @@
                 <nav>
                     <ul>
                         <li><a href="{{ route('home') }}"> Home <i class="fa-solid fa-house"></i></a></li>
-                        <li><a href="#">Dashboard <i class="fa-solid fa-grip"></i></a></li>
-                        <li><a href="{{ route('produtos.create') }}"> Adicionar produtos <i class="fa-solid fa-wine-bottle"></i></i></a></li>
+                        <li><a href="{{ route('pages.dashboard') }}">Dashboard <i class="fa-solid fa-grip"></i></a></li>
+                        <li><a href="{{ route('produtos.create') }}"> Adicionar produtos <i class="fa-solid fa-plus"></i></i></i></a></li>
                         <li><a href="{{ route('categorias.index') }}">categorias <i class="fa-solid fa-table-cells"></i> </a></li>
-                        <li><a href="#">Ver produtos em falta <i class="fa-brands fa-product-hunt"></i></a></li>
                         <li><a href="{{ route('vendas.create') }}">Gerenciar vendas <i class="fa-solid fa-arrow-trend-up"></i></i></a></li>
                         <li><a href="#">Definições <i class="fa-solid fa-gear"></i> </a></li>
                     </ul>
@@ -51,7 +50,5 @@
         </main>
         {{-- Estilos do JavaScript --}}
         <script src="{{ asset('assets/js/script.js') }}"></script>
-
-
     </body>
 </html>

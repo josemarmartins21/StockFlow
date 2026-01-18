@@ -10,6 +10,7 @@ class AuthController extends Controller
     // Metódo de login
     public function logar(AuthRequest $request)
     {
+        $request->validated();
         // dd(password_hash('josemar@2005', PASSWORD_DEFAULT)); 
         $credencials = [
             'email' => $request->email,

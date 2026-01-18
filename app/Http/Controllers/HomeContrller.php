@@ -19,14 +19,25 @@ class HomeContrller extends Controller
      */
     public function __invoke(Request $request)
     {   try {
-            
-            // Busca o todos os produtos e as categorias de cada produto registrados BD.
-            $produtos = DB::table('estoques')
-            ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
-            ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
-            ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'estoques.total_stock_value', 'produtos.price', 'produtos.id')->orderBy('estoques.updated_at', 'asc')
-            ->orderBy('produtos.name')
-            ->paginate(5);
+            if (!$request->busca) {
+                // Busca o todos os produtos e as categorias de cada produto registrados BD.
+                $produtos = DB::table('estoques')
+                ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
+                ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
+                ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'estoques.total_stock_value', 'produtos.price', 'produtos.id')
+                ->orderBy('produtos.name')
+                ->paginate(5);
+
+            } else {
+                $produtos = DB::table('estoques')
+                ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
+                ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
+                ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'estoques.total_stock_value', 'produtos.price', 'produtos.id')
+                ->where('produtos.name', 'like', "%" . $request->busca . "%")
+                ->orderBy('produtos.name')
+                ->paginate(5);
+                
+            }
 
             $user = User::where('id', Auth::user()->id)->select('name')->get();
             session()->put('usuario', $user[0]->name);

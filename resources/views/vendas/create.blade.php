@@ -13,7 +13,7 @@
                         <a href="{{ route('venda.pdf.stream') }}" class="ver-pdf">Ver Pdf <i class="fa-solid fa-file-pdf"></i></a>
                     </div>
 
-                    <form action="" method="get">
+                    <form action="{{ route('vendas.create') }}" method="get">
                         <input type="search" name="busca" id="busca" placeholder="Busque por um venda">
                     </form>
                 </div>
@@ -55,9 +55,22 @@
                             </tr>
                         @endforeach
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="5" style="text-align: left">Valor Total das Vendas</th>
+
+                            <td>
+                                {{ number_format($somatorioVendas, 2, ',', '.') }}Kz
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
+
+
               
-                   {{ $vendas->links() }}
+                @if (! $houvePesquisa)
+                    {{ $vendas->links() }}
+                @endif
 
             </div> {{-- Fim da tabela de vendas --}}
       <section id="vendas-container">
