@@ -11,29 +11,33 @@
                 <h2>Relatório de Vendas</h2>
                 <p>Lorem ipsum dolor sit amet consectetur.</p>
             </div>
-            
             {{-- Cabeçalho direita --}}
             <div class="header-right">
                 <div class="table-controller">
                     {{-- Select de Periodos de Vendas --}}
                     <div class="select-periodo-dashboard">
-                        <select name="" id="">
-                            <option value="" selected>Selecione o Periódo</option>
-                            <option value="hoje">Hoje</option>
-                            <option value="semana">Última Semana</option>
-                            <option value="ultimo_mes">Último Mês</option>
-                            <option value="ultimo_mes">Último Trimestre</option>
-                            <option value="ultimo_ano">Último Ano</option>
-                        </select>
+                        <form action="{{ route('pages.dashboard') }}" method="GET">
+                            @csrf
+
+                            {{-- Seletor de Periodos --}}
+                            <select name="periodo" id="periodo">
+                                <option value="" selected>Selecione o Periódo</option>
+                                <option value="{{ date('d') }}">Hoje</option>
+                                <option value="semana">Última Semana</option>
+                                <option value="ultimo_mes">Último Mês</option>
+                                <option value="ultimo_mes">Último Trimestre</option>
+                                <option value="ultimo_ano">Último Ano</option>
+                            </select>
+                            
+                            {{-- Botão de Aplicar a Seleção --}}
+                            <button id="btn-generate-relatorios" type="submit">
+                                Atualizar
+                            </button>
+                        </form>
                     </div>
-            
-                    {{-- Ações de gerar Relatórios  --}}
-                    <form action="" method="post">
-                        <button id="btn-generate-relatorios" type="submit">
-                            Atualizar
-                        </button>
-                    </form>
-            
+                    
+                    
+                    {{-- Ação de gerar Relatórios  --}}
                     <form action="" method="post">
                         <button id="btn-export-relatorios" type="submit">
                             Exportar
@@ -47,30 +51,23 @@
         <div class="grid-metrica">
             {{-- Card de Relatório --}}
             <div class="metrica-card">
-                <h3>10</h3>
+                <h3>{{ $querys['totalVendasDia'] }}</h3>
 
-                <p>Lorem ipsum</p>
+                <p>Último Total de Vendas</p>
             </div> {{-- Fim do Card de Relatório --}}
             
             {{-- Card de Relatório --}}
             <div class="metrica-card">
-                <h3>10</h3>
+                <h3>{{ $querys['totalVendaProdutoMaisVendido']->quantidade_vendida }}</h3>
 
-                <p>Lorem ipsum</p>
+                <p>Último Produto Mais Vendido <strong>{{ $querys['totalVendaProdutoMaisVendido']->nome }}</strong></p>
             </div> {{-- Fim do Card de Relatório --}}
             
             {{-- Card de Relatório --}}
             <div class="metrica-card">
-                <h3>10</h3>
+                <h3>{{ $querys['totalProdutoVendido'] }}</h3>
 
-                <p>Lorem ipsum</p>
-            </div> {{-- Fim do Card de Relatório --}}
-
-            {{-- Card de Relatório --}}
-            <div class="metrica-card">
-                <h3>10</h3>
-
-                <p>Lorem ipsum</p>
+                <p>Último Total de Produtos Vendidos</p>
             </div> {{-- Fim do Card de Relatório --}}
         </div>
 
@@ -81,45 +78,21 @@
             <div id="resumo-container">
                 {{-- Lista de Produtos Mais Vendidos Por Época --}}
                 <div id="produto-vendido-item">
-                    {{-- Card de Produto Vendido em Detereminado periodo --}}
-                    <div class="produto-info">
-                        <h3>1</h3>
+                    
+                    @forelse ($querys['produtos_mais_vendidos'] as $produto)
+                        {{-- Card de Produto Vendido em Detereminado periodo --}}
+                        <div class="produto-info">
+                            <h3>{{ $loop->index + 1 }}</h3>
 
-                        <div class="info">
-                            <strong>Cuca</strong>
-                            <small>14 Quantidade</small>
-                        </div>
-                    </div> {{-- Fim Card --}}
-
-                    {{-- Card de Produto Vendido em Detereminado periodo --}}
-                    <div class="produto-info">
-                        <h3>1</h3>
-
-                        <div class="info">
-                            <strong>Cuca</strong>
-                            <small>14 Quantidade</small>
-                        </div>
-                    </div> {{-- Fim Card --}}
-
-                    {{-- Card de Produto Vendido em Detereminado periodo --}}
-                    <div class="produto-info">
-                        <h3>1</h3>
-
-                        <div class="info">
-                            <strong>Cuca</strong>
-                            <small>14 Quantidade</small>
-                        </div>
-                    </div> {{-- Fim Card --}}
-
-                    {{-- Card de Produto Vendido em Detereminado periodo --}}
-                    <div class="produto-info">
-                        <h3>1</h3>
-
-                        <div class="info">
-                            <strong>Cuca</strong>
-                            <small>14 Quantidade</small>
-                        </div>
-                    </div> {{-- Fim Card --}}
+                            <div class="info">
+                                <strong>{{ $produto->nome }}</strong>
+                                <small>{{ $produto->quantidade_vendida }} Quantidade</small>
+                            </div>
+                        </div> {{-- Fim Card --}}
+                        
+                    @empty
+                        <h2>Nenhum Registro Encontrado</h2>
+                    @endforelse
                 </div>
 
                 {{-- Vendas Por Categorias --}}
@@ -128,65 +101,26 @@
 
                     {{-- Container Venda --}}
                     <div class="lista-categorias-vendas">
-                        {{-- Card de Produto Vendido Por Categoria --}}
-                        <div class="categoria-venda-item">
-                            <div class="categoria-info">
-                                <strong>Cerveja</strong>
-                                <small>KZ 350.00</small>
-                            </div>
+                        @forelse ($querys['categorias_mais_vendidas'] as $categoria)
+                            {{-- Card de Produto Vendido Por Categoria --}}
+                            <div class="categoria-venda-item">
+                                <div class="categoria-info">
+                                    <strong>{{ $categoria->nome }}</strong>
+                                    @if ($categoria->valor_total > 10000)
+                                        <small style="color: green">KZ {{ number_format($categoria->valor_total, 2, ',', '.') }}</small>    
 
-                            <div class="categoria-porcentagem">
-                                <span>23%</span>
-                            </div>
-                        </div> {{-- Fim Card --}}
+                                    @else
+                                        <small style="color: red">KZ {{ number_format($categoria->valor_total, 2, ',', '.') }}</small>
+                                    @endif
+                                </div>
 
-                        {{-- Card de Produto Vendido Por Categoria --}}
-                        <div class="categoria-venda-item">
-                            <div class="categoria-info">
-                                <strong>Cerveja</strong>
-                                <small>KZ 350.00</small>
-                            </div>
-
-                            <div class="categoria-porcentagem">
-                                <span>23%</span>
-                            </div>
-                        </div> {{-- Fim Card --}}
-                        
-                        {{-- Card de Produto Vendido Por Categoria --}}
-                        <div class="categoria-venda-item">
-                            <div class="categoria-info">
-                                <strong>Cerveja</strong>
-                                <small>KZ 350.00</small>
-                            </div>
-
-                            <div class="categoria-porcentagem">
-                                <span>23%</span>
-                            </div>
-                        </div> {{-- Fim Card --}}
-                        
-                        {{-- Card de Produto Vendido Por Categoria --}}
-                        <div class="categoria-venda-item">
-                            <div class="categoria-info">
-                                <strong>Cerveja</strong>
-                                <small>KZ 350.00</small>
-                            </div>
-
-                            <div class="categoria-porcentagem">
-                                <span>23%</span>
-                            </div>
-                        </div> {{-- Fim Card --}}
-
-                        {{-- Card de Produto Vendido Por Categoria --}}
-                        <div class="categoria-venda-item">
-                            <div class="categoria-info">
-                                <strong>Cerveja</strong>
-                                <small>KZ 350.00</small>
-                            </div>
-
-                            <div class="categoria-porcentagem">
-                                <span>23%</span>
-                            </div>
-                        </div> {{-- Fim Card --}}
+                                <div class="categoria-porcentagem">
+                                    <span>23%</span>
+                                </div>
+                            </div> {{-- Fim Card --}}
+                        @empty
+                            
+                        @endforelse
                     </div>
                 </div>
             </div>

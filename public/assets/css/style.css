@@ -847,7 +847,7 @@ div.table-controller {
 
 div.grid-metrica {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
@@ -867,10 +867,6 @@ div.grid-metrica {
         font-size: 14px;
     }
 }
-
-/* #grafico-dashboard {
-    dis
-} */
 
 #resumo-container {
     display: grid;
@@ -904,6 +900,22 @@ div.grid-metrica {
         text-align: left;
         .categoria-info {
             text-align: center;
+        }
+    }
+}
+
+/** TABELA DE VENDA POR PERIODO */
+
+#tabela-conatainer-c {
+    padding-top: 20px;
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        th, td {
+            border: 1px solid black;
+            text-align: center;
+            padding: 5px;
         }
     }
 }
