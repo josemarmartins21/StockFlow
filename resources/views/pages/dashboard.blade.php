@@ -30,18 +30,13 @@
                             
                             {{-- Botão de Aplicar a Seleção --}}
                             <button id="btn-generate-relatorios" type="submit">
-                                Aplicar
+                               Aplicar <i class="fa-solid fa-arrows-rotate"></i> 
                             </button>
+                            <a href="#" class="btn-export-relatorios">
+                                Exportar <i class="fa-solid fa-file-export"></i>
+                            </a>
                         </form>
                     </div>
-                    
-                    
-                    {{-- Ação de gerar Relatórios  --}}
-                    <form action="" method="post">
-                        <button id="btn-export-relatorios" type="submit">
-                            Exportar
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>

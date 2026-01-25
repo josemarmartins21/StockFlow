@@ -905,6 +905,45 @@ div.grid-metrica {
     }
 }
 
+/** Select de Periodos de Vendas **/
+div.select-periodo-dashboard {
+    form {
+        select#periodo {
+            padding: 7px;
+            width: 220px;
+            border-radius: 10px;
+            margin-right: 5px;
+        }
+
+        a, button {
+            width: 100px;
+            color: #fff;
+            text-align: center;
+            width: 125px;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 7px;
+            border-radius: 10px; 
+            font-size: 16px;    
+        }
+        button {
+            background-color: var(--logo-icones-principais-botoes-importantes);
+            border: none;   
+        }
+        button:hover {
+            cursor: pointer;
+        }
+        a {
+            display: inline-block;
+            background-color: green;
+        }
+        a:active, button:active {transform: scale(.98);}
+
+    }
+}
+
+
 /** TABELA DE VENDA POR PERIODO */
 
 #tabela-conatainer-c {
