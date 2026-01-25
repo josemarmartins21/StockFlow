@@ -60,6 +60,7 @@ class VendaController extends Controller
             ->join('users', 'users.id', '=', 'vendas.user_id')
             ->select('vendas.id as venda_id', 'produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida', 'vendas.created_at as dia_venda', 'vendas.stock_value as valor_total_do_estoque', 'produtos.price as preco', 'users.name as nome_funcionario', 'produtos.id as produto_id')
             ->where('produtos.name', 'like', '%' . $request->busca .'%')
+            ->orWhere('vendas.created_at','like', '%' . $request->busca . "%")
             ->orderBy('vendas.created_at', 'desc')
             ->get();
 
@@ -146,7 +147,7 @@ class VendaController extends Controller
 
         $estoque->increment('current_quantity', $quantidadeVendida); /** Incrementar o que havia sido vendido*/
         
-        return redirect()->route('vendas.create')->with('sucesso', 'Produto eliminado com sucesso!');
+        return redirect()->route('vendas.create')->with('sucesso', 'Venda eliminada com sucesso!');
     }
 
     /**

@@ -14,7 +14,7 @@
                     </div>
 
                     <form action="{{ route('vendas.create') }}" method="get">
-                        <input type="search" name="busca" id="busca" placeholder="Busque por um venda">
+                        <input type="search" name="busca" id="busca" placeholder="Busque por nome, ano, mês e dia" autofocus>
                     </form>
                 </div>
                 <table>

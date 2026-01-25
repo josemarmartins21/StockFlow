@@ -30,7 +30,7 @@ class VendaPdfController extends Controller
     {
         try {
             // Captura o mês e o ano actual
-            $mesAnoActual = Carbon::now()->format('m_Y');
+            $mesAnoActual = Carbon::now()->format('d_m_Y');
 
             $this->pdf = Pdf::loadView('pdf.vendas.vendas', [
                 'vendas' => $this->getDados(), 

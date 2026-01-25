@@ -9,7 +9,7 @@
             {{-- Cabeçalho esquerda --}}
             <div class="header-left">
                 <h2>Relatório de Vendas</h2>
-                <p>Lorem ipsum dolor sit amet consectetur.</p>
+                <p>Avalie as suas vendas ao longo do tempo</p>
             </div>
             {{-- Cabeçalho direita --}}
             <div class="header-right">
@@ -22,16 +22,15 @@
                             {{-- Seletor de Periodos --}}
                             <select name="periodo" id="periodo">
                                 <option value="" selected>Selecione o Periódo</option>
-                                <option value="{{ date('d') }}">Hoje</option>
-                                <option value="semana">Última Semana</option>
+                                <option value="hoje">Hoje</option>
+                                <option value="ultima_semana">Última Semana</option>
                                 <option value="ultimo_mes">Último Mês</option>
-                                <option value="ultimo_mes">Último Trimestre</option>
                                 <option value="ultimo_ano">Último Ano</option>
                             </select>
                             
                             {{-- Botão de Aplicar a Seleção --}}
                             <button id="btn-generate-relatorios" type="submit">
-                                Atualizar
+                                Aplicar
                             </button>
                         </form>
                     </div>
@@ -51,29 +50,29 @@
         <div class="grid-metrica">
             {{-- Card de Relatório --}}
             <div class="metrica-card">
-                <h3>{{ $querys['totalVendasDia'] }}</h3>
+                <h3>{{ $querys['totalVendasDia']??0 }}</h3>
 
-                <p>Último Total de Vendas</p>
+                <p>Total de Vendas</p>
             </div> {{-- Fim do Card de Relatório --}}
             
             {{-- Card de Relatório --}}
             <div class="metrica-card">
-                <h3>{{ $querys['totalVendaProdutoMaisVendido']->quantidade_vendida }}</h3>
+                <h3>{{ $querys['totalVendaProdutoMaisVendido']?->quantidade_vendida }}</h3>
 
-                <p>Último Produto Mais Vendido <strong>{{ $querys['totalVendaProdutoMaisVendido']->nome }}</strong></p>
+                <p>Produto Mais Vendido <strong>{{ ucwords($querys['totalVendaProdutoMaisVendido']?->nome) }}</strong></p>
             </div> {{-- Fim do Card de Relatório --}}
             
             {{-- Card de Relatório --}}
             <div class="metrica-card">
-                <h3>{{ $querys['totalProdutoVendido'] }}</h3>
+                <h3>{{ $querys['totalProdutoVendido']??0 }}</h3>
 
-                <p>Último Total de Produtos Vendidos</p>
+                <p>Total de Produtos Vendidos</p>
             </div> {{-- Fim do Card de Relatório --}}
         </div>
 
         {{-- Resumo de Vendas Por Periodo  --}}
         <div id="grafico-dashboard">
-            <h2>Produtos Mais Vendidos</h2>
+            <h2>Produtos Mais Vendidos <span style="text-transform: lowercase">no(a)</span> {{ $periodoEscolhido }}</h2>
 
             <div id="resumo-container">
                 {{-- Lista de Produtos Mais Vendidos Por Época --}}
@@ -82,7 +81,7 @@
                     @forelse ($querys['produtos_mais_vendidos'] as $produto)
                         {{-- Card de Produto Vendido em Detereminado periodo --}}
                         <div class="produto-info">
-                            <h3>{{ $loop->index + 1 }}</h3>
+                            <h3>{{ $loop->index + 1 }}ª</h3>
 
                             <div class="info">
                                 <strong>{{ $produto->nome }}</strong>
@@ -115,7 +114,7 @@
                                 </div>
 
                                 <div class="categoria-porcentagem">
-                                    <span>23%</span>
+                                    <span> {{ number_format(($categoria->valor_total / $querys['valorTotalVendido']) * 100, 0) }}% </span>
                                 </div>
                             </div> {{-- Fim Card --}}
                         @empty
@@ -127,8 +126,8 @@
         </div>
 
         {{-- Tabela de Vendas Por Categoria --}}
-        <div id="tabela-conatainer-c">
-            <h3>{{-- ICONE --}} Histórico Por Vendas</h3>
+        {{--<div id="tabela-conatainer-c">
+            <h3> ICONE Histórico Por Vendas</h3>
             <table>
                 <thead>
                     <tr>
@@ -149,6 +148,6 @@
                     </tr>
                 </tfoot>
             </table>
-        </div>
+        </div>--}} 
     </section>
 @endsection

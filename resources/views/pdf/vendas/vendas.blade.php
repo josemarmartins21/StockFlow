@@ -82,7 +82,7 @@
         <tfoot>
             <tr>
                 <th colspan="2" class="table-foot">Total</th>
-                <td>{{ $total_vendido }}Kz</td>
+                <td>{{ number_format($total_vendido, 2, ',', '.') }}Kz</td>
             </tr>
         </tfoot>
     </table>
