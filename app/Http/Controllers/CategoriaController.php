@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCategoriaRequest;
 use BadMethodCallException;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -16,14 +17,23 @@ class CategoriaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {   
+        $request->validate([
+            'pesquisa' => ['string', 'nullable']
+        ]);
+
+        $houvePesquisa = $request->pesquisa ? true : false;
+        
         // Busca todas as categorias.
-        $categorias = Categoria::select('id','name', 'image', 'desc')
+        $categorias = !$request->pesquisa ? Categoria::select('id','name', 'image', 'desc')
         ->orderBy('name')
-        ->paginate(9);
+        ->paginate(9) : Categoria::select('id','name', 'image', 'desc')
+        ->where('name', 'like', "%" . $request->pesquisa . "%")
+        ->orderBy('name')
+        ->get();
   
-        return view('categorias.index', compact('categorias'));
+        return view('categorias.index', compact('categorias', 'houvePesquisa'));
         
     }
 

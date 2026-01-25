@@ -9,7 +9,7 @@
 
     <h2>Categorias</h2>
     <div id="categorias-menu">
-        <form action="" method="get">
+        <form action="{{ route('categorias.index') }}" method="get">
             <div class="form-search">
                 <input type="search" name="pesquisa" id="pesquisa" placeholder="Busque por uma categoria" class="pesquisa">
             </div>
@@ -39,7 +39,9 @@
         @endforelse
         
     </div>
-    {{-- Link de páginas de categorias --}}
-    {{ $categorias->links() }}
+    @if (! $houvePesquisa)
+        {{-- Link de páginas de categorias --}}
+        {{ $categorias->links() }}
+    @endif
 </section>
 @endsection

@@ -69,7 +69,9 @@
                                 <td> {{ number_format($produto->price * $produto->current_quantity, 2, ',', '.') }}Kz </td> 
                                 <td> 
                                     <a href="{{ route('produtos.show', ['produto' => $produto->id]) }}" class="eye"><i class="fa-solid fa-eye"></i></a>
-
+                                    
+                                    <a href="{{ route('produtos.edit', ['produto' => $produto->id]) }}" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a> 
+                                   
                                     <form action="{{ route('produtos.destroy', ['produto' => $produto->id]) }}" method="POST" id="form-delete">
                                         @csrf
                                         @method("Delete")
@@ -79,7 +81,6 @@
                                         </button>
                                     </form>
 
-                                    <a href="{{ route('produtos.edit', ['produto' => $produto->id]) }}" class="edit"> <i class="fa-solid fa-pen-to-square"></i></a> 
                                 </td>  
                             </tr>
                         @endforeach

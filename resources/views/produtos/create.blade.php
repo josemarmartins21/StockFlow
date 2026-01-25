@@ -63,7 +63,7 @@
                 </div>
             </div> {{-- Estoque actual do pruduto --}}
             <div class="form-submit">
-                <button type="submit">Atualizar</button>
+                <button type="submit">Salvar</button>
             </div>
         </form>
     </div>

@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use App\Http\Requests\StoreProdutoRequest;
 use App\Http\Requests\UpdateProdutoRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ImagemProduto {
     private string $imagemName;
@@ -15,20 +16,20 @@ class ImagemProduto {
     }
 
     /**
-     * Valida a imagem a ser enviada
-     * @param StoreProdutoRequest  UpdateProdutoRequest $request
+     * Valida a imagem a ser salva
+     * @param FormRequest
      * 
      * 
      * @return void
      */
-    public function validate(StoreProdutoRequest | UpdateProdutoRequest $request): void {       
+    public function validate(FormRequest $request): void {  
         if ($request->hasFile(PRODUTO_IMAGEM) AND $request->file(PRODUTO_IMAGEM)->isValid()) {
             $extension = $request->file(PRODUTO_IMAGEM)->extension();
-           
+            
             $newName = md5($request->file(PRODUTO_IMAGEM)->getClientOriginalName() . strtotime("now")) . "." . $extension;
 
             $this->setImageName($newName);
-        }
+        } 
 
     }
 
@@ -46,7 +47,7 @@ class ImagemProduto {
     }
 
     /**
-     * Salva a imagem na diretório correcto
+     * Salva a imagem no diretório correcto
      * @param StoreProdutoRequest $request
      * 
      * @return void

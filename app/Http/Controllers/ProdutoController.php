@@ -85,7 +85,7 @@ class ProdutoController extends Controller
 
         $imagemProduto->save($request); /** Salva a imagem do produto */
 
-        return redirect()->route('home');     
+        return redirect()->route('produtos.show', ['id' => $produto->id]);     
     }
 
     /**
@@ -136,6 +136,7 @@ class ProdutoController extends Controller
                 'produtos.id', 
                 'produtos.price', 
                 'produtos.shpping', 
+                'produtos.image', 
                 'produtos.categoria_id', 
                 'estoques.produto_id',
                 'estoques.current_quantity',
@@ -166,6 +167,7 @@ class ProdutoController extends Controller
     {
         try {
             $request->validated();
+
 
             define('PRODUTO_IMAGEM', 'image');
             $imagemProduto = new ImagemProduto($request);
