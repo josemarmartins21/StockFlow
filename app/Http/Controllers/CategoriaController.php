@@ -67,21 +67,11 @@ class CategoriaController extends Controller
            
         } catch (BadMethodCallException $e) {
             // Retorna uma mensagem explicativa de erro caso a o metódo soclicitado não exista.
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ]);
+            return back()->withInput()->with('erro', $e->getMessage());
         } catch (ModelNotFoundException $e) {
-             // Retorna uma mensagem explicativa de erro caso a o model soclicitado não exista.
-             return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ]);
+             return back()->withInput()->with('erro', $e->getMessage());
         } catch (Exception $e) {
-             return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ]);
+            return back()->withInput()->with('erro', $e->getMessage());
         }
     }
 
@@ -98,7 +88,8 @@ class CategoriaController extends Controller
         ->where('categorias.id', $categoria->id)
         ->orderBy('produtos.name')
         ->get();
-        // Retorna uma categoria pelo model biding
+
+ 
         return view('categorias.show', compact('categoria', 'produtos'));
     }
 
@@ -107,7 +98,7 @@ class CategoriaController extends Controller
      */
     public function edit(Categoria $categoria)
     {
-        //
+        return view('categorias.edit', compact('categoria'));
     }
 
     /**
@@ -116,16 +107,21 @@ class CategoriaController extends Controller
     public function update(UpdateCategoriaRequest $request, Categoria $categoria)
     {
         // Atualizar os dados de uma cetegoria
-        $data = [
-            'name' => $request->name,
-            'status' => $request->status,
-            'image' => $request->image ? $request->image : 'categoria-imagem',
-            'desc' => $request->desc
-        ];
+        try {
+            $data = [
+                'name' => $request->name,
+                'status' => $request->status,
+                'image' => $request->image ? $request->image : 'categoria-imagem',
+                'desc' => $request->desc
+            ];
+    
+            $categoria->update($data);
+    
+            return redirect()->route('categorias.show', ['categoria' => $categoria->id])->with('sucesso', 'Categoria atualizada com sucesso!');
 
-        $categoria->update($data);
-
-
+        } catch (Exception $e) {
+            return back()->withInput()->with('erro', $e->getMessage());
+        }
     }
 
     /**
@@ -134,5 +130,7 @@ class CategoriaController extends Controller
     public function destroy(Categoria $categoria)
     {
         $categoria->delete();
+
+        return redirect('/categorias')->with('sucesso', "Categoria excluida com sucesso");
     }
 }

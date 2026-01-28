@@ -501,16 +501,27 @@ tfoot > tr td {
         .categoria {
             background-color: #fff;
             flex: 0 1 31.3333%;
+
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: space-between;
             padding: 10px 10px 5px 10px;
             border-radius: 10px;
             box-shadow: var(--card-sombras);
             text-decoration: none;
             color: black;
-            height: 155px;
+            height: 180px;
             transition: box-shadow .4s;
             transition-timing-function: ease;
+            div#acoes-title {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                button.btn-delete-ver-mais {padding: 7.4px;}
+            }
             .categoria-info {
                 padding: 20px 0;
+                /* border: 2px solid red; */
                 .categoria-icon {
                     background-color: var(--logo-icones-principais-botoes-importantes);
                     color: #fff;
@@ -530,10 +541,22 @@ tfoot > tr td {
             .categoria-details {
                 padding: 5px 0;
             }
+            a.ver-mais {
+                background-color: var(--logo-icones-principais-botoes-importantes);
+                font-weight: bold;
+                text-align: center;
+                width: 90%;
+                display: block;
+                color: #ffff;
+                margin: auto;
+                padding: 5px 10px;
+                border-radius: 8px;
+                text-decoration: none;
+            }
         }
-        .categoria:active {transform: scale(.98);}
+        a.ver-mais:active {transform: scale(.98);}
         /* .categoria:hover {box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.151);} */
-        .categoria:hover {box-shadow: 0px 7px 10px rgba(0, 0, 0, 0.1);}
+        /* .categoria:hover {transform: translateY(-15px);} */
     }
 }
 
