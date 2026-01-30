@@ -21,12 +21,12 @@
 
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" name="email" id="email" value="{{ old('email', 'josemar21@outlook.pt') }}">
+                    <input type="email" name="email" id="email" value="{{ old('email') }}">
                 </div>
 
                 <div class="form-group">
                     <label for="password">Senha</label>
-                    <input type="password" name="password" id="password" value="{{ old('password', 'josemar1234') }}">
+                    <input type="password" name="password" id="password" value="{{ old('password') }}">
                 </div>
 
                 <div class="keep-container">

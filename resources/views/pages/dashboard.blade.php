@@ -74,7 +74,7 @@
                 <div id="produto-vendido-item">
                     
                     @forelse ($querys['produtos_mais_vendidos'] as $produto)
-                        {{-- Card de Produto Vendido em Detereminado periodo --}}
+                        {{-- Card de Produto Vendido em Determinado periodo --}}
                         <div class="produto-info">
                             <h3>{{ $loop->index + 1 }}ª</h3>
 
@@ -119,30 +119,5 @@
                 </div>
             </div>
         </div>
-
-        {{-- Tabela de Vendas Por Categoria --}}
-        {{--<div id="tabela-conatainer-c">
-            <h3> ICONE Histórico Por Vendas</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Periodo</th>
-                        <th>Total de Vendas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Janeiro</td>
-                        <td>5.000,00KZ</td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Valor Total</th>
-                        <td>5.000,00KZ</td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>--}} 
     </section>
 @endsection

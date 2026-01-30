@@ -416,15 +416,15 @@ header {
             }
         }
     }
-    nav {
+/*     nav {
         div:last-child {
             span {
                 svg {
-                    display: none;
+                    display: non;
                 }
             }
         }
-    }
+    } */
 }
 
 tfoot > tr td, tfoot > tr th {

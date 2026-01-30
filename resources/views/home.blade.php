@@ -3,35 +3,46 @@
 @section('boasvindas')
     <h1 id="nome-hora">Olá, <span id="nome-hora"></span></h1>   
 @endsection
-@section('pesquisa')
-<div id="form-search">
-        <form action="" method="get">
-            <input type="search" name="" id="" placeholder="Pesquise qualquer coisa..">
-            <a href="#"><i class="fa-solid fa-magnifying-glass"></i></a>
-        </form>
-    </div>
-@endsection
 @section('content')
 {{-- Componet de mensagens de erro e sucesso --}}
 <x-alert />
      <div id="relatorios-container">
                 <div class="relatorio">
                     <div class="info-container">
-                        <span>Produto com menor estoque</span>
-                        <h3>{{ ucfirst($menor_estoque->nome_produto) }} <span style="color: red"> {{ $menor_estoque->quantidade }}  </span></h3>
+                        @isset($menor_estoque->nome_produto)
+                            <span>Menor quantidade {{ ucwords($menor_estoque->nome_produto) }}</span> <br>
+                            <h3>
+                                <span style="color: red">{{ $menor_estoque->quantidade }}</span>
+                            </h3>
+                        @endisset
                     </div>
                 </div>
                 <div class="relatorio">
                     <div class="info-container">
-                        <span>Estoque actual</span>
-                        <h3>{{ $total_em_estoque }}</h3>
+                        
+                        <span>Estoque actual</span> <br>
+                        <h3>
+                            {{ $total_em_estoque }}
+                        </h3>
                     </div>
                 </div>
 
                 <div class="relatorio">
                     <div class="info-container">
-                        <span>Maior valor de estoque <span>{{ ucwords($maior_valor_estoque->nome) }}</span></span>
-                        <h3 style="color: green;">{{ number_format($maior_valor_estoque->maximo_valor_estoque, 2, ',', '.')  }}</h3>
+                        @empty($maior_valor_estoque->nome)
+                            <span>
+                                Maior valor de estoque 
+                            </span>
+                        @endempty
+
+                        @isset($maior_valor_estoque->maximo_valor_estoque)
+                        <span>
+                           Maior Valor {{ ucwords($maior_valor_estoque->nome) }}
+                        </span> <br>
+                        <h3>
+                            <span  style="color: green;">{{ number_format($maior_valor_estoque->maximo_valor_estoque, 2, ',', '.')  }}Kz</span>
+                        </h3>
+                        @endisset
                     </div>
                 </div>
             </div> {{-- Fim dos relatórios --}}

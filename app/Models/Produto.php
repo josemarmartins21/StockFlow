@@ -17,6 +17,7 @@ class Produto extends Model
         "categoria_id", 
         "shpping", 
         "image",
+        'user_id',
     ];
     
     protected $guarded = [];

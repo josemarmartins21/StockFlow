@@ -25,6 +25,7 @@ class HomeContrller extends Controller
                 ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
                 ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
                 ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'estoques.total_stock_value', 'produtos.price', 'produtos.id')
+                ->where('produtos.user_id', Auth::user()->id)
                 ->orderBy('produtos.name')
                 ->paginate(5);
 
@@ -33,6 +34,7 @@ class HomeContrller extends Controller
                 ->join('produtos', 'produtos.id','=', 'estoques.produto_id')
                 ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
                 ->select('produtos.name as nome_produto', 'estoques.current_quantity', 'estoques.total_stock_value', 'produtos.price', 'produtos.id')
+                ->where('produtos.user_id', Auth::user()->id)
                 ->where('produtos.name', 'like', "%" . $request->busca . "%")
                 ->orderBy('produtos.name')
                 ->paginate(5);
@@ -42,28 +44,32 @@ class HomeContrller extends Controller
             $user = User::where('id', Auth::user()->id)->select('name')->get();
             session()->put('usuario', $user[0]->name);
 
-          
+            $total_em_estoque = DB::table('estoques')
+                                ->join('produtos', 'produtos.id', '=', 'estoques.produto_id')
+                                ->join('users', 'users.id', '=', 'produtos.user_id')
+                                ->selectRaw('sum(estoques.current_quantity) as total_em_estoque')
+                                ->where('users.id', Auth::user()->id)
+                                ->get();
             return view('home', [
                 'produtos' => $produtos,
                 'menor_estoque' => Estoque::menorEstoque(),
                 'maior_valor_estoque' => Estoque::maiorValorEstoque(),
-                'total_em_estoque' => Estoque::sum('current_quantity'),
+                'total_em_estoque' => $total_em_estoque[0]->total_em_estoque??0,
                 'total_valor_estoque' => Estoque::totValEstoque(),
             ]);
             
         } catch(ModelNotFoundException $e) {
+            dd($e->getMessage());
             // Retorna uma mensagem explicativa de erro caso a o model soclicitado não exista.
             return back()->with('erro', $e->getMessage());
 
         } catch (BadMethodCallException $e) {
-            // Retorna uma mensagem explicativa de erro caso a o metódo soclicitado não exista.
             dd($e->getMessage());
+            // Retorna uma mensagem explicativa de erro caso a o metódo soclicitado não exista.
             return back()->with('erro', $e->getMessage());
         } catch (Exception $e) {
-            return response()->json([
-                'status' => false,
-                'message' => $e->getMessage(),
-            ]);
+            dd($e->getMessage());
+            return back()->with('erro', $e->getMessage());
         }
     
     }

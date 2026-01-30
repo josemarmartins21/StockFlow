@@ -13,6 +13,7 @@ use BadMethodCallException;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProdutoController extends Controller
@@ -41,7 +42,7 @@ class ProdutoController extends Controller
     public function create()
     {
         try {
-            $categorias = $this->categoria->all('id', 'name');
+            $categorias = $this->categoria->select('id', 'name')->where('user_id', Auth::user()->id)->get();
             
             return view('produtos.create', compact('categorias'));
         } catch (ModelNotFoundException $e) {
@@ -70,6 +71,7 @@ class ProdutoController extends Controller
             "price" => $request->price,
             "shpping" => $request->shipping,
             "image" => $imagemProduto->getName(),
+            'user_id' => Auth::user()->id,
             "categoria_id" => $request->categoria_id  
         ]);
 
@@ -109,10 +111,11 @@ class ProdutoController extends Controller
                 'estoques.maximum_quantity as estoque_maximo', 
                 'estoques.total_stock_value as valor_estoque'
             )->where('produtos.id', $produto->id)
+            ->where('produtos.user_id', Auth::user()->id)
             ->first();
 
 
-            return view('produtos.show', /* compact('artigo') */ ['artigo' => $artigo]);
+            return view('produtos.show', ['artigo' => $artigo]);
 
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->with('erro', $e->getMessage());
@@ -130,6 +133,7 @@ class ProdutoController extends Controller
             ->join('estoques', 'produtos.id', '=', 'estoques.produto_id')
             ->join('categorias', 'produtos.categoria_id', '=', 'categorias.id')
             ->where('produtos.id', $produto->id)
+            ->where('produtos.user_id', Auth::user()->id,)
             ->first([
                 'produtos.name', 
                 'produtos.image', 
@@ -146,10 +150,12 @@ class ProdutoController extends Controller
             ]);
             
             // Busca as outras categorias disponíveis
-            $categorias = Categoria::select('name', 'id')->where('id', '<>', $produto->categoria_id)->get();
+            $categorias = Categoria::select('name', 'id')->where('id', '<>', $produto->categoria_id)->where('user_id', Auth::user()->id)->get();
 
             // Busca a categoria do produto a ser actualizado
-            $categoria_do_produto = Categoria::where('id', $produto->categoria_id)->first(['name', 'id']);
+            $categoria_do_produto = Categoria::where('id', $produto->categoria_id)
+            ->where('user_id', Auth::user()->id)
+            ->first(['name', 'id']);
             
             return view('produtos.edit', 
             compact('produto', 'categorias', 'categoria_do_produto'));

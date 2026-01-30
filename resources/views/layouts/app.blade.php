@@ -10,13 +10,13 @@
 
         <!-- Font Awesome - Icones -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        
+
         <!-- Sweet Alert via Vite -->
         @vite(['resources/js/app.js'])
   
     </head>
     <body onload="comprimentar('{{ session('usuario') }}')">
-        <main> <!-- Secção main que engloba todo os HTML do site -->
+        <main> <!-- Secção main que engloba todos os HTML do site -->
             <section id="sidebar">
                 <h1>StockFlow</h1>
     

@@ -27,8 +27,10 @@ class CategoriaController extends Controller
         
         // Busca todas as categorias.
         $categorias = !$request->pesquisa ? Categoria::select('id','name', 'image', 'desc')
+        ->where('user_id', Auth::user()->id)
         ->orderBy('name')
         ->paginate(9) : Categoria::select('id','name', 'image', 'desc')
+        ->where('user_id', Auth::user()->id)
         ->where('name', 'like', "%" . $request->pesquisa . "%")
         ->orderBy('name')
         ->get();
@@ -83,8 +85,10 @@ class CategoriaController extends Controller
 
         $produtos = DB::table('categorias')
         ->join('produtos', 'categorias.id', '=', 'produtos.categoria_id')
+        ->join('users', 'users.id', '=', 'produtos.user_id')
         ->join('estoques', 'estoques.produto_id', '=', 'produtos.id')
         ->select('produtos.name as nome', 'estoques.current_quantity as quantidade', 'produtos.price as preco', 'produtos.id as produto_id', 'produtos.image as imagem', 'estoques.minimum_quantity as estoque_minimo', 'estoques.maximum_quantity as estoque_maximo')
+        ->where('users.id', Auth::user()->id)
         ->where('categorias.id', $categoria->id)
         ->orderBy('produtos.name')
         ->get();

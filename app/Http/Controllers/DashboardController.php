@@ -37,6 +37,7 @@ class DashboardController extends Controller
             return view('pages.dashboard', compact('querys', 'periodoEscolhido'));
             
         } catch (\Exception $e) {
+            dd($e->getMessage());
            return redirect()->back()->with('erro', $e->getMessage());
            
         }
