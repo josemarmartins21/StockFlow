@@ -31,13 +31,13 @@
                     <div class="info-container">
                         @empty($maior_valor_estoque->nome)
                             <span>
-                                Maior valor de estoque 
+                                Maior Activo
                             </span>
                         @endempty
 
                         @isset($maior_valor_estoque->maximo_valor_estoque)
                         <span>
-                           Maior Valor {{ ucwords($maior_valor_estoque->nome) }}
+                           Maior Activo {{ ucwords($maior_valor_estoque->nome) }}
                         </span> <br>
                         <h3>
                             <span  style="color: green;">{{ number_format($maior_valor_estoque->maximo_valor_estoque, 2, ',', '.')  }}Kz</span>

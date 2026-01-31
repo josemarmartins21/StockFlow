@@ -68,6 +68,14 @@ a.baixar-pdf, a.edit {
     background-color: green;
 }
 
+/* componets */ 
+#warning-input {
+    padding: 10px 0;
+    color: #00000097;
+    font-size: 14px;
+}
+
+
 /* Mensagens de erro e sucesso */
 
 p.erro {
@@ -416,15 +424,15 @@ header {
             }
         }
     }
-/*     nav {
+    nav {
         div:last-child {
             span {
                 svg {
-                    display: non;
+                    display: none;
                 }
             }
         }
-    } */
+    }
 }
 
 tfoot > tr td, tfoot > tr th {
@@ -545,7 +553,7 @@ tfoot > tr td {
                 background-color: var(--logo-icones-principais-botoes-importantes);
                 font-weight: bold;
                 text-align: center;
-                width: 90%;
+                width: 100%;
                 display: block;
                 color: #ffff;
                 margin: auto;
@@ -555,7 +563,7 @@ tfoot > tr td {
             }
         }
         a.ver-mais:active {transform: scale(.98);}
-        /* .categoria:hover {box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.151);} */
+        .categoria:hover {box-shadow: 1px 4px 12px rgba(0, 0, 0, 0.284);}
         /* .categoria:hover {transform: translateY(-15px);} */
     }
 }

@@ -75,6 +75,7 @@
             </div> {{-- Fim da tabela de vendas --}}
       <section id="vendas-container">
         <h1>Registre as vendas de hoje</h1>
+        <x-warning-input />
           <div id="form-conatiner">
             <form action="{{ route('vendas.store') }}" method="post" enctype="multipart/form-data">
                 @csrf

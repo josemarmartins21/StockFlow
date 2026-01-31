@@ -5,7 +5,7 @@
 @section('content')
     <section id="venda-show" class="">
         <div class="venda-container-imagem">
-            <img src="{{ asset('assets/imagens/estoques/' . $venda->image ?? 'not-found.png') }}" alt="{{ $produto->name }}" title="Imagem da quantidade restante de {{ $produto->name }}">  
+            <img src="{{ asset('assets/imagens/estoques/' . $venda->image) }}" alt="{{ $produto->name }}" title="Imagem da quantidade restante de {{ $produto->name }}">  
         </div>
 
         <div class="info-cotainer">

@@ -41,8 +41,9 @@ class HomeContrller extends Controller
                 
             }
 
-            $user = User::where('id', Auth::user()->id)->select('name')->get();
-            session()->put('usuario', $user[0]->name);
+            $user = User::select('name')->where('id', Auth::user()->id)->first();
+
+            session()->put('usuario', $user->name);
 
             $total_em_estoque = DB::table('estoques')
                                 ->join('produtos', 'produtos.id', '=', 'estoques.produto_id')

@@ -111,7 +111,7 @@ class VendaController extends Controller
                 'produto_id' => $request->produto_id,
                 'stock_value' => $request->quanto_sobrou * $produto->price,
                 'user_id' => Auth::user()->id,
-                'image' => $imagem->getName(),
+                'image' => $imagem->getName() ? $imagem->getName() : 'not-found.png',
             ]);
 
             if (!empty($imagem->getName())) {

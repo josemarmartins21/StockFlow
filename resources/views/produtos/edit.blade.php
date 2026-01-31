@@ -6,7 +6,7 @@
 <section id="create-container">
     <x-alert />
     <h1>{{ ucwords($produto->name) }}</h1>
-
+    <x-warning-input />
     <div id="form-conatiner">
         <form action="{{ route('produtos.update', ['produto' => $produto->id]) }}" method="post" enctype="multipart/form-data">
             @csrf

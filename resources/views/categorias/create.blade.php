@@ -6,6 +6,7 @@
 <section id="categorias-create">
     <x-alert />
     <h2>Nova categoria</h2>
+    <x-warning-input />
 
     <form action="{{ route('categorias.store') }}" method="post" enctype="multipart/form-data">
         @csrf

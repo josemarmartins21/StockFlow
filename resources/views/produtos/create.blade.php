@@ -6,6 +6,7 @@
 <section id="create-container">
     <x-alert />
     <h1>Cadastrar produto</h1>
+    <x-warning-input />
 
     <div id="form-conatiner">
         <form action="{{ route('produtos.store') }}" method="post" enctype="multipart/form-data">
@@ -23,7 +24,7 @@
                 </div>
 
                 <div class="form-group" id="frete-container">
-                    <label for="shipping">Frete</label>
+                    <label for="shippng">Frete</label>
                     <input type="number" name="shipping" id="shippng" placeholder="Valor do frete *" min="50" value="{{ old('shipping') }}">
                 </div>
                 <div class="form-group" id="image-container-prod">
