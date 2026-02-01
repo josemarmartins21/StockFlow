@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 use Symfony\Component\HttpFoundation\Request;
 use App\Helpers\ImagemVenda;
+use App\parttens\observer\vendas\VendaFaturaObserver;
+use App\parttens\observer\vendas\VendaObservable;
 
 class VendaController extends Controller
 {
@@ -91,12 +93,56 @@ class VendaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVendaRequest $request)
+    public function store()
     {
         try {
-            $request->validated();
-            define('IMAGE', 'image');
-            $imagem = new ImagemVenda($request, IMAGE);
+
+            $observable = new VendaObservable($this->vendas->count()); /** Captura do número actual de vendas */
+            $vendasId = [];
+            /* define('IMAGE', 'image'); */
+            foreach (session()->get('vendas') as $venda) {
+               // $imagem = new ImagemVenda($venda['image'], IMAGE);
+                $produto = Produto::findOrFail($venda['produto_id']); // Buscar produto o vendido 
+                $estoque = $produto->estoque->toArray();
+
+                // Verificar se a quantidade de produto vendida é maior que a quantidade do estoque.
+                $this->validarQuantidadeVendida($venda, $estoque["current_quantity"]);
+
+                $vendaSalva = $this->vendas->create([
+                    "quantity_sold"  =>  $estoque["current_quantity"] - $venda['quanto_sobrou'],
+                    "note" => $venda['note'],
+                    'produto_id' => $venda['produto_id'],
+                    'stock_value' => $venda['quanto_sobrou'] * $produto->price,
+                    'user_id' => Auth::user()->id,
+                    'image' => 'not-found.png',
+                ]);
+
+                $vendasId[] = $vendaSalva->id;
+
+                Produto::findOrFail($venda['produto_id'])->estoque->decrement('current_quantity', $vendaSalva->quantity_sold);
+
+                Produto::findOrFail($venda['produto_id'])->estoque->decrement('total_stock_value', ($vendaSalva->quantity_sold * $produto->price)); 
+            }
+
+            $observable->addObservers(new VendaFaturaObserver($vendasId));
+
+            $observable->setNumeroVendas($this->vendas->count()); /** Atualização do número de vendas */
+
+/*      
+            $formRequests = $request->only(['produto_id', 'quanto_sobrou', 'note']);
+    
+            session()->push('produtos', $formRequests);
+           
+            dd(session()->get('vendas_3')); */
+
+
+
+
+
+            
+            
+            
+            /*
             
             $produto = Produto::findOrFail($request->produto_id); // Buscar produto o vendido 
             $estoque = $produto->estoque->toArray();
@@ -114,24 +160,57 @@ class VendaController extends Controller
                 'image' => $imagem->getName() ? $imagem->getName() : 'not-found.png',
             ]);
 
+           
+
             if (!empty($imagem->getName())) {
                 // Salvar a imagem
                 $request->file(IMAGE)->move(public_path('/assets/imagens/estoques'), $imagem->getName());
             }
             
+
             // Decrementa a quantidade de produto vendida no estoque
             Produto::findOrFail($request->produto_id)->estoque->decrement('current_quantity', $venda->quantity_sold);
-            Produto::findOrFail($request->produto_id)->estoque->decrement('total_stock_value', ($venda->quantity_sold * $produto->price));
+            Produto::findOrFail($request->produto_id)->estoque->decrement('total_stock_value', ($venda->quantity_sold * $produto->price)); */
+            
+        
+            /**
+             * Chamda dos observers
+             * Chamará os observers para gerar fatura e salva no sistema, enviar a fatura por email 
+             * e enviar email de alerta caso haja produtos abaixo do estoque
+             */
+            //$observable->addObservers(new VendaFaturaObserver($venda));
 
+            //$observable->setNumeroVendas($this->vendas->count()) /** Atualização do número de vendas */;
             return redirect()->route('vendas.create')->with('sucesso', 'Venda registrada com sucesso! O PDF é válido até amanhã');
             
         } catch (ModelNotFoundException $e) {
-            return redirect()->back()->withInput()->with('erro', $e->getMessage());
+            dd($e->getMessage());   
+        // return redirect()->back()->withInput()->with('erro', $e->getMessage());
 
         } catch (Exception $e) {
-            return redirect()->back()->withInput()->with('erro', $e->getMessage());
+            dd($e->getMessage());    
+        //return redirect()->back()->withInput()->with('erro', $e->getMessage());
         }
     }
+
+    public function registrarVenda(StoreVendaRequest $request)
+    {
+        $formRequests = $request->only(['produto_id', 'quanto_sobrou', 'note']);
+
+        session()->push('vendas', $formRequests);
+        session()->put('quantidade', count(session()->get('vendas')));
+
+        return back();
+
+    }
+
+    public function limparVendas()
+    {
+        session()->forget('vendas');
+        session()->forget('quantidade');
+        return back();
+    } 
+
 
     /* 
         // Pegar produto
@@ -161,8 +240,8 @@ class VendaController extends Controller
      * 
      * @return void
      */
-    private function validarQuantidadeVendida(StoreVendaRequest $request, int $estoque_actual): void {
-        if ($request->quanto_sobrou > $estoque_actual) {
+    private function validarQuantidadeVendida($quantidade = [], int $estoque_actual): void {
+        if ($quantidade['quanto_sobrou'] > $estoque_actual) {
             throw new Exception("A quantidade de produto que sobrou tem que ser menor ou igual a quantidade que há no estoque actual");
         }
        

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\services\contracts;
+namespace App\parttens\factory\relatorios\contracts;
 
 interface PeriodoInterface
 {

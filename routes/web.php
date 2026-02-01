@@ -11,9 +11,14 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProdutoPdfController;
 use App\Http\Controllers\VendaPdfController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 // Rotas autenticadas
 Route::group(['middleware' => 'auth'], function() {
+    Route::post('vendas/registrar', [VendaController::class, 'registrarVenda'])->name('vendas.registrar');
+    
+    Route::get('vendas/registrar', [VendaController::class, 'limparVendas'])->name('vendas.limpar');
+
     // Home invokable 
     Route::get('/', HomeContrller::class)->name('home');
     

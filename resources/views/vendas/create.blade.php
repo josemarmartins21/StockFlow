@@ -76,8 +76,12 @@
       <section id="vendas-container">
         <h1>Registre as vendas de hoje</h1>
         <x-warning-input />
+        @session('quantidade')
+            <strong>Quantidade de Vendas: {{ session('quantidade') }}</strong>
+        @endsession
+
           <div id="form-conatiner">
-            <form action="{{ route('vendas.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('vendas.registrar') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <div id="produtos-data">
@@ -110,6 +114,13 @@
                     <button type="submit">Registrar</button>
                 </div>
             </form>
+            <form action="{{ route('vendas.store') }}" method="post">
+                <div class="form-submit-vendas">
+                    @csrf
+                    <button type="submit">Salvar Vendas</button>
+                </div>
+            </form>
           </div>
+          <a href="{{ route('vendas.limpar') }}">Limpar Vendas</a>
       </section> {{-- Fim do formulário de vendas --}}
 @endsection

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\services;
+namespace App\parttens\factory\relatorios;
 
-use App\services\contracts\PeriodoInterface;
+use App\parttens\factory\relatorios\contracts\PeriodoInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;

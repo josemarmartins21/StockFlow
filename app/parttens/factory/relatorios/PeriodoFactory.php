@@ -1,12 +1,12 @@
 <?php
 
-namespace App\services;
+namespace App\parttens\factory\relatorios\contracts;
 
-use App\services\contracts\PeriodoInterface;
-use App\services\DiaPeriodo;
-use App\services\UltimaSemanaPeriodo;
-use App\services\UltimoMesPeriodo;
-use App\services\UltimoAnoPeriodo;
+use App\parttens\factory\relatorios\contracts\PeriodoInterface;
+use App\parttens\factory\relatorios\DiaPeriodo;
+use App\parttens\factory\relatorios\UltimaSemanaPeriodo;
+use App\parttens\factory\relatorios\UltimoMesPeriodo;
+use App\parttens\factory\relatorios\UltimoAnoPeriodo;
 
 class PeriodoFactory
 {

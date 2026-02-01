@@ -1,30 +1,27 @@
 <?php
 
-namespace App\services;
+namespace App\parttens\factory\relatorios;
 
-use App\services\contracts\PeriodoInterface;
+use App\parttens\factory\relatorios\contracts\PeriodoInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class UltimoAnoPeriodo implements PeriodoInterface
+class UltimaSemanaPeriodo implements PeriodoInterface
 {
-    private $inicioAnoPassado; 
-    private $fimAnoPassado; 
-    private $base;
-
-
+    private $inicioSemanaRetrasada; 
+    private $fimSemanaRetrasada; 
     public function __construct()
     {
-        $this->base = Carbon::now()->subYear();
-        $this->inicioAnoPassado = $this->base->copy()->startOfYear(); 
-        $this->fimAnoPassado = $this->base->copy()->endOfYear();
+        $this->inicioSemanaRetrasada = Carbon::now()
+        ->subWeeks()->startOfWeek();
+        $this->fimSemanaRetrasada = Carbon::now()->subWeeks()->endOfWeek();
 
     }
 	public function totalVendas(): int
 	{
         return DB::table('vendas')
-        ->whereBetween('created_at', [$this->inicioAnoPassado, $this->fimAnoPassado])
+        ->whereBetween('created_at', [$this->inicioSemanaRetrasada, $this->fimSemanaRetrasada])
         ->where('user_id', Auth::user()->id)
         ->count('*');
     }
@@ -32,7 +29,7 @@ class UltimoAnoPeriodo implements PeriodoInterface
 	public function totalProdutoVendido(): int
 	{
 		return DB::table('vendas')
-        ->whereBetween('created_at', [$this->inicioAnoPassado, $this->fimAnoPassado])
+        ->whereBetween('created_at', [$this->inicioSemanaRetrasada, $this->fimSemanaRetrasada])
         ->where('user_id', Auth::user()->id)
         ->sum('quantity_sold');
 	}
@@ -41,9 +38,9 @@ class UltimoAnoPeriodo implements PeriodoInterface
 	{
 		return DB::table('produtos')
         ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
-        ->join('users', 'produtos.user_id', '=', 'users.id')
+         ->join('users', 'produtos.user_id', '=', 'users.id')
         ->select('produtos.name as nome', 'vendas.quantity_sold as quantidade_vendida')
-        ->whereBetween('vendas.created_at', [$this->inicioAnoPassado, $this->fimAnoPassado])
+        ->whereBetween('vendas.created_at', [$this->inicioSemanaRetrasada, $this->fimSemanaRetrasada])
         ->where('users.id', Auth::user()->id)
         ->orderByDesc('quantidade_vendida')
         ->limit(1)
@@ -54,10 +51,10 @@ class UltimoAnoPeriodo implements PeriodoInterface
 	{
 		return DB::table('produtos')
             ->join('vendas', 'vendas.produto_id', '=', 'produtos.id')
-            ->join('users', 'produtos.user_id', '=', 'users.id')
+             ->join('users', 'produtos.user_id', '=', 'users.id')
             ->select('produtos.name as nome', 
             DB::raw('SUM(vendas.quantity_sold) as quantidade_vendida'))
-            ->whereBetween('vendas.created_at', [$this->inicioAnoPassado, $this->fimAnoPassado])
+            ->whereBetween('vendas.created_at', [$this->inicioSemanaRetrasada, $this->fimSemanaRetrasada])
             ->where('users.id', Auth::user()->id)
             ->groupBy('produtos.name')
             ->orderByDesc('quantidade_vendida')
@@ -71,9 +68,9 @@ class UltimoAnoPeriodo implements PeriodoInterface
 		return DB::table('vendas')
                ->join('produtos', 'produtos.id', '=', 'vendas.produto_id')
                ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
-               ->join('users', 'produtos.user_id', '=', 'users.id')
+                ->join('users', 'produtos.user_id', '=', 'users.id')
                ->select('categorias.name as nome', DB::raw('SUM(vendas.quantity_sold * produtos.price) as valor_total'))
-               ->whereBetween('vendas.created_at', [$this->inicioAnoPassado, $this->fimAnoPassado])
+               ->whereBetween('vendas.created_at', [$this->inicioSemanaRetrasada, $this->fimSemanaRetrasada])
                ->where('users.id', Auth::user()->id)
                ->groupBy('categorias.name')
                ->orderByDesc('valor_total')
@@ -89,8 +86,8 @@ class UltimoAnoPeriodo implements PeriodoInterface
             ->join('categorias', 'categorias.id', '=', 'produtos.categoria_id')
             ->join('users', 'produtos.user_id', '=', 'users.id')
             ->select(DB::raw('SUM(produtos.price * vendas.quantity_sold) as valor_total_vendido'))
-            ->whereBetween('vendas.created_at', [$this->inicioAnoPassado, $this->fimAnoPassado])
             ->where('users.id', Auth::user()->id)
+            ->whereBetween('vendas.created_at', [$this->inicioSemanaRetrasada, $this->fimSemanaRetrasada])
             ->get()
             ->toArray();
     }
