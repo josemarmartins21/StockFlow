@@ -63,7 +63,7 @@ npm run dev
 ***
 # Contactos
 ### Em caso de duvidas podes entrar em contacto comigo
-- **Tel/Whatsapp:** +244 940 121 011 / 930710346
+- **Tel/Whatsapp:** +244 940 121 011 / +244 930 710 346
 - **Email:** josemar21@outlook.pt
 
 
