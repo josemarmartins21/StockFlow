@@ -29,7 +29,7 @@ Sistema de gestão de estoque para bares
 - Node.js 22 ou superior - Conferir a versão: node -v
 ## Como intalar o sistema?
 ### Roda o comando a seguir:
-Instalar as dependências do **PHP**
+Instalar as dependências do **Laravel**
 ```
 composer install
 ```
@@ -56,22 +56,16 @@ Rodar o servidor para executar o **Laravel**
 ```
 php artisan serve
 ```
-Rodar o servidor para rodar o node.js
+Rodar o servidor para atualizar as mod no node.js
 ```
 npm run dev
 ```
 ***
-
-# Em caso de duvidas podes entrar em contacto comigo:
-- **Whatsapp:** +244 940 121 011
+# Contactos
+### Em caso de duvidas podes entrar em contacto comigo
+- **Tel/Whatsapp:** +244 940 121 011 / +244 930 710 346
 - **Email:** josemar21@outlook.pt
 
-## Tips
-### Comando para importar o Sweet Alert na App
-```
-import Swal from 'sweetalert2'
-window.Swal = Swal
-```
 
 
 
