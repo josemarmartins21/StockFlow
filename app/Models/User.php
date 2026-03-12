@@ -45,4 +45,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function faturas()
+    {
+        return $this->hasMany(Fatura::class, 'user_id');
+    }
 }

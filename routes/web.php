@@ -8,6 +8,7 @@ use App\Http\Controllers\VendaController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FaturaController;
 use App\Http\Controllers\ProdutoPdfController;
 use App\Http\Controllers\VendaPdfController;
 use Illuminate\Support\Facades\Route;
@@ -52,6 +53,9 @@ Route::group(['middleware' => 'auth'], function() {
 
     // Dashboard
     Route::get('/dashboard', DashboardController::class)->name('pages.dashboard');
+
+    // Faturas 
+    Route::resource('faturas', FaturaController::class)->except(['create', 'store', 'edit', 'update', 'destroy']);
 
 });     
 

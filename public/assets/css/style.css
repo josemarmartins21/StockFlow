@@ -15,8 +15,58 @@
     --fundo: /* #00000010 */ #ebebebcb;
     --font: 'Mulish', sans-serif; 
     --font-logo: 'Poppins', sans-serif; 
+    /** FATURAS */
+    --blue-primary : #1a6dd4;
+    --blue-dark    : #145aaf;
+    --blue-light   : #e8f1fd;
+    --green-btn    : #27ae60;
+    --green-hover  : #219a52;
+    --red-btn      : #e74c3c;
+    --red-hover    : #c0392b;
+    --text-dark    : #1e293b;
+    --text-mid     : #64748b;
+    --bg-page      : #f0f4f8;
+    --bg-card      : #ffffff;
+    --shadow-card  : 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-hover : 0 6px 24px rgba(0,0,0,0.15);
+    --radius-lg    : 14px;
+    --sidebar-w    : 240px;
 
 }
+
+/* 
+
+:root {
+    --blue-primary : #1a6dd4;
+    --blue-dark    : #145aaf;
+    --blue-light   : #e8f1fd;
+    --green-btn    : #27ae60;
+    --green-hover  : #219a52;
+    --red-btn      : #e74c3c;
+    --red-hover    : #c0392b;
+    --text-dark    : #1e293b;
+    --text-mid     : #64748b;
+    --bg-page      : #f0f4f8;
+    --bg-card      : #ffffff;
+    --shadow-card  : 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-hover : 0 6px 24px rgba(0,0,0,0.15);
+    --radius-lg    : 14px;
+    --sidebar-w    : 240px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
 
 * { 
     margin: 0;
@@ -994,3 +1044,459 @@ div.select-periodo-dashboard {
         }
     }
 }
+
+/* ============================================================
+   4. ÁREA PRINCIPAL
+   ============================================================ */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   5. HEADER
+   ============================================================ */
+.header {
+  background: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.header h1 { font-family: 'Poppins', sans-serif; font-size: 1.45rem; font-weight: 700; }
+
+.search-box { display: flex; align-items: center; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; }
+.search-box input { border: none; outline: none; padding: 8px 14px; font-size: 0.88rem; color: var(--text-mid); font-family: inherit; width: 220px; }
+.search-box button { background: var(--blue-primary); border: none; padding: 8px 14px; cursor: pointer; color: #fff; transition: background 0.2s; }
+.search-box button:hover { background: var(--blue-dark); }
+.search-box button svg { width: 18px; height: 18px; }
+
+/* ============================================================
+   6. CONTEÚDO SCROLLÁVEL
+   ============================================================ */
+.content { flex: 1; padding: 28px 32px; overflow-y: auto; }
+
+/* ============================================================
+   7. CARDS DE RESUMO (3 estatísticas no topo)
+   ============================================================ */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+.summary-card {
+  background: var(--bg-card);
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  padding: 20px 18px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+.summary-card .label { font-size: 0.82rem; color: var(--text-mid); margin-bottom: 6px; }
+.summary-card .value { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text-dark); }
+.summary-card .value.green { color: #27ae60; }
+
+
+/* ============================================================
+   8. TOOLBAR – título + controles + busca + botão adicionar
+   ============================================================ */
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.toolbar h2 { font-family: 'Poppins', sans-serif; font-size: 1.2rem; font-weight: 700; }
+
+.toolbar-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+/* Toggle modo lista / grid */
+.view-toggle { display: flex; border: 1px solid #cbd5e1; border-radius: 8px; overflow: hidden; background: #fff; }
+.view-toggle button { border: none; background: transparent; padding: 8px 14px; cursor: pointer; color: var(--text-mid); font-size: 1.1rem; transition: background 0.2s, color 0.2s; display: flex; align-items: center; }
+.view-toggle button.active     { background: var(--blue-primary); color: #fff; }
+.view-toggle button:hover:not(.active) { background: var(--blue-light); color: var(--blue-primary); }
+
+/* Campo de busca */
+.search-invoice {
+  border: 1px solid #cbd5e1; border-radius: 8px;
+  padding: 8px 14px; font-size: 0.88rem; color: var(--text-mid);
+  font-family: inherit; width: 200px; outline: none;
+  transition: border-color 0.2s;
+}
+.search-invoice:focus { border-color: var(--blue-primary); }
+
+/* Botão "Adicionar Fatura" – verde, com ícone + */
+.btn-add-fatura {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--green-btn); color: #fff;
+  border: none; padding: 8px 18px; border-radius: 8px;
+  font-weight: 700; font-size: 0.88rem; cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.15s;
+  white-space: nowrap;
+}
+.btn-add-fatura:hover { background: var(--green-hover); transform: translateY(-1px); }
+.btn-add-fatura svg  { width: 16px; height: 16px; }
+
+/* Input oculto para selecionar arquivo PDF */
+#input-pdf { display: none; }
+
+/* ============================================================
+   9. CONTAINER DE FATURAS – alterna entre modo vertical e grid
+   ============================================================ */
+.invoices-container {
+  display: flex;
+  flex-direction: column;   /* modo vertical por padrão */
+  gap: 14px;
+}
+
+/* ---- MODO GRID: grade responsiva ---- */
+.invoices-container.mode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+/* ============================================================
+   10. CARD VERTICAL (modo lista)
+       Layout: [ícone PDF] [info + mensagem] [valor] [apagar]
+       Tudo em uma única linha horizontal.
+   ============================================================ */
+.invoice-card {
+  background: var(--bg-card);
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: box-shadow 0.25s, transform 0.2s;
+  animation: slideDown 0.3s ease both;
+}
+
+/* Ocultar cards que não passam no filtro */
+.invoice-card.hidden { display: none; }
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.invoice-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+
+/* Ícone PDF pequeno (modo vertical) */
+.invoice-card .pdf-icon-small {
+  width: 44px; height: 52px; flex-shrink: 0;
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700; font-size: 0.72rem;
+  box-shadow: 0 2px 6px rgba(231,76,60,0.3);
+}
+
+/* Info central: número + data + mensagem relativa */
+.invoice-card .info { 
+  flex: 1; 
+  min-width: 0; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+}
+.invoice-card .info .invoice-number { 
+  font-weight: 700; 
+  font-size: 0.95rem; 
+  color: var(--text-dark); 
+  line-height: 1.3;
+}
+.invoice-card .info .invoice-date { 
+  font-size: 0.82rem; 
+  color: var(--text-mid); 
+  line-height: 1.3;
+}
+
+/* Mensagem relativa colorida */
+.relative-msg {
+  display: inline-block;
+  font-size: 0.76rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 20px;
+  line-height: 1.4;
+}
+.relative-msg.recent { background: #e8faf0; color: #27ae60; }
+.relative-msg.medium { background: #fef3e2; color: #e67e22; }
+.relative-msg.old    { background: #fce8e8; color: #e74c3c; }
+
+/* Valor da fatura */
+.invoice-card .amount {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700; font-size: 1rem;
+  color: var(--text-dark);
+  white-space: nowrap; flex-shrink: 0;
+}
+
+/* Botão apagar (modo vertical) */
+.btn-delete {
+  width: 34px; height: 34px; flex-shrink: 0;
+  background: var(--red-btn); border: none; border-radius: 6px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-delete:hover { background: var(--red-hover); transform: scale(1.1); }
+.btn-delete svg   { width: 16px; height: 16px; color: #fff; }
+
+/* ============================================================
+   11. CARD GRID (modo grid)
+       Layout vertical: [preview PDF real] [info] [valor + apagar]
+       O preview usa um <canvas> onde o pdf.js desenha a página 1.
+   ============================================================ */
+
+/* No modo grid, o card muda para coluna */
+.invoices-container.mode-grid .invoice-card {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+  cursor: default; /* clique no card inteiro não abre mais; usamos botão separado */
+}
+
+/* Ícone pequeno some no modo grid */
+.invoices-container.mode-grid .invoice-card .pdf-icon-small { display: none; }
+
+/* ---- Preview do PDF (canvas) ---- */
+.pdf-preview-wrap {
+  display: none;                /* oculto no modo vertical */
+  width: 100%;
+  height: 160px;
+  background: #f7f7f7;
+  border-bottom: 1px solid #eee;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Canvas que recebe o rendering do PDF */
+.pdf-preview-wrap canvas {
+  /* cobre toda a área do preview sem distorção */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Texto "sem preview" quando o PDF ainda não foi renderizado */
+.pdf-preview-wrap .no-preview {
+  position: absolute;
+  inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  color: #aaa; font-size: 0.82rem;
+  background: linear-gradient(135deg, #fef2f2, #ffe4e4);
+}
+.no-preview .pdf-stamp {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.2rem; font-weight: 700;
+  color: rgba(231,76,60,0.15);
+}
+
+/* No modo grid, o preview aparece */
+.invoices-container.mode-grid .pdf-preview-wrap { display: block; }
+
+/* ---- Corpo inferior do card no modo grid ---- */
+.card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Linha inferior: valor à esquerda, apagar à direita */
+.card-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+/* No modo grid, o amount e o botão ficam na linha inferior */
+.invoices-container.mode-grid .invoice-card .amount  { text-align: left; font-size: 0.95rem; }
+.invoices-container.mode-grid .invoice-card .btn-delete { flex-shrink: 0; }
+
+/* Botão "Visualizar" no modo grid – abre o modal */
+.btn-visualizar {
+  display: none; /* só aparece no modo grid */
+  width: 34px; 
+  height: 34px;
+  background: var(--blue-primary); 
+  color: #fff;
+  border: none; 
+  border-radius: 6px;
+  font-size: 1.1rem; 
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.2s, transform 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.btn-visualizar:hover { background: var(--blue-dark); transform: scale(1.1); }
+.invoices-container.mode-grid .btn-visualizar { display: flex; }
+
+/* ============================================================
+   12. ESTADO VAZIO – quando não há faturas
+   ============================================================ */
+.empty-state { 
+  text-align: center; 
+  padding: 60px 20px; 
+  color: var(--text-mid); 
+  display: none; /* oculto por padrão, mostrado via JS */
+}
+.empty-state .empty-icon { font-size: 3rem; margin-bottom: 12px; }
+.empty-state h3 { font-family: 'Poppins', sans-serif; margin-bottom: 6px; color: var(--text-dark); }
+.empty-state p  { font-size: 0.88rem; }
+
+/* ============================================================
+   13. MODAL – Visualização da fatura com preview real
+   ============================================================ */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 500;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 90%; max-width: 660px;
+  max-height: 90vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  overflow: hidden;
+  animation: scaleUp 0.25s ease;
+}
+@keyframes scaleUp {
+  from { transform: scale(0.88); opacity: 0; }
+  to   { transform: scale(1);    opacity: 1; }
+}
+
+/* Header do modal */
+.modal-header {
+  background: var(--blue-primary); color: #fff;
+  padding: 16px 22px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-shrink: 0;
+}
+.modal-header h3 { font-family: 'Poppins', sans-serif; font-size: 1rem; }
+.modal-close { background: none; border: none; color: #fff; font-size: 1.6rem; cursor: pointer; line-height: 1; }
+.modal-close:hover { opacity: 0.7; }
+
+/* Corpo do modal – contém o canvas de preview do PDF */
+.modal-body {
+  flex: 1;
+  overflow: auto;
+  padding: 20px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f4f6f9;
+}
+
+/* Canvas dentro do modal – tamanho máximo controlado */
+#modal-canvas-wrap {
+  width: 100%;
+  max-height: 460px;
+  display: flex; align-items: center; justify-content: center;
+}
+#modal-canvas-wrap canvas {
+  max-width: 100%;
+  max-height: 460px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  border-radius: 6px;
+  background: #fff;
+}
+
+/* Rodapé do modal com os botões de ação */
+.modal-footer {
+  padding: 14px 22px;
+  border-top: 1px solid #e2e8f0;
+  display: flex; justify-content: flex-end; gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Botão verde "Baixar PDF" */
+.btn-download {
+  background: var(--green-btn); color: #fff;
+  border: none; padding: 9px 18px; border-radius: 8px;
+  font-weight: 600; font-size: 0.85rem; cursor: pointer;
+  font-family: inherit; display: flex; align-items: center; gap: 6px;
+  transition: background 0.2s;
+}
+.btn-download:hover { background: var(--green-hover); }
+.btn-download svg  { width: 16px; height: 16px; }
+
+/* Botão azul "Abrir no Navegador" */
+.btn-open-browser {
+  background: var(--blue-primary); color: #fff;
+  border: none; padding: 9px 18px; border-radius: 8px;
+  font-weight: 600; font-size: 0.85rem; cursor: pointer;
+  font-family: inherit; display: flex; align-items: center; gap: 6px;
+  transition: background 0.2s;
+}
+.btn-open-browser:hover { background: var(--blue-dark); }
+.btn-open-browser svg  { width: 15px; height: 15px; }
+
+/* Botão cinza "Fechar" */
+.btn-cancel {
+  background: #f1f5f9; color: var(--text-mid);
+  border: 1px solid #e2e8f0; padding: 9px 18px; border-radius: 8px;
+  font-weight: 600; font-size: 0.85rem; cursor: pointer;
+  font-family: inherit; transition: background 0.2s;
+}
+.btn-cancel:hover { background: #c9cdd3; }
+
+
+/* ============================================================
+   14. MODAL DE CONFIRMAÇÃO – apagar fatura
+   ============================================================ */
+.confirm-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45); z-index: 600;
+  align-items: center; justify-content: center;
+}
+.confirm-overlay.show { display: flex; }
+
+.confirm-modal {
+  background: #fff; border-radius: 14px;
+  padding: 30px 28px; width: 90%; max-width: 380px;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.22);
+  animation: scaleUp 0.2s ease;
+}
+.confirm-modal .warn-icon { font-size: 2.4rem; margin-bottom: 10px; }
+.confirm-modal h4 { font-family: 'Poppins', sans-serif; margin-bottom: 8px; }
+.confirm-modal p  { font-size: 0.88rem; color: var(--text-mid); margin-bottom: 20px; }
+
+.confirm-btns { display: flex; justify-content: center; gap: 12px; }
+.btn-confirm-yes {
+  background: var(--red-btn); color: #fff; border: none;
+  padding: 9px 22px; border-radius: 8px;
+  font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: background 0.2s;
+}
+.btn-confirm-yes:hover { background: var(--red-hover); }
+.btn-confirm-no {
+  background: #f1f5f9; color: var(--text-mid);
+  border: 1px solid #e2e8f0; padding: 9px 22px; border-radius: 8px;
+  font-weight: 600; cursor: pointer; font-family: inherit;
+  transition: background 0.2s;
+}
+.btn-confirm-no:hover { background: #e2e8f0; }

@@ -27,6 +27,7 @@
                         <li><a href="{{ route('produtos.create') }}"> Adicionar produtos <i class="fa-solid fa-plus"></i></i></i></a></li>
                         <li><a href="{{ route('categorias.index') }}">categorias <i class="fa-solid fa-table-cells"></i> </a></li>
                         <li><a href="{{ route('vendas.create') }}">Gerenciar vendas <i class="fa-solid fa-arrow-trend-up"></i></i></a></li>
+                        <li><a href="{{ route('faturas.index') }}">Faturas <i class="fa-solid fa-file-invoice"></i> </a></li>
                         <li><a href="#">Definições <i class="fa-solid fa-gear"></i> </a></li>
                     </ul>
                     <div class="logout">
@@ -49,6 +50,9 @@
             </section> <!-- Fim da secção principal -->
         </main>
         {{-- Estilos do JavaScript --}}
-        <script src="{{ asset('assets/js/script.js') }}"></script>
+        <script src="{{ asset('assets/js/script.js') }}">
+        
+    </script>
+
     </body>
 </html>

@@ -1,5 +1,7 @@
 <?php
 namespace App\parttens\observer\vendas;
+
+use App\parttens\observer\vendas\contracts\VendaFaturaInterface;
 use App\parttens\observer\vendas\contracts\VendaInterface;
 
 
@@ -27,7 +29,7 @@ class VendaObservable {
         }
     }
 
-    public function addObservers(VendaFaturaObserver $observer): void
+    public function addObservers(VendaFaturaInterface $observer): void
     {
         $this->observers[] = $observer;
     }

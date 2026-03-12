@@ -87,7 +87,7 @@ class ProdutoController extends Controller
 
         $imagemProduto->save($request); /** Salva a imagem do produto */
 
-        return redirect()->route('produtos.show', ['id' => $produto->id]);     
+        return redirect()->route('produtos.show', ['produto' => $produto->id]);     
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Venda;
+use App\parttens\factory\relatorios\FileFactory;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Exception;
@@ -14,12 +15,11 @@ use Illuminate\Support\Facades\Redirect;
 
 class VendaPdfController extends Controller
 {
-    private $pdf;
-    private int $totalVendido;
+    private readonly FileFactory $fileFactory;
 
     public function __construct()
     {
-        $this->totalVendido = Venda::getTotalVendido();
+        $this->fileFactory = new FileFactory();
     }
 
     /**
@@ -29,16 +29,11 @@ class VendaPdfController extends Controller
     public function baixarPdf()
     {
         try {
-            // Captura o mês e o ano actual
-            $mesAnoActual = Carbon::now()->format('d_m_Y');
+            
+            $pdf = $this->fileFactory->create('pdf');
+            $pdf->setDados($this->getDados());
 
-            $this->pdf = Pdf::loadView('pdf.vendas.vendas', [
-                'vendas' => $this->getDados(), 
-                'total_vendido' => $this->totalVendido,
-            ]); 
-
-            return $this->pdf->download('vendas_' . $mesAnoActual . '.pdf');
-    
+            return $pdf->baixar();
         } catch (Exception $e) {
             return redirect()->back()->with('erro', $e->getMessage());
         }
@@ -51,11 +46,10 @@ class VendaPdfController extends Controller
     public function visualizarPdf()
     {
         try {
-            $this->pdf = Pdf::loadView('pdf.vendas.vendas', [
-                'vendas' => $this->getDados(), 
-                'total_vendido' => $this->totalVendido,
-            ]);
-            return $this->pdf->stream();
+            $pdf = $this->fileFactory->create('pdf');
+            $pdf->setDados($this->getDados());
+
+            return $pdf->visualizar();
             
         } catch (Exception $e) {
             return redirect()->back()->with('erro', $e->getMessage());
